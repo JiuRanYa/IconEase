@@ -1,28 +1,53 @@
+import { useState } from "react";
 import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
 import { useCategoryStore } from "../stores/categoryStore";
 import { CategoryStoreSubscriber } from "../stores/categoryStore";
+import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 
 export default () => {
-  const { categories, activeCategory, setActiveCategory, getCategoryCount, getFavoritesCount } = useCategoryStore();
+  const { categories, activeCategory, setActiveCategory, getCategoryCount, getFavoritesCount, addCategory } = useCategoryStore();
   const location = useLocation();
   const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [newCategoryName, setNewCategoryName] = useState('');
+  const [selectedEmoji, setSelectedEmoji] = useState('💡');
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
   // 处理分类点击
   const handleCategoryClick = (categoryId: string) => {
     setActiveCategory(categoryId);
-    // 如果不在 home 页面，则跳转到 home
     if (location.pathname !== '/home') {
       navigate('/home');
     }
   };
 
+  // 处理添加分类
+  const handleAddCategory = () => {
+    if (!newCategoryName.trim()) return;
+
+    const newCategory = {
+      id: `category-${Date.now()}`,
+      name: newCategoryName,
+      icon: selectedEmoji
+    };
+    addCategory(newCategory);
+    setNewCategoryName('');
+    setSelectedEmoji('💡');
+    setIsModalOpen(false);
+  };
+
+  // 处理 emoji 选择
+  const onEmojiClick = (emojiData: EmojiClickData) => {
+    setSelectedEmoji(emojiData.emoji);
+    setShowEmojiPicker(false);
+  };
+
   return (
     <div className="h-screen w-full bg-base-100">
-      {/* 添加订阅组件 */}
       <CategoryStoreSubscriber />
 
       {/* Header - 固定在顶部 */}
-      <div className="fixed top-0 left-0 right-0 z-10 flex h-16 items-center border-b border-base-300 bg-base-100 px-10">
+      <div className="fixed top-0 left-0 right-0 z-10 flex h-16 items-center border-b border-base-300 bg-base-100 px-10 justify-between">
         {/* Logo */}
         <div className="flex items-center">
           <span className="text-xl font-bold">IconEase</span>
@@ -130,6 +155,28 @@ export default () => {
                 </span>
               </a>
             ))}
+
+            {/* 新增分类按钮 */}
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-base-content/70 hover:bg-base-200"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 4v16m8-8H4"
+                />
+              </svg>
+              <span>Add Category</span>
+            </button>
           </div>
         </div>
 
@@ -138,6 +185,82 @@ export default () => {
           <Outlet />
         </div>
       </div>
+
+      {/* 新增分类模态框 */}
+      <dialog className={`modal ${isModalOpen ? 'modal-open' : ''}`}>
+        <div className="modal-box">
+          <h3 className="text-lg font-bold">Add New Category</h3>
+
+          <div className="py-4">
+            {/* Emoji 和输入框在同一行 */}
+            <div className="relative flex items-center gap-2">
+              {/* Emoji 选择器 */}
+              <div className="relative">
+                <button
+                  className="btn btn-square btn-outline"
+                  onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+                >
+                  <span className="text-2xl">{selectedEmoji}</span>
+                </button>
+                {showEmojiPicker && (
+                  <div className="absolute left-0 top-full mt-2 z-50">
+                    <EmojiPicker
+                      onEmojiClick={onEmojiClick}
+                      autoFocusSearch={false}
+                      width={300}
+                      height={400}
+                    />
+                  </div>
+                )}
+              </div>
+
+              {/* 分类名称输入框 */}
+              <div className="flex-1">
+                <input
+                  type="text"
+                  placeholder="Category Name"
+                  className="input input-bordered w-full"
+                  value={newCategoryName}
+                  onChange={(e) => setNewCategoryName(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && handleAddCategory()}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* 操作按钮 */}
+          <div className="modal-action">
+            <button
+              className="btn btn-ghost"
+              onClick={() => {
+                setIsModalOpen(false);
+                setShowEmojiPicker(false);
+              }}
+            >
+              Cancel
+            </button>
+            <button
+              className="btn btn-primary"
+              onClick={handleAddCategory}
+              disabled={!newCategoryName.trim()}
+            >
+              Add
+            </button>
+          </div>
+        </div>
+
+        {/* 背景遮罩 */}
+        <form
+          method="dialog"
+          className="modal-backdrop"
+          onClick={() => {
+            setIsModalOpen(false);
+            setShowEmojiPicker(false);
+          }}
+        >
+          <button>close</button>
+        </form>
+      </dialog>
     </div>
   );
 };
