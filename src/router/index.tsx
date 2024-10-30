@@ -15,6 +15,10 @@ export const router = createBrowserRouter([
                 path: "home",
                 element: <Main />,
             },
+            {
+                path: "favorites",
+                element: <Main showUpload={false} />,
+            },
         ],
     },
 ]);

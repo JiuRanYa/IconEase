@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
 import { useCategoryStore } from "../stores/categoryStore";
 import { useImageStore } from "../stores/imageStore";
 import { CategoryStoreSubscriber } from "../stores/categoryStore";
@@ -7,6 +7,17 @@ import { CategoryStoreSubscriber } from "../stores/categoryStore";
 export default () => {
   const [collapsed, setCollapsed] = useState(false);
   const { categories, activeCategory, setActiveCategory, getCategoryCount, getFavoritesCount } = useCategoryStore();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  // 处理分类点击
+  const handleCategoryClick = (categoryId: string) => {
+    setActiveCategory(categoryId);
+    // 如果不在 home 页面，则跳转到 home
+    if (location.pathname !== '/home') {
+      navigate('/home');
+    }
+  };
 
   return (
     <div className="flex h-screen w-full bg-base-100">
@@ -60,27 +71,41 @@ export default () => {
         <div className="w-64 bg-base-100 p-4 border-r">
           {/* 快捷菜单 */}
           <div className="space-y-2">
-            <a className="flex items-center gap-2 rounded-lg px-3 py-2 text-primary hover:bg-base-200 transition">
+            <Link
+              to="/home"
+              className={`flex items-center gap-2 rounded-lg px-3 py-2 transition ${location.pathname === '/home' ? 'text-primary bg-base-200' : 'hover:bg-base-200'
+                }`}
+            >
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
               </svg>
               <span>New Icons</span>
               <span className="ml-auto text-sm text-base-content/50">132</span>
-            </a>
-            <a className="flex items-center gap-2 rounded-lg px-3 py-2 hover:bg-base-200 transition">
+            </Link>
+
+            <Link
+              to="/favorites"
+              className={`flex items-center gap-2 rounded-lg px-3 py-2 transition ${location.pathname === '/favorites' ? 'text-primary bg-base-200' : 'hover:bg-base-200'
+                }`}
+            >
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
               </svg>
               <span>Favorites</span>
               <span className="ml-auto text-sm text-base-content/50">{getFavoritesCount()}</span>
-            </a>
-            <a className="flex items-center gap-2 rounded-lg px-3 py-2 hover:bg-base-200 transition">
+            </Link>
+
+            <Link
+              to="/projects"
+              className={`flex items-center gap-2 rounded-lg px-3 py-2 transition ${location.pathname === '/projects' ? 'text-primary bg-base-200' : 'hover:bg-base-200'
+                }`}
+            >
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
               </svg>
               <span>Projects</span>
               <span className="ml-auto text-sm text-base-content/50">132</span>
-            </a>
+            </Link>
           </div>
 
           {/* 分类标题 */}
@@ -95,7 +120,7 @@ export default () => {
                 key={category.id}
                 className={`flex items-center gap-2 rounded-lg px-3 py-2 transition ${activeCategory === category.id ? 'bg-base-200' : 'hover:bg-base-200'
                   }`}
-                onClick={() => setActiveCategory(category.id)}
+                onClick={() => handleCategoryClick(category.id)}
               >
                 {category.icon === 'list' ? (
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
