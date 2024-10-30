@@ -1,10 +1,11 @@
 import "./App.css";
+import Layout from "./layout/main";
 
 function App() {
   return (
-    <main className="container">
-      <div className="border">123</div>
-    </main>
+    <Layout>
+      <IconDetails />
+    </Layout>
   );
 }
 
