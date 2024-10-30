@@ -2,13 +2,17 @@ import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import { useCategoryStore } from "../stores/categoryStore";
 import { useImageStore } from "../stores/imageStore";
+import { CategoryStoreSubscriber } from "../stores/categoryStore";
 
 export default () => {
   const [collapsed, setCollapsed] = useState(false);
-  const { categories, activeCategory, setActiveCategory } = useCategoryStore();
+  const { categories, activeCategory, setActiveCategory, getCategoryCount, getFavoritesCount } = useCategoryStore();
 
   return (
     <div className="flex h-screen w-full bg-base-100">
+      {/* 添加订阅组件 */}
+      <CategoryStoreSubscriber />
+
       {/* Header */}
       <div className="fixed top-0 left-0 right-0 flex h-16 items-center border-b border-base-300 bg-base-100 px-4 justify-between px-10">
         {/* Logo */}
@@ -68,7 +72,7 @@ export default () => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
               </svg>
               <span>Favorites</span>
-              <span className="ml-auto text-sm text-base-content/50">132</span>
+              <span className="ml-auto text-sm text-base-content/50">{getFavoritesCount()}</span>
             </a>
             <a className="flex items-center gap-2 rounded-lg px-3 py-2 hover:bg-base-200 transition">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -101,7 +105,9 @@ export default () => {
                   <span className="text-xl">{category.icon}</span>
                 )}
                 <span>{category.name}</span>
-                <span className="ml-auto text-sm text-base-content/50">{category.count}</span>
+                <span className="ml-auto text-sm text-base-content/50">
+                  {getCategoryCount(category.id)}
+                </span>
               </a>
             ))}
           </div>

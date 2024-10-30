@@ -4,7 +4,7 @@ import Layout from "./layout/main";
 function App() {
   return (
     <Layout>
-      <IconDetails />
+      <Outlet />
     </Layout>
   );
 }
