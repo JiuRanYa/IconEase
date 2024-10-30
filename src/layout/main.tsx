@@ -1,11 +1,8 @@
-import { useState } from "react";
 import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
 import { useCategoryStore } from "../stores/categoryStore";
-import { useImageStore } from "../stores/imageStore";
 import { CategoryStoreSubscriber } from "../stores/categoryStore";
 
 export default () => {
-  const [collapsed, setCollapsed] = useState(false);
   const { categories, activeCategory, setActiveCategory, getCategoryCount, getFavoritesCount } = useCategoryStore();
   const location = useLocation();
   const navigate = useNavigate();
@@ -20,12 +17,12 @@ export default () => {
   };
 
   return (
-    <div className="flex h-screen w-full bg-base-100">
+    <div className="h-screen w-full bg-base-100">
       {/* 添加订阅组件 */}
       <CategoryStoreSubscriber />
 
-      {/* Header */}
-      <div className="fixed top-0 left-0 right-0 flex h-16 items-center border-b border-base-300 bg-base-100 px-4 justify-between px-10">
+      {/* Header - 固定在顶部 */}
+      <div className="fixed top-0 left-0 right-0 z-10 flex h-16 items-center border-b border-base-300 bg-base-100 px-10">
         {/* Logo */}
         <div className="flex items-center">
           <span className="text-xl font-bold">IconEase</span>
@@ -66,9 +63,9 @@ export default () => {
       </div>
 
       {/* 主体内容 */}
-      <div className="mt-16 flex w-full">
-        {/* 左侧边栏 */}
-        <div className="w-64 bg-base-100 p-4 border-r">
+      <div className="flex h-full pt-16">
+        {/* 左侧边栏 - 固定位置 */}
+        <div className="fixed left-0 top-16 bottom-0 w-64 overflow-y-auto border-r border-base-300 bg-base-100 p-4">
           {/* 快捷菜单 */}
           <div className="space-y-2">
             <div
@@ -136,8 +133,8 @@ export default () => {
           </div>
         </div>
 
-        {/* 主内容区 */}
-        <div className="flex-1 p-4">
+        {/* 主内容区 - 可滚动 */}
+        <div className="ml-64 flex-1 overflow-y-auto p-4">
           <Outlet />
         </div>
       </div>
