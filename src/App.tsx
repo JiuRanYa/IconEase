@@ -2,7 +2,9 @@ import "./App.css";
 
 function App() {
   return (
-    <main className="container">123</main>
+    <main className="container">
+      <div className="border">123</div>
+    </main>
   );
 }
 
