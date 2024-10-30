@@ -1,12 +1,12 @@
 import { useState } from "react";
-
-interface ImageItem {
-    id: string;
-    url: string;
-}
+import { useCategoryStore } from "../stores/categoryStore";
+import { useImageStore } from "../stores/imageStore";
 
 export default () => {
-    const [images, setImages] = useState<ImageItem[]>([]);
+    const { activeCategory } = useCategoryStore();
+    const { addImages, getImagesByCategory } = useImageStore();
+
+    const images = getImagesByCategory(activeCategory);
 
     const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = e.target.files;
@@ -14,10 +14,11 @@ export default () => {
 
         const newImages = Array.from(files).map(file => ({
             id: Math.random().toString(36).substring(7),
-            url: URL.createObjectURL(file)
+            url: URL.createObjectURL(file),
+            categoryId: activeCategory === 'all' ? 'uncategorized' : activeCategory
         }));
 
-        setImages(prev => [...prev, ...newImages]);
+        addImages(newImages);
     };
 
     return (

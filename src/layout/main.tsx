@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { Outlet } from "react-router-dom";
+import { useCategoryStore } from "../stores/categoryStore";
+import { useImageStore } from "../stores/imageStore";
 
 export default () => {
   const [collapsed, setCollapsed] = useState(false);
+  const { categories, activeCategory, setActiveCategory } = useCategoryStore();
 
   return (
     <div className="flex h-screen w-full bg-base-100">
@@ -36,7 +39,7 @@ export default () => {
         <div className="dropdown dropdown-end">
           <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
             <div className="w-8 rounded-full">
-              <img alt="avatar" src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+              <img alt="avatar" src="https://avatars.githubusercontent.com/u/58846658?v=4" />
             </div>
           </div>
           <ul tabIndex={0} className="menu dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
@@ -83,18 +86,24 @@ export default () => {
 
           {/* 分类列表 */}
           <div className="space-y-1">
-            <a className="flex items-center gap-2 rounded-lg bg-base-200 px-3 py-2 transition">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
-              </svg>
-              <span>All</span>
-              <span className="ml-auto text-sm text-base-content/50">132</span>
-            </a>
-            <a className="flex items-center gap-2 rounded-lg px-3 py-2 hover:bg-base-200 transition">
-              <span className="text-xl">🍎</span>
-              <span>Food</span>
-              <span className="ml-auto text-sm text-base-content/50">132</span>
-            </a>
+            {categories.map((category) => (
+              <a
+                key={category.id}
+                className={`flex items-center gap-2 rounded-lg px-3 py-2 transition ${activeCategory === category.id ? 'bg-base-200' : 'hover:bg-base-200'
+                  }`}
+                onClick={() => setActiveCategory(category.id)}
+              >
+                {category.icon === 'list' ? (
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+                  </svg>
+                ) : (
+                  <span className="text-xl">{category.icon}</span>
+                )}
+                <span>{category.name}</span>
+                <span className="ml-auto text-sm text-base-content/50">{category.count}</span>
+              </a>
+            ))}
           </div>
         </div>
 
