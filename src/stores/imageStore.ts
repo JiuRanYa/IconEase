@@ -6,6 +6,7 @@ interface ImageState {
     images: ImageItem[];
     addImages: (newImages: ImageItem[]) => void;
     deleteImage: (id: string) => void;
+    deleteAllImages: (onlyFavorites: boolean) => void;
     toggleFavorite: (id: string) => void;
     getImagesByCategory: (categoryId: string) => ImageItem[];
     getFavoriteImages: () => ImageItem[];
@@ -20,6 +21,12 @@ export const useImageStore = create(
             deleteImage: (id) =>
                 set((state) => ({
                     images: state.images.filter((img) => img.id !== id),
+                })),
+            deleteAllImages: (onlyFavorites) =>
+                set((state) => ({
+                    images: onlyFavorites
+                        ? state.images.filter((img) => !img.isFavorite)
+                        : []
                 })),
             toggleFavorite: (id) =>
                 set((state) => ({

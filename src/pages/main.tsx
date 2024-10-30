@@ -11,14 +11,19 @@ export default ({ showUpload }: MainProps) => {
     const location = useLocation();
     const isFavoritePage = location.pathname === '/favorites';
     const { activeCategory } = useCategoryStore();
-    const { addImages, getImagesByCategory, getFavoriteImages, toggleFavorite, deleteImage } = useImageStore();
+    const { addImages, getImagesByCategory, getFavoriteImages, toggleFavorite, deleteImage, deleteAllImages } = useImageStore();
 
     // 根据当前页面决定显示哪些图片
     const images = isFavoritePage ? getFavoriteImages() : getImagesByCategory(activeCategory);
 
+    // 处理删除所有图片
+    const handleDeleteAll = () => {
+          deleteAllImages(isFavoritePage);
+    };
+
     // 处理删除图片
     const handleDelete = (id: string) => {
-           deleteImage(id);
+        deleteImage(id);
     };
 
     // 处理文件上传
@@ -78,9 +83,34 @@ export default ({ showUpload }: MainProps) => {
 
     return (
         <div>
-            <h2 className="mb-4 text-xl font-semibold">
-                {isFavoritePage ? 'Favorite Icons' : 'Icons'}
-            </h2>
+            {/* 标题栏 */}
+            <div className="mb-4 flex items-center justify-between">
+                <h2 className="text-xl font-semibold">
+                    {isFavoritePage ? 'Favorite Icons' : 'Icons'}
+                </h2>
+                {images.length > 0 && (
+                    <button
+                        className="btn btn-ghost btn-sm text-error"
+                        onClick={handleDeleteAll}
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-5 w-5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                            />
+                        </svg>
+                        <span className="ml-1">Delete All</span>
+                    </button>
+                )}
+            </div>
 
             <div className="grid grid-cols-4 gap-3 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12">
                 {/* 上传按钮 - 只在非收藏页面显示 */}
