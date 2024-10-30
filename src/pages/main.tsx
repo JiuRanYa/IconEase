@@ -11,16 +11,62 @@ export default ({ showUpload }: MainProps) => {
     const location = useLocation();
     const isFavoritePage = location.pathname === '/favorites';
     const { activeCategory } = useCategoryStore();
-    const { addImages, getImagesByCategory, getFavoriteImages, toggleFavorite } = useImageStore();
+    const { addImages, getImagesByCategory, getFavoriteImages, toggleFavorite, deleteImage } = useImageStore();
 
     // 根据当前页面决定显示哪些图片
     const images = isFavoritePage ? getFavoriteImages() : getImagesByCategory(activeCategory);
 
+    // 处理删除图片
+    const handleDelete = (id: string) => {
+           deleteImage(id);
+    };
+
+    // 处理文件上传
     const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = e.target.files;
         if (!files?.length) return;
 
-        const newImages = Array.from(files).map(file => ({
+        // 将 FileList 转换为数组以便处理
+        const fileArray = Array.from(files);
+        const imageFiles: File[] = [];
+
+        // 递归处理文件夹
+        const processEntry = async (entry: FileSystemEntry) => {
+            if (entry.isFile) {
+                const file = await new Promise<File>((resolve) => {
+                    (entry as FileSystemFileEntry).file(resolve);
+                });
+                if (file.type.startsWith('image/')) {
+                    imageFiles.push(file);
+                }
+            } else if (entry.isDirectory) {
+                const reader = (entry as FileSystemDirectoryEntry).createReader();
+                const entries = await new Promise<FileSystemEntry[]>((resolve) => {
+                    reader.readEntries(resolve);
+                });
+                await Promise.all(entries.map(processEntry));
+            }
+        };
+
+        // 处理所有文件和文件夹
+        await Promise.all(
+            fileArray.map(file => {
+                // 如果浏览器支持 webkitGetAsEntry
+                const entry = (file as any).webkitGetAsEntry?.();
+                if (entry) {
+                    return processEntry(entry);
+                } else {
+                    // 降级处理：直接处理文件
+                    if (file.type.startsWith('image/')) {
+                        imageFiles.push(file);
+                    }
+                    return Promise.resolve();
+                }
+            })
+        );
+
+        // 创建新的图片数组
+        const newImages = imageFiles.map(file => ({
             id: Math.random().toString(36).substring(7),
             url: URL.createObjectURL(file),
             categoryId: activeCategory === 'all' ? 'uncategorized' : activeCategory,
@@ -46,6 +92,8 @@ export default ({ showUpload }: MainProps) => {
                                 className="hidden"
                                 accept="image/*"
                                 multiple
+                                webkitdirectory=""
+                                directory=""
                                 onChange={handleUpload}
                             />
                             <svg
@@ -101,7 +149,8 @@ export default ({ showUpload }: MainProps) => {
                                     </svg>
                                 </button>
                                 <button
-                                    className="btn btn-circle btn-xs btn-ghost"
+                                    className="btn btn-circle btn-xs btn-ghost hover:btn-error"
+                                    onClick={() => handleDelete(image.id)}
                                 >
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"

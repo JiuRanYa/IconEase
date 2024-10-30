@@ -71,17 +71,15 @@ export default () => {
         <div className="w-64 bg-base-100 p-4 border-r">
           {/* 快捷菜单 */}
           <div className="space-y-2">
-            <Link
-              to="/home"
-              className={`flex items-center gap-2 rounded-lg px-3 py-2 transition ${location.pathname === '/home' ? 'text-primary bg-base-200' : 'hover:bg-base-200'
-                }`}
+            <div
+              className={`flex items-center gap-2 rounded-lg px-3 py-2 transition}`}
             >
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
               </svg>
               <span>New Icons</span>
               <span className="ml-auto text-sm text-base-content/50">132</span>
-            </Link>
+            </div>
 
             <Link
               to="/favorites"
