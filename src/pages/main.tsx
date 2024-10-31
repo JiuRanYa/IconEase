@@ -205,7 +205,6 @@ export default ({ showUpload = true }: MainProps) => {
             d="M12 4v16m8-8H4"
           />
         </svg>
-        <span className="text-sm text-base-content/50">Upload Icons</span>
       </div>
     </label>
   ), [handleUpload]);

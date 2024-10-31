@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { ImageItem } from '../types';
 import { db } from '../utils/db';
+import { useCategoryStore } from './categoryStore';
 
 interface ImageState {
     images: ImageItem[];
@@ -21,13 +22,13 @@ export const useImageStore = create<ImageState>((set, get) => ({
             await db.init();
             const storedImages = await db.getAll('images');
 
-            // 为每个存储的图片数据创建新的 Blob URL
             const images = storedImages.map(img => ({
                 ...img,
                 url: URL.createObjectURL(new Blob([img.binaryData], { type: img.type }))
             }));
 
             set({ images });
+            useCategoryStore.getState().updateCounts();
         } catch (error) {
             console.error('初始化图片失败:', error);
         }
@@ -37,7 +38,6 @@ export const useImageStore = create<ImageState>((set, get) => ({
         try {
             const processedImages = await Promise.all(
                 newImages.map(async img => {
-                    // 获取图片的二进制数据
                     const response = await fetch(img.url);
                     const blob = await response.blob();
                     const binaryData = await blob.arrayBuffer();
@@ -45,7 +45,7 @@ export const useImageStore = create<ImageState>((set, get) => ({
                     return {
                         ...img,
                         type: blob.type,
-                        binaryData, // 存储二进制数据
+                        binaryData,
                         url: URL.createObjectURL(blob)
                     };
                 })
