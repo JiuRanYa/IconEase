@@ -13,6 +13,7 @@ export default () => {
   const [newCategoryName, setNewCategoryName] = useState('');
   const [selectedEmoji, setSelectedEmoji] = useState('💡');
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
   // 处理分类点击
   const handleCategoryClick = (categoryId: string) => {
@@ -94,18 +95,23 @@ export default () => {
 
       {/* 主体内容 */}
       <div className="flex h-full pt-16">
-        {/* 左侧边栏 - 固定位置 */}
-        <div className="fixed left-0 top-16 bottom-0 w-64 overflow-y-auto border-r border-base-300 bg-base-100 p-4">
+        {/* 左侧边栏 - 使用transition实现平滑收缩效果 */}
+        <div className={`fixed left-0 top-16 bottom-0 flex flex-col bg-base-100 border-r border-base-200 transition-all duration-300 ${isSidebarCollapsed ? 'w-20' : 'w-64'
+          }`}>
           {/* 快捷菜单 */}
-          <div className="space-y-2">
-            <div
-              className={`flex items-center gap-2 rounded-lg px-3 py-2 transition}`}
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div className="space-y-2 p-4">
+            <div className={`flex items-center gap-2 rounded-lg px-3 py-2 transition cursor-pointer hover:bg-base-200`}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className={`${isSidebarCollapsed ? 'h-7 w-7' : 'h-5 w-5'}`}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
               </svg>
-              <span>New Icons</span>
-              <span className="ml-auto text-xs text-base-content/50">132</span>
+              {!isSidebarCollapsed && <span>New Icons</span>}
+              {!isSidebarCollapsed && <span className="ml-auto text-xs text-base-content/50">{getCategoryCount('all')}</span>}
             </div>
 
             <Link
@@ -113,62 +119,90 @@ export default () => {
               className={`flex items-center gap-2 rounded-lg px-3 py-2 transition ${location.pathname === '/favorites' ? 'text-primary bg-base-200' : 'hover:bg-base-200'
                 }`}
             >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className={`${isSidebarCollapsed ? 'h-7 w-7' : 'h-5 w-5'}`}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
               </svg>
-              <span>Favorites</span>
-              <span className="ml-auto text-xs text-base-content/50">{getFavoritesCount()}</span>
-            </Link>
-
-            <Link
-              to="/projects"
-              className={`flex items-center gap-2 rounded-lg px-3 py-2 transition ${location.pathname === '/projects' ? 'text-primary bg-base-200' : 'hover:bg-base-200'
-                }`}
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
-              </svg>
-              <span>Projects</span>
-              <span className="ml-auto text-xs text-base-content/50">132</span>
+              {!isSidebarCollapsed && <span>Favorites</span>}
+              {!isSidebarCollapsed && <span className="ml-auto text-xs text-base-content/50">{getFavoritesCount()}</span>}
             </Link>
           </div>
 
           {/* 分类标题 */}
-          <div className="mt-8 mb-4">
-            <h2 className="px-3 text-sm font-semibold">Category</h2>
-          </div>
+          {!isSidebarCollapsed && (
+            <div className="mt-8 mb-4 px-7">
+              <h2 className="text-sm font-semibold text-base-content/70">Category</h2>
+            </div>
+          )}
 
           {/* 分类列表 */}
-          <div className="space-y-1">
+          <div className="flex-1 space-y-1 overflow-y-auto p-4">
             {categories.map((category) => (
               <a
                 key={category.id}
-                className={`flex items-center gap-2 rounded-lg px-3 py-2 transition ${activeCategory === category.id ? 'bg-gray-100' : 'hover:bg-gray-50'
+                className={`flex items-center gap-2 rounded-lg px-3 py-2 transition ${activeCategory === category.id ? 'bg-base-200' : 'hover:bg-base-200'
                   }`}
                 onClick={() => handleCategoryClick(category.id)}
+                title={isSidebarCollapsed ? category.name : undefined}
               >
                 {category.icon === 'list' ? (
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className={`${isSidebarCollapsed ? 'h-7 w-7' : 'h-5 w-5'}`}
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
                   </svg>
                 ) : (
-                  <span className="text-lg">{category.icon}</span>
+                  <span className={`${isSidebarCollapsed ? 'text-2xl' : 'text-base'}`}>{category.icon}</span>
                 )}
-                <span>{category.name}</span>
-                <span className="ml-auto text-xs text-base-content/50">
-                  {getCategoryCount(category.id)}
-                </span>
+                {!isSidebarCollapsed && (
+                  <>
+                    <span>{category.name}</span>
+                    <span className="ml-auto text-xs text-base-content/50">
+                      {getCategoryCount(category.id)}
+                    </span>
+                  </>
+                )}
               </a>
             ))}
 
             {/* 新增分类按钮 */}
             <button
               onClick={() => setIsModalOpen(true)}
-              className="flex text-sm w-full items-center gap-2 rounded-lg px-3 py-2 text-base-content/70 hover:bg-base-200"
+              className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-base-content/70 hover:bg-base-200"
+              title={isSidebarCollapsed ? "Add Category" : undefined}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
+                className={`${isSidebarCollapsed ? 'h-7 w-7' : 'h-5 w-5'}`}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+              </svg>
+              {!isSidebarCollapsed && <span>Add Category</span>}
+            </button>
+          </div>
+
+          {/* 收缩按钮 */}
+          <div className="p-4 border-t border-base-200">
+            <button
+              onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+              className="flex w-full items-center gap-2 rounded-lg px-3 py-2 hover:bg-base-200"
+              title={isSidebarCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className={`${isSidebarCollapsed ? 'h-7 w-7' : 'h-5 w-5'} transition-transform ${isSidebarCollapsed ? 'rotate-180' : ''}`}
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -177,16 +211,17 @@ export default () => {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth={2}
-                  d="M12 4v16m8-8H4"
+                  d="M11 19l-7-7 7-7m8 14l-7-7 7-7"
                 />
               </svg>
-              <span>Add Category</span>
+              {!isSidebarCollapsed && <span>Collapse Sidebar</span>}
             </button>
           </div>
         </div>
 
-        {/* 主内容区 - 可滚动 */}
-        <div className="ml-64 flex-1 overflow-y-auto p-4">
+        {/* 主内容区 - 调整左边距以适应侧边栏 */}
+        <div className={`flex-1 overflow-y-auto p-4 transition-all duration-300 ${isSidebarCollapsed ? 'ml-20' : 'ml-64'
+          }`}>
           <Outlet />
         </div>
       </div>
