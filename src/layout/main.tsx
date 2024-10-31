@@ -133,7 +133,7 @@ export default () => {
               to="/favorites"
               className={cn(
                 "flex items-center rounded-lg px-3 py-2 transition relative",
-                location.pathname === '/favorites' ? 'text-primary bg-base-200' : 'hover:bg-base-200',
+                location.pathname === '/favorites' ? 'bg-base-200' : 'hover:bg-base-200',
                 isSidebarCollapsed ? 'justify-center' : 'gap-2'
               )}
             >
@@ -169,7 +169,7 @@ export default () => {
                 key={category.id}
                 className={cn(
                   "flex items-center rounded-lg px-3 py-2 transition relative cursor-pointer",
-                  activeCategory === category.id ? 'bg-base-200' : 'hover:bg-base-200',
+                  activeCategory === category.id && location.pathname === '/home' ? 'bg-base-200' : 'hover:bg-base-200',
                   isSidebarCollapsed ? 'justify-center' : 'gap-2',
                 )}
                 onClick={() => handleCategoryClick(category.id)}
