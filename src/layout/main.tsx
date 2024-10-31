@@ -8,7 +8,7 @@ import { PlusIcon, HeartIcon, SearchIcon, ChevronLeftIcon, HamburgerIcon } from 
 import { cn } from '../utils/cn';
 
 export default () => {
-  const { categories, activeCategory, setActiveCategory, getCategoryCount, getFavoritesCount, addCategory, clearCategories } = useCategoryStore();
+  const { categories, activeCategory, setActiveCategory, getCategoryCount, getFavoritesCount, addCategory } = useCategoryStore();
   const location = useLocation();
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);

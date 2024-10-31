@@ -6,7 +6,6 @@ import { ImageViewer } from "../components/ImageViewer";
 import { VirtualGrid } from '../components/VirtualGrid';
 import { useCallback } from 'react';
 import { ImageItem } from "../types";
-import { ListIcon } from "../components/icons/ListIcon";
 
 interface MainProps {
   showUpload?: boolean;
@@ -73,7 +72,7 @@ export default ({ showUpload = true }: MainProps) => {
       const newImages = await Promise.all(imageFiles.map(async file => {
         const binaryData = await file.arrayBuffer();
         return {
-          id: `img-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+          id: `img-${Date.now()}-${Math.random().toString(36)}`,
           url: URL.createObjectURL(file),
           type: file.type,
           binaryData,

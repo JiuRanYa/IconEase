@@ -17,7 +17,7 @@ interface CategoryState {
 
 export const useCategoryStore = create(
     persist<CategoryState>(
-        (set, get) => ({
+        (set) => ({
             categories: [
                 { id: 'all', name: 'All', icon: '📋' },
             ],
@@ -38,17 +38,13 @@ export const useCategoryStore = create(
             updateCounts: () => {
                 set((state) => ({ ...state }));
             },
-            clearCategories: () => set(state => ({
+            clearCategories: () => set(() => ({
                 categories: [{ id: 'all', name: 'All', icon: '📋' }],
                 activeCategory: 'all'
             })),
         }),
         {
             name: 'category-storage', // 存储的键名
-            partialize: (state) => ({
-                categories: state.categories,
-                activeCategory: state.activeCategory
-            }), // 只保存这些字段
         }
     )
 );
