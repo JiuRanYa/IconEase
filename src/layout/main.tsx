@@ -147,18 +147,18 @@ export default () => {
               <a
                 key={category.id}
                 className={cn(
-                  "flex items-center rounded-lg px-3 py-2 transition relative",
+                  "flex items-center rounded-lg px-3 py-2 transition relative cursor-pointer",
                   activeCategory === category.id ? 'bg-base-200' : 'hover:bg-base-200',
-                  isSidebarCollapsed ? 'justify-center' : 'gap-2'
+                  isSidebarCollapsed ? 'justify-center' : 'gap-2',
                 )}
                 onClick={() => handleCategoryClick(category.id)}
                 title={isSidebarCollapsed ? category.name : undefined}
               >
                 <div className="flex-shrink-0">
                   {category.icon === 'list' ? (
-                    <ListIcon className="size-5 transition-all duration-500" />
+                    <ListIcon className="size-4 transition-all duration-500" />
                   ) : (
-                    <span className="text-base transition-all duration-500">
+                    <span className="text-sm transition-all duration-500">
                       {category.icon}
                     </span>
                   )}
@@ -197,7 +197,7 @@ export default () => {
           </div>
 
           {/* Collapse button */}
-          <div className="p-4 border-t border-base-200">
+          <div className="p-4 px-2 border-t border-base-200">
             <button
               onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
               className={cn(
@@ -209,13 +209,13 @@ export default () => {
               <div className="flex-shrink-0">
                 <ChevronLeftIcon
                   className={cn(
-                    "transition-all duration-500",
-                    isSidebarCollapsed ? 'h-7 w-7 rotate-180' : 'h-5 w-5'
+                    "transition-all duration-500 size-4",
+                    isSidebarCollapsed ? 'rotate-180' : ''
                   )}
                 />
               </div>
               <div className={cn(
-                "whitespace-nowrap transition-all duration-500 overflow-hidden",
+                "whitespace-nowrap transition-all duration-500 overflow-hidden text-sm",
                 isSidebarCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'
               )}>
                 Collapse Sidebar
