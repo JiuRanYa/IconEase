@@ -56,7 +56,16 @@ export function VirtualGrid<T>({
     return (
         <div
             ref={containerRef}
-            className="h-full overflow-auto"
+            className="h-full overflow-auto pr-2
+              [&::-webkit-scrollbar]:w-1.5
+              [&::-webkit-scrollbar-track]:hidden
+              [&::-webkit-scrollbar-thumb]:rounded-full
+              [&::-webkit-scrollbar-thumb]:bg-gray-200
+              [&::-webkit-scrollbar-thumb]:w-1.5
+              [&::-webkit-scrollbar-thumb]:transition
+              dark:[&::-webkit-scrollbar-track]:bg-neutral-700
+              dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500
+            "
             style={{ position: 'relative' }}
         >
             <div style={{ height: totalHeight, position: 'relative' }}>
