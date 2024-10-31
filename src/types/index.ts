@@ -1,8 +1,10 @@
 export interface ImageItem {
     id: string;
     url: string;
+    type?: string;
+    binaryData?: ArrayBuffer;
     categoryId: string;
-    isFavorite: boolean
+    isFavorite: boolean;
 }
 
 export interface Category {

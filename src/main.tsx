@@ -4,10 +4,9 @@ import "./App.css";
 import "./global.css";
 import { RouterProvider } from "react-router-dom";
 import { router } from "./router";
-import { db } from "./services/db";
+import { useImageStore } from "./stores/imageStore";
 
-// 确保数据库初始化
-await db.init();
+useImageStore.getState().initImages().catch(console.error);
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
