@@ -81,7 +81,7 @@ export default () => {
             <li className="text-error"><a onClick={() => {
               const isFavoritePage = location.pathname === '/favorites';
               useImageStore.getState().deleteAllImages(isFavoritePage);
-            }}>Delete All Images</a></li>
+            }}>Clear all</a></li>
             <li><a>Logout</a></li>
           </ul>
         </div>
@@ -133,21 +133,25 @@ export default () => {
             </Link>
           </div>
 
-          {/* Category title */}
-          <div className={cn(
-            "mt-4 mb-4 px-7 transition-all duration-500",
-            isSidebarCollapsed ? 'opacity-0 h-0 overflow-hidden' : 'opacity-100 h-auto'
-          )}>
-            <h2 className="text-sm font-semibold text-base-content/70">Category</h2>
-          </div>
+          {
+            isSidebarCollapsed ?
+              <div className="border-separate border border-gray-50 transition-all"></div>
+              :
+              <div className={cn(
+                "mt-4 mb-4 px-7 transition-all duration-500",
+                isSidebarCollapsed ? 'opacity-0 h-0 overflow-hidden' : 'opacity-100 h-auto'
+              )}>
+                <h2 className="text-sm font-semibold text-base-content/70">Category</h2>
+              </div>
+          }
 
           {/* Categories list */}
-          <div className="flex-1 space-y-1 overflow-y-auto p-4 text-sm">
+          <div className={cn("flex-1 space-y-1 overflow-y-auto p-4 text-sm")}>
             {categories.map((category) => (
               <a
                 key={category.id}
                 className={cn(
-                  "flex items-center rounded-lg px-3 py-2 transition relative cursor-pointer",
+                  "flex items-center rounded-lg px-2 py-2 transition relative cursor-pointer",
                   activeCategory === category.id ? 'bg-base-200' : 'hover:bg-base-200',
                   isSidebarCollapsed ? 'justify-center' : 'gap-2',
                 )}
@@ -242,7 +246,7 @@ export default () => {
             <div className="relative flex items-center gap-2">
               <div className="relative">
                 <button
-                  className="btn btn-square btn-outline"
+                  className="btn btn-square btn-outline btn-sm"
                   onClick={() => setShowEmojiPicker(!showEmojiPicker)}
                 >
                   <span className="text-xl">{selectedEmoji}</span>
@@ -263,7 +267,7 @@ export default () => {
                 <input
                   type="text"
                   placeholder="Category Name"
-                  className="input input-bordered w-full"
+                  className="input input-bordered w-full input-sm"
                   value={newCategoryName}
                   onChange={(e) => setNewCategoryName(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleAddCategory()}

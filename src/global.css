@@ -8,3 +8,7 @@ body {
 #root {
   background: #fff;
 }
+
+.modal-box {
+  overflow: unset;
+}
