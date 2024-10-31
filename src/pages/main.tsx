@@ -285,3 +285,4 @@ export default ({ showUpload = true }: MainProps) => {
       )}
     </div>
   );
+}

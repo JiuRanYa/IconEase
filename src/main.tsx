@@ -4,6 +4,7 @@ import "./App.css";
 import "./global.css";
 import { RouterProvider } from "react-router-dom";
 import { router } from "./router";
+import { useImageStore } from "./stores/imageStore";
 
 useImageStore.getState().initImages().catch(console.error);
 
