@@ -8,7 +8,7 @@ import { useCallback } from 'react';
 import { ImageItem } from "../types";
 
 interface MainProps {
-    showUpload?: boolean;
+  showUpload?: boolean;
 }
 
 
@@ -16,16 +16,11 @@ export default ({ showUpload = true }: MainProps) => {
   const location = useLocation();
   const isFavoritePage = location.pathname === '/favorites';
   const { activeCategory } = useCategoryStore();
-  const { addImages, getImagesByCategory, getFavoriteImages, toggleFavorite, deleteImage, deleteAllImages } = useImageStore();
+  const { addImages, getImagesByCategory, getFavoriteImages, toggleFavorite, deleteImage } = useImageStore();
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   // 根据当前页面决定显示哪些图片
   const images = isFavoritePage ? getFavoriteImages() : getImagesByCategory(activeCategory);
-
-  // 处理删除所有图片
-  const handleDeleteAll = () => {
-    deleteAllImages(isFavoritePage);
-  };
 
   // 处理删除图片
   const handleDelete = (id: string) => {
@@ -129,7 +124,7 @@ export default ({ showUpload = true }: MainProps) => {
 
         {/* 悬浮操作按钮 */}
         <div className="absolute size-full inset-0 flex items-center justify-center gap-2 
-          opacity-10 group-hover/image:bg-gray-100/70 group-hover/image:opacity-100 transition
+          opacity-0 group-hover/image:bg-gray-100/70 group-hover/image:opacity-100 transition
         "
           onClick={() => setSelectedImage(image.url)}
         >
@@ -216,11 +211,11 @@ export default ({ showUpload = true }: MainProps) => {
   const allItems = showUpload ? [{ id: 'upload-button', isUploadButton: true }, ...images] : images;
 
   // 修改渲染项方法
-  const renderItem = useCallback((item: any, index: number) => {
+  const renderItem = useCallback((item: any) => {
     if (item.isUploadButton) {
       return renderUploadButton();
     }
-    return renderImageItem(item, index);
+    return renderImageItem(item);
   }, [renderImageItem, renderUploadButton]);
 
   // 添加列数状态
@@ -243,28 +238,6 @@ export default ({ showUpload = true }: MainProps) => {
         <h2 className="text-xl font-semibold">
           {isFavoritePage ? 'Favorite Icons' : 'Icons'}
         </h2>
-        {images.length > 0 && (
-          <button
-            className="btn btn-ghost btn-sm text-error"
-            onClick={handleDeleteAll}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-              />
-            </svg>
-            <span className="ml-1">Delete All</span>
-          </button>
-        )}
       </div>
 
       <div className="h-[calc(100%-2rem)]"> {/* 减去标题栏的高度 */}

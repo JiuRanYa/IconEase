@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
 import { useCategoryStore } from "../stores/categoryStore";
 import { CategoryStoreSubscriber } from "../stores/categoryStore";
+import { useImageStore } from "../stores/imageStore";
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 
 export default () => {
@@ -82,6 +83,10 @@ export default () => {
           <ul tabIndex={0} className="menu dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
             <li><a>Profile</a></li>
             <li><a>Settings</a></li>
+            <li className="text-error"><a onClick={() => {
+              const isFavoritePage = location.pathname === '/favorites';
+              useImageStore.getState().deleteAllImages(isFavoritePage);
+            }}>Delete All Images</a></li>
             <li><a>Logout</a></li>
           </ul>
         </div>
