@@ -86,19 +86,19 @@ export default () => {
         {/* Menu Button */}
         <div className="dropdown dropdown-end">
           <div role="button" tabIndex={0}>
-            <HamburgerIcon className="h-5 w-5 swap-off fill-current" />
+              <HamburgerIcon className="h-5 w-5 swap-off fill-current" />
           </div>
           <ul className={cn(
             "menu dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52",
           )} tabIndex={0}>
             <li><a>Profile</a></li>
             <li><a>Settings</a></li>
-            <li className="text-error">
+            <li>
               <a onClick={() => {
                 setIsConfirmModalOpen(true);
                 setIsMenuOpen(false);
               }}>
-                Clear all
+                Reset
               </a>
             </li>
             <li><a>Logout</a></li>
