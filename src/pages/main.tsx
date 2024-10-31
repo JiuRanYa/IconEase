@@ -98,7 +98,7 @@ export default ({ showUpload = true }: MainProps) => {
 
     // md 断点 (768px) 时显示 4 列
     if (width >= 768 && width < 1024) {
-      return 4;
+      return 6;
     }
     // lg 断点及以上时根据宽度动态计算
     else if (width >= 1024) {
@@ -106,7 +106,7 @@ export default ({ showUpload = true }: MainProps) => {
     }
     // sm 及以下显示 2 列
     else if (width >= 524) {
-      return 2;
+      return 3;
     }
     else {
       return 1
