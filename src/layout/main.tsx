@@ -88,18 +88,14 @@ export default () => {
         </div>
       </div>
 
-      {/* 主体内容 */}
       <div className="flex h-full pt-16">
-        {/* 左侧边栏 - 使用transition实现平滑收缩效果 */}
-        <div className={`fixed left-0 top-16 bottom-0 flex flex-col bg-base-100 border-r border-base-200 transition-all duration-500 ease-in-out ${isSidebarCollapsed ? 'w-20' : 'w-64'
+        <div className={`fixed left-0 top-16 bottom-0 flex flex-col bg-base-100 border-r border-base-200 transition-all duration-500 ease-in-out ${isSidebarCollapsed ? 'w-16' : 'w-64'
           }`}>
-          {/* 快捷菜单 */}
           <div className="space-y-2 p-4 text-sm">
-            {/* New Icons 按钮 */}
             <div className={`flex items-center rounded-lg px-3 py-2 transition cursor-pointer hover:bg-base-200 relative ${isSidebarCollapsed ? 'justify-center' : 'gap-2'
               }`}>
               <div className="flex-shrink-0">
-                <PlusIcon className={`${isSidebarCollapsed ? 'h-7 w-7' : 'h-5 w-5'} transition-all duration-500`} />
+                <PlusIcon className={'size-5 transition-all duration-500'} />
               </div>
               <div className={`flex-1 whitespace-nowrap transition-all duration-500 ${isSidebarCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'
                 } flex items-center justify-between overflow-hidden`}>
@@ -108,14 +104,13 @@ export default () => {
               </div>
             </div>
 
-            {/* Favorites 按钮 */}
             <Link
               to="/favorites"
               className={`flex items-center rounded-lg px-3 py-2 transition relative ${location.pathname === '/favorites' ? 'text-primary bg-base-200' : 'hover:bg-base-200'
                 } ${isSidebarCollapsed ? 'justify-center' : 'gap-2'}`}
             >
               <div className="flex-shrink-0">
-                <HeartIcon className={`${isSidebarCollapsed ? 'h-7 w-7' : 'h-5 w-5'} transition-all duration-500`} />
+                <HeartIcon className={'size-5 transition-all duration-500'} />
               </div>
               <div className={`flex-1 whitespace-nowrap transition-all duration-500 ${isSidebarCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'
                 } flex items-center justify-between overflow-hidden`}>
@@ -143,9 +138,9 @@ export default () => {
               >
                 <div className="flex-shrink-0">
                   {category.icon === 'list' ? (
-                    <ListIcon className={`${isSidebarCollapsed ? 'h-7 w-7' : 'h-5 w-5'} transition-all duration-500`} />
+                    <ListIcon className={`size-5 transition-all duration-500`} />
                   ) : (
-                    <span className={`${isSidebarCollapsed ? 'text-2xl' : 'text-base'} transition-all duration-500`}>
+                    <span className={`text-base transition-all duration-500`}>
                       {category.icon}
                     </span>
                   )}
@@ -168,7 +163,7 @@ export default () => {
               title={isSidebarCollapsed ? "Add Category" : undefined}
             >
               <div className="flex-shrink-0">
-                <PlusIcon className={`${isSidebarCollapsed ? 'h-7 w-7' : 'h-5 w-5'} transition-all duration-500`} />
+                <PlusIcon className={`size-5 transition-all duration-500`} />
               </div>
               <div className={`whitespace-nowrap transition-all duration-500 ${isSidebarCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'
                 } overflow-hidden`}>
