@@ -76,7 +76,8 @@ export default ({ showUpload = true }: MainProps) => {
           type: file.type,
           binaryData,
           categoryId: activeCategory === 'all' ? 'uncategorized' : activeCategory,
-          isFavorite: false
+          isFavorite: false,
+          fileName: file.name
         };
       }));
 
