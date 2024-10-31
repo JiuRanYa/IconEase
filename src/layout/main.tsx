@@ -80,7 +80,7 @@ export default () => {
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search icons by name"
+            placeholder={`Search icon in current category`}
             className="input input-bordered w-full pl-10 input-sm"
           />
           <SearchIcon className="absolute left-11 top-1/2 h-5 w-5 -translate-y-1/2 text-base-content/50" />
@@ -266,21 +266,19 @@ export default () => {
             <div className="relative flex items-center gap-2">
               <div className="relative">
                 <button
-                  className="btn btn-square btn-outline btn-sm"
+                  className="btn btn-square btn-sm border"
                   onClick={() => setShowEmojiPicker(!showEmojiPicker)}
                 >
                   <span className="text-sm">{selectedEmoji}</span>
                 </button>
-                {showEmojiPicker && (
-                  <div className="absolute left-0 top-full mt-2 z-50">
-                    <EmojiPicker
-                      onEmojiClick={onEmojiClick}
-                      autoFocusSearch={false}
-                      width={300}
-                      height={400}
-                    />
-                  </div>
-                )}
+                <div className={cn("absolute left-0 top-full mt-2 z-50", showEmojiPicker ? 'visible' : 'hidden')}>
+                  <EmojiPicker
+                    onEmojiClick={onEmojiClick}
+                    autoFocusSearch={false}
+                    width={300}
+                    height={400}
+                  />
+                </div>
               </div>
 
               <div className="flex-1">
