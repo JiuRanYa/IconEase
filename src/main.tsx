@@ -4,6 +4,10 @@ import "./App.css";
 import "./global.css";
 import { RouterProvider } from "react-router-dom";
 import { router } from "./router";
+import { useImageStore } from "./stores/imageStore";
+
+// 在应用启动时初始化数据
+useImageStore.getState().initImages().catch(console.error);
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
