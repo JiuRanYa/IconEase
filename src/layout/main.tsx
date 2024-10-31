@@ -168,7 +168,7 @@ export default () => {
               <a
                 key={category.id}
                 className={cn(
-                  "flex items-center rounded-lg px-2 py-2 transition relative cursor-pointer",
+                  "flex items-center rounded-lg px-3 py-2 transition relative cursor-pointer",
                   activeCategory === category.id ? 'bg-base-200' : 'hover:bg-base-200',
                   isSidebarCollapsed ? 'justify-center' : 'gap-2',
                 )}
@@ -176,7 +176,7 @@ export default () => {
                 title={isSidebarCollapsed ? category.name : undefined}
               >
                 <div className="flex-shrink-0">
-                  <span className="text-sm transition-all duration-500">
+                  <span className="text-xs transition-all duration-500">
                     {category.icon}
                   </span>
                 </div>
