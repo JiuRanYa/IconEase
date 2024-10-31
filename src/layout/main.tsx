@@ -100,7 +100,7 @@ export default () => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
               </svg>
               <span>New Icons</span>
-              <span className="ml-auto text-sm text-base-content/50">132</span>
+              <span className="ml-auto text-xs text-base-content/50">132</span>
             </div>
 
             <Link
@@ -112,7 +112,7 @@ export default () => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
               </svg>
               <span>Favorites</span>
-              <span className="ml-auto text-sm text-base-content/50">{getFavoritesCount()}</span>
+              <span className="ml-auto text-xs text-base-content/50">{getFavoritesCount()}</span>
             </Link>
 
             <Link
@@ -124,7 +124,7 @@ export default () => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
               </svg>
               <span>Projects</span>
-              <span className="ml-auto text-sm text-base-content/50">132</span>
+              <span className="ml-auto text-xs text-base-content/50">132</span>
             </Link>
           </div>
 
@@ -138,7 +138,7 @@ export default () => {
             {categories.map((category) => (
               <a
                 key={category.id}
-                className={`flex items-center gap-2 rounded-lg px-3 py-2 transition ${activeCategory === category.id ? 'bg-base-200' : 'hover:bg-base-200'
+                className={`flex items-center gap-2 rounded-lg px-3 py-2 transition ${activeCategory === category.id ? 'bg-gray-100' : 'hover:bg-gray-50'
                   }`}
                 onClick={() => handleCategoryClick(category.id)}
               >
@@ -147,10 +147,10 @@ export default () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
                   </svg>
                 ) : (
-                  <span className="text-xl">{category.icon}</span>
+                  <span className="text-lg">{category.icon}</span>
                 )}
                 <span>{category.name}</span>
-                <span className="ml-auto text-sm text-base-content/50">
+                <span className="ml-auto text-xs text-base-content/50">
                   {getCategoryCount(category.id)}
                 </span>
               </a>
@@ -159,7 +159,7 @@ export default () => {
             {/* 新增分类按钮 */}
             <button
               onClick={() => setIsModalOpen(true)}
-              className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-base-content/70 hover:bg-base-200"
+              className="flex text-sm w-full items-center gap-2 rounded-lg px-3 py-2 text-base-content/70 hover:bg-base-200"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -200,7 +200,7 @@ export default () => {
                   className="btn btn-square btn-outline"
                   onClick={() => setShowEmojiPicker(!showEmojiPicker)}
                 >
-                  <span className="text-2xl">{selectedEmoji}</span>
+                  <span className="text-xl">{selectedEmoji}</span>
                 </button>
                 {showEmojiPicker && (
                   <div className="absolute left-0 top-full mt-2 z-50">
