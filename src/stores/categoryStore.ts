@@ -12,6 +12,7 @@ interface CategoryState {
     getCategoryCount: (categoryId: string) => number;
     getFavoritesCount: () => number;
     updateCounts: () => void;
+    clearCategories: () => void;
 }
 
 export const useCategoryStore = create(
@@ -37,6 +38,10 @@ export const useCategoryStore = create(
             updateCounts: () => {
                 set((state) => ({ ...state }));
             },
+            clearCategories: () => set(state => ({
+                categories: [{ id: 'all', name: 'All', icon: 'list' }],
+                activeCategory: 'all'
+            })),
         }),
         {
             name: 'category-storage', // 存储的键名

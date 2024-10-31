@@ -8,7 +8,7 @@ import { PlusIcon, HeartIcon, SearchIcon, ListIcon, ChevronLeftIcon } from '../c
 import { cn } from '../utils/cn';
 
 export default () => {
-  const { categories, activeCategory, setActiveCategory, getCategoryCount, getFavoritesCount, addCategory } = useCategoryStore();
+  const { categories, activeCategory, setActiveCategory, getCategoryCount, getFavoritesCount, addCategory, clearCategories } = useCategoryStore();
   const location = useLocation();
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -16,6 +16,7 @@ export default () => {
   const [selectedEmoji, setSelectedEmoji] = useState('💡');
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
 
   // 处理分类点击
   const handleCategoryClick = (categoryId: string) => {
@@ -44,6 +45,18 @@ export default () => {
   const onEmojiClick = (emojiData: EmojiClickData) => {
     setSelectedEmoji(emojiData.emoji);
     setShowEmojiPicker(false);
+  };
+
+  const handleClearAll = () => {
+    const isFavoritePage = location.pathname === '/favorites';
+    useImageStore.getState().deleteAllImages(isFavoritePage);
+    useCategoryStore.getState().clearCategories();
+
+    // 如果在分类页面，重定向到首页
+    if (location.pathname !== '/home' && location.pathname !== '/favorites') {
+      navigate('/home');
+    }
+    setIsConfirmModalOpen(false);
   };
 
   return (
@@ -78,10 +91,9 @@ export default () => {
           <ul tabIndex={0} className="menu dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
             <li><a>Profile</a></li>
             <li><a>Settings</a></li>
-            <li className="text-error"><a onClick={() => {
-              const isFavoritePage = location.pathname === '/favorites';
-              useImageStore.getState().deleteAllImages(isFavoritePage);
-            }}>Clear all</a></li>
+            <li className="text-error">
+              <a onClick={() => setIsConfirmModalOpen(true)}>Clear all</a>
+            </li>
             <li><a>Logout</a></li>
           </ul>
         </div>
@@ -249,7 +261,7 @@ export default () => {
                   className="btn btn-square btn-outline btn-sm"
                   onClick={() => setShowEmojiPicker(!showEmojiPicker)}
                 >
-                  <span className="text-xl">{selectedEmoji}</span>
+                  <span className="text-sm">{selectedEmoji}</span>
                 </button>
                 {showEmojiPicker && (
                   <div className="absolute left-0 top-full mt-2 z-50">
@@ -278,7 +290,7 @@ export default () => {
 
           <div className="modal-action">
             <button
-              className="btn btn-ghost"
+              className="btn btn-ghost btn-sm"
               onClick={() => {
                 setIsModalOpen(false);
                 setShowEmojiPicker(false);
@@ -288,7 +300,7 @@ export default () => {
             </button>
             <button
               className={cn(
-                "btn btn-primary",
+                "btn btn-primary btn-sm",
                 !newCategoryName.trim() && "btn-disabled"
               )}
               onClick={handleAddCategory}
@@ -305,6 +317,37 @@ export default () => {
             setIsModalOpen(false);
             setShowEmojiPicker(false);
           }}
+        >
+          <button>close</button>
+        </form>
+      </dialog>
+
+      {/* Confirm Clear Modal */}
+      <dialog className={cn('modal', isConfirmModalOpen && 'modal-open')}>
+        <div className="modal-box">
+          <h3 className="text-lg font-bold text-error">Clear All Data</h3>
+          <p className="py-4">
+            This will delete all images and categories. This action cannot be undone. Are you sure you want to proceed?
+          </p>
+          <div className="modal-action">
+            <button
+              className="btn btn-ghost btn-sm"
+              onClick={() => setIsConfirmModalOpen(false)}
+            >
+              Cancel
+            </button>
+            <button
+              className="btn btn-error btn-sm"
+              onClick={handleClearAll}
+            >
+              Clear All
+            </button>
+          </div>
+        </div>
+        <form
+          method="dialog"
+          className="modal-backdrop"
+          onClick={() => setIsConfirmModalOpen(false)}
         >
           <button>close</button>
         </form>
