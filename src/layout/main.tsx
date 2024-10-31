@@ -91,8 +91,6 @@ export default () => {
           <ul className={cn(
             "menu dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52",
           )} tabIndex={0}>
-            <li><a>Profile</a></li>
-            <li><a>Settings</a></li>
             <li>
               <a onClick={() => {
                 setIsConfirmModalOpen(true);
@@ -101,7 +99,7 @@ export default () => {
                 Reset
               </a>
             </li>
-            <li><a>Logout</a></li>
+            <li><a>Export Config</a></li>
           </ul>
         </div>
       </div>
