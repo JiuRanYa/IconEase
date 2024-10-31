@@ -3,6 +3,7 @@ import { ImageItem } from '../types';
 import { db } from '../utils/db';
 import { useCategoryStore } from './categoryStore';
 
+
 interface ImageState {
     images: ImageItem[];
     addImages: (newImages: ImageItem[]) => Promise<void>;

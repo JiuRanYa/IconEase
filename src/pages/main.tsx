@@ -8,8 +8,9 @@ import { useCallback } from 'react';
 import { ImageItem } from "../types";
 
 interface MainProps {
-  showUpload?: boolean;
+    showUpload?: boolean;
 }
+
 
 export default ({ showUpload = true }: MainProps) => {
   const location = useLocation();
@@ -284,4 +285,3 @@ export default ({ showUpload = true }: MainProps) => {
       )}
     </div>
   );
-};
