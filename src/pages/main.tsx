@@ -117,9 +117,9 @@ export default ({ showUpload = true }: MainProps) => {
   const renderImageItem = useCallback((image: ImageItem) => (
     <div
       key={image.id}
-      className="aspect-square rounded-lg border-2 border-base-300 bg-base-200"
+      className="aspect-square rounded-lg border border-gray-150 bg-base-100 relative overflow-hidden"
     >
-      <div className="group relative h-full w-full p-1.5">
+      <div className="group/image h-full w-full p-1.5">
         <img
           src={image.url}
           alt="uploaded"
@@ -128,7 +128,9 @@ export default ({ showUpload = true }: MainProps) => {
         />
 
         {/* 悬浮操作按钮 */}
-        <div className="absolute inset-0 flex items-center justify-center gap-2 opacity-0 bg-base-100/50 group-hover:opacity-100 transition-opacity"
+        <div className="absolute size-full inset-0 flex items-center justify-center gap-2 
+          opacity-10 group-hover/image:bg-gray-100/70 group-hover/image:opacity-100 transition
+        "
           onClick={() => setSelectedImage(image.url)}
         >
           <button
@@ -154,7 +156,7 @@ export default ({ showUpload = true }: MainProps) => {
             </svg>
           </button>
           <button
-            className="btn btn-circle btn-xs btn-ghost hover:btn-error"
+            className="btn btn-circle btn-xs btn-ghost"
             onClick={(e) => {
               e.stopPropagation();
               handleDelete(image.id);
@@ -182,7 +184,7 @@ export default ({ showUpload = true }: MainProps) => {
 
   // 渲染上传按钮
   const renderUploadButton = useCallback(() => (
-    <label key={0} className="aspect-square rounded-lg border-2 border-dashed border-base-300 bg-base-200 cursor-pointer hover:bg-base-300 transition-colors">
+    <label key={0} className="aspect-square rounded-lg border-2 border-base-200 bg-gray-50 cursor-pointer hover:bg-gray-100 transition-colors">
       <input
         type="file"
         className="hidden"
@@ -202,7 +204,7 @@ export default ({ showUpload = true }: MainProps) => {
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
-            strokeWidth={2}
+            strokeWidth={1}
             d="M12 4v16m8-8H4"
           />
         </svg>
