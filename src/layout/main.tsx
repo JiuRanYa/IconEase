@@ -4,6 +4,7 @@ import { useCategoryStore } from "../stores/categoryStore";
 import { CategoryStoreSubscriber } from "../stores/categoryStore";
 import { useImageStore } from "../stores/imageStore";
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
+import { PlusIcon, HeartIcon, SearchIcon, ListIcon, ChevronLeftIcon } from '../components/icons';
 
 export default () => {
   const { categories, activeCategory, setActiveCategory, getCategoryCount, getFavoritesCount, addCategory } = useCategoryStore();
@@ -63,15 +64,7 @@ export default () => {
             placeholder="Search 3432 icons"
             className="input input-bordered w-full pl-10 input-sm"
           />
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="absolute left-11 top-1/2 h-5 w-5 -translate-y-1/2 text-base-content/50"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
+          <SearchIcon className="absolute left-11 top-1/2 h-5 w-5 -translate-y-1/2 text-base-content/50" />
         </div>
 
         {/* Avatar */}
@@ -106,15 +99,7 @@ export default () => {
             <div className={`flex items-center rounded-lg px-3 py-2 transition cursor-pointer hover:bg-base-200 relative ${isSidebarCollapsed ? 'justify-center' : 'gap-2'
               }`}>
               <div className="flex-shrink-0">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className={`${isSidebarCollapsed ? 'h-7 w-7' : 'h-5 w-5'} transition-all duration-500`}
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                </svg>
+                <PlusIcon className={`${isSidebarCollapsed ? 'h-7 w-7' : 'h-5 w-5'} transition-all duration-500`} />
               </div>
               <div className={`flex-1 whitespace-nowrap transition-all duration-500 ${isSidebarCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'
                 } flex items-center justify-between overflow-hidden`}>
@@ -130,15 +115,7 @@ export default () => {
                 } ${isSidebarCollapsed ? 'justify-center' : 'gap-2'}`}
             >
               <div className="flex-shrink-0">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className={`${isSidebarCollapsed ? 'h-7 w-7' : 'h-5 w-5'} transition-all duration-500`}
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                </svg>
+                <HeartIcon className={`${isSidebarCollapsed ? 'h-7 w-7' : 'h-5 w-5'} transition-all duration-500`} />
               </div>
               <div className={`flex-1 whitespace-nowrap transition-all duration-500 ${isSidebarCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'
                 } flex items-center justify-between overflow-hidden`}>
@@ -166,15 +143,7 @@ export default () => {
               >
                 <div className="flex-shrink-0">
                   {category.icon === 'list' ? (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className={`${isSidebarCollapsed ? 'h-7 w-7' : 'h-5 w-5'} transition-all duration-500`}
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
-                    </svg>
+                    <ListIcon className={`${isSidebarCollapsed ? 'h-7 w-7' : 'h-5 w-5'} transition-all duration-500`} />
                   ) : (
                     <span className={`${isSidebarCollapsed ? 'text-2xl' : 'text-base'} transition-all duration-500`}>
                       {category.icon}
@@ -199,15 +168,7 @@ export default () => {
               title={isSidebarCollapsed ? "Add Category" : undefined}
             >
               <div className="flex-shrink-0">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className={`${isSidebarCollapsed ? 'h-7 w-7' : 'h-5 w-5'} transition-all duration-500`}
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                </svg>
+                <PlusIcon className={`${isSidebarCollapsed ? 'h-7 w-7' : 'h-5 w-5'} transition-all duration-500`} />
               </div>
               <div className={`whitespace-nowrap transition-all duration-500 ${isSidebarCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'
                 } overflow-hidden`}>
@@ -225,21 +186,10 @@ export default () => {
               title={isSidebarCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
             >
               <div className="flex-shrink-0">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
+                <ChevronLeftIcon
                   className={`${isSidebarCollapsed ? 'h-7 w-7' : 'h-5 w-5'} transition-all duration-500 ${isSidebarCollapsed ? 'rotate-180' : ''
                     }`}
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M11 19l-7-7 7-7m8 14l-7-7 7-7"
-                  />
-                </svg>
+                />
               </div>
               <div className={`whitespace-nowrap transition-all duration-500 ${isSidebarCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'
                 } overflow-hidden`}>
