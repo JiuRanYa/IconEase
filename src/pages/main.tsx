@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 import { ImageViewer } from "../components/ImageViewer";
 import { VirtualGrid } from '../components/VirtualGrid';
 import { useCallback } from 'react';
+import { ImageItem } from "../types";
 
 interface MainProps {
     showUpload?: boolean;
@@ -92,11 +93,11 @@ export default ({ showUpload = true }: MainProps) => {
     // 计算列数
     const getColumnCount = () => {
         const width = window.innerWidth - 256; // 减去侧边栏宽度
-        return Math.floor(width / 150); // 假设每个图标宽度为150px
+        return Math.floor(width / 100); // 假设每个图标宽度为150px
     };
 
     // 渲染单个图片项
-    const renderImageItem = useCallback((image: ImageItem, index: number) => (
+    const renderImageItem = useCallback((image: ImageItem) => (
         <div
             key={image.id}
             className="aspect-square rounded-lg border-2 border-base-300 bg-base-200"
@@ -240,7 +241,7 @@ export default ({ showUpload = true }: MainProps) => {
                     items={allItems}
                     renderItem={renderItem}
                     columnCount={getColumnCount()}
-                    rowHeight={150} // 与列宽保持一致
+                    rowHeight={100} // 与列宽保持一致
                     gap={12} // tailwind 的 gap-3 对应的像素值
                     overscan={2}
                 />
