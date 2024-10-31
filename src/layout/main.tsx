@@ -4,9 +4,8 @@ import { useCategoryStore } from "../stores/categoryStore";
 import { CategoryStoreSubscriber } from "../stores/categoryStore";
 import { useImageStore } from "../stores/imageStore";
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
-import { PlusIcon, HeartIcon, SearchIcon, ListIcon, ChevronLeftIcon, HamburgerIcon } from '../components/icons';
+import { PlusIcon, HeartIcon, SearchIcon, ChevronLeftIcon, HamburgerIcon } from '../components/icons';
 import { cn } from '../utils/cn';
-import { CloseIcon } from "../components/icons/CloseIcon";
 
 export default () => {
   const { categories, activeCategory, setActiveCategory, getCategoryCount, getFavoritesCount, addCategory, clearCategories } = useCategoryStore();
@@ -18,7 +17,6 @@ export default () => {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { searchQuery, setSearchQuery } = useImageStore();
 
   // 处理分类点击
@@ -97,7 +95,6 @@ export default () => {
             <li>
               <a onClick={() => {
                 setIsConfirmModalOpen(true);
-                setIsMenuOpen(false);
               }}>
                 Reset
               </a>
@@ -179,13 +176,9 @@ export default () => {
                 title={isSidebarCollapsed ? category.name : undefined}
               >
                 <div className="flex-shrink-0">
-                  {category.icon === 'list' ? (
-                    <ListIcon className="size-4 transition-all duration-500" />
-                  ) : (
-                    <span className="text-sm transition-all duration-500">
-                      {category.icon}
-                    </span>
-                  )}
+                  <span className="text-sm transition-all duration-500">
+                    {category.icon}
+                  </span>
                 </div>
                 <div className={cn(
                   "flex-1 whitespace-nowrap transition-all duration-500 flex items-center justify-between overflow-hidden",

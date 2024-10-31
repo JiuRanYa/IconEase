@@ -19,7 +19,7 @@ export const useCategoryStore = create(
     persist<CategoryState>(
         (set, get) => ({
             categories: [
-                { id: 'all', name: 'All', icon: 'list' },
+                { id: 'all', name: 'All', icon: '📋' },
             ],
             activeCategory: 'all',
             setActiveCategory: (id) => set({ activeCategory: id }),
@@ -39,7 +39,7 @@ export const useCategoryStore = create(
                 set((state) => ({ ...state }));
             },
             clearCategories: () => set(state => ({
-                categories: [{ id: 'all', name: 'All', icon: 'list' }],
+                categories: [{ id: 'all', name: 'All', icon: '📋' }],
                 activeCategory: 'all'
             })),
         }),
