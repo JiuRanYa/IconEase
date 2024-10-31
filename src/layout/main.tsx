@@ -87,7 +87,9 @@ export default () => {
             <li className="text-error"><a onClick={() => {
               const isFavoritePage = location.pathname === '/favorites';
               useImageStore.getState().deleteAllImages(isFavoritePage);
-            }}>Delete All Images</a></li>
+            }}>
+              Delete All Images
+            </a></li>
             <li><a>Logout</a></li>
           </ul>
         </div>
@@ -99,7 +101,7 @@ export default () => {
         <div className={`fixed left-0 top-16 bottom-0 flex flex-col bg-base-100 border-r border-base-200 transition-all duration-300 ${isSidebarCollapsed ? 'w-20' : 'w-64'
           }`}>
           {/* 快捷菜单 */}
-          <div className="space-y-2 p-4">
+          <div className="space-y-2 p-4 text-sm">
             <div className={`flex items-center gap-2 rounded-lg px-3 py-2 transition cursor-pointer hover:bg-base-200`}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -135,13 +137,13 @@ export default () => {
 
           {/* 分类标题 */}
           {!isSidebarCollapsed && (
-            <div className="mt-8 mb-4 px-7">
+            <div className="mt-4 mb-4 px-7">
               <h2 className="text-sm font-semibold text-base-content/70">Category</h2>
             </div>
           )}
 
           {/* 分类列表 */}
-          <div className="flex-1 space-y-1 overflow-y-auto p-4">
+          <div className="flex-1 space-y-1 overflow-y-auto p-4 text-sm">
             {categories.map((category) => (
               <a
                 key={category.id}
