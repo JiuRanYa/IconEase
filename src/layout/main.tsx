@@ -98,100 +98,119 @@ export default () => {
       {/* 主体内容 */}
       <div className="flex h-full pt-16">
         {/* 左侧边栏 - 使用transition实现平滑收缩效果 */}
-        <div className={`fixed left-0 top-16 bottom-0 flex flex-col bg-base-100 border-r border-base-200 transition-all duration-300 ${isSidebarCollapsed ? 'w-20' : 'w-64'
+        <div className={`fixed left-0 top-16 bottom-0 flex flex-col bg-base-100 border-r border-base-200 transition-all duration-500 ease-in-out ${isSidebarCollapsed ? 'w-20' : 'w-64'
           }`}>
           {/* 快捷菜单 */}
           <div className="space-y-2 p-4 text-sm">
-            <div className={`flex items-center gap-2 rounded-lg px-3 py-2 transition cursor-pointer hover:bg-base-200`}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className={`${isSidebarCollapsed ? 'h-7 w-7' : 'h-5 w-5'}`}
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-              </svg>
-              {!isSidebarCollapsed && <span>New Icons</span>}
-              {!isSidebarCollapsed && <span className="ml-auto text-xs text-base-content/50">{getCategoryCount('all')}</span>}
+            {/* New Icons 按钮 */}
+            <div className={`flex items-center gap-2 rounded-lg px-3 py-2 transition cursor-pointer hover:bg-base-200 relative`}>
+              <div className="flex-shrink-0">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className={`${isSidebarCollapsed ? 'h-7 w-7' : 'h-5 w-5'} transition-all duration-500`}
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                </svg>
+              </div>
+              <div className={`flex-1 whitespace-nowrap transition-all duration-500 ${isSidebarCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'
+                } flex items-center justify-between overflow-hidden`}>
+                <span>New Icons</span>
+                <span className="text-xs text-base-content/50">{getCategoryCount('all')}</span>
+              </div>
             </div>
 
+            {/* Favorites 按钮 */}
             <Link
               to="/favorites"
-              className={`flex items-center gap-2 rounded-lg px-3 py-2 transition ${location.pathname === '/favorites' ? 'text-primary bg-base-200' : 'hover:bg-base-200'
+              className={`flex items-center gap-2 rounded-lg px-3 py-2 transition relative overflow-hidden ${location.pathname === '/favorites' ? 'text-primary bg-base-200' : 'hover:bg-base-200'
                 }`}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className={`${isSidebarCollapsed ? 'h-7 w-7' : 'h-5 w-5'}`}
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-              </svg>
-              {!isSidebarCollapsed && <span>Favorites</span>}
-              {!isSidebarCollapsed && <span className="ml-auto text-xs text-base-content/50">{getFavoritesCount()}</span>}
+              <div className="flex-shrink-0">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className={`${isSidebarCollapsed ? 'h-7 w-7' : 'h-5 w-5'} transition-all duration-500`}
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                </svg>
+              </div>
+              <div className={`flex-1 flex items-center justify-between transition-all duration-500 ${isSidebarCollapsed ? 'opacity-0 -translate-x-full' : 'opacity-100 translate-x-0'
+                }`}>
+                <span>Favorites</span>
+                <span className="text-xs text-base-content/50">{getFavoritesCount()}</span>
+              </div>
             </Link>
           </div>
 
           {/* 分类标题 */}
-          {!isSidebarCollapsed && (
-            <div className="mt-4 mb-4 px-7">
-              <h2 className="text-sm font-semibold text-base-content/70">Category</h2>
-            </div>
-          )}
+          <div className={`mt-4 mb-4 px-7 transition-all duration-500 ${isSidebarCollapsed ? 'opacity-0 h-0 overflow-hidden' : 'opacity-100 h-auto'
+            }`}>
+            <h2 className="text-sm font-semibold text-base-content/70">Category</h2>
+          </div>
 
           {/* 分类列表 */}
           <div className="flex-1 space-y-1 overflow-y-auto p-4 text-sm">
             {categories.map((category) => (
               <a
                 key={category.id}
-                className={`flex items-center gap-2 rounded-lg px-3 py-2 transition ${activeCategory === category.id ? 'bg-base-200' : 'hover:bg-base-200'
+                className={`flex items-center gap-2 rounded-lg px-3 py-2 transition relative overflow-hidden ${activeCategory === category.id ? 'bg-base-200' : 'hover:bg-base-200'
                   }`}
                 onClick={() => handleCategoryClick(category.id)}
                 title={isSidebarCollapsed ? category.name : undefined}
               >
-                {category.icon === 'list' ? (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className={`${isSidebarCollapsed ? 'h-7 w-7' : 'h-5 w-5'}`}
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
-                  </svg>
-                ) : (
-                  <span className={`${isSidebarCollapsed ? 'text-2xl' : 'text-base'}`}>{category.icon}</span>
-                )}
-                {!isSidebarCollapsed && (
-                  <>
-                    <span>{category.name}</span>
-                    <span className="ml-auto text-xs text-base-content/50">
-                      {getCategoryCount(category.id)}
+                <div className="flex-shrink-0">
+                  {category.icon === 'list' ? (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className={`${isSidebarCollapsed ? 'h-7 w-7' : 'h-5 w-5'} transition-all duration-500`}
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+                    </svg>
+                  ) : (
+                    <span className={`${isSidebarCollapsed ? 'text-2xl' : 'text-base'} transition-all duration-500`}>
+                      {category.icon}
                     </span>
-                  </>
-                )}
+                  )}
+                </div>
+                <div className={`flex-1 whitespace-nowrap transition-all duration-500 ${isSidebarCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'
+                  } flex items-center justify-between overflow-hidden`}>
+                  <span>{category.name}</span>
+                  <span className="text-xs text-base-content/50">
+                    {getCategoryCount(category.id)}
+                  </span>
+                </div>
               </a>
             ))}
 
             {/* 新增分类按钮 */}
             <button
               onClick={() => setIsModalOpen(true)}
-              className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-base-content/70 hover:bg-base-200"
+              className="flex items-center gap-2 rounded-lg px-2 py-2 text-base-content/70 hover:bg-base-200 relative overflow-hidden"
               title={isSidebarCollapsed ? "Add Category" : undefined}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className={`${isSidebarCollapsed ? 'h-7 w-7' : 'h-5 w-5'}`}
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-              </svg>
-              {!isSidebarCollapsed && <span>Add Category</span>}
+              <div className="flex-shrink-0">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className={`${isSidebarCollapsed ? 'h-7 w-7' : 'h-5 w-5'} transition-all duration-500`}
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                </svg>
+              </div>
+              <div className={`whitespace-nowrap transition-all duration-500 ${isSidebarCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'
+                } overflow-hidden`}>
+                Add Category
+              </div>
             </button>
           </div>
 
@@ -199,30 +218,36 @@ export default () => {
           <div className="p-4 border-t border-base-200">
             <button
               onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
-              className="flex w-full items-center gap-2 rounded-lg px-3 py-2 hover:bg-base-200"
+              className="flex w-full items-center gap-2 rounded-lg px-3 py-2 hover:bg-base-200 relative overflow-hidden"
               title={isSidebarCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className={`${isSidebarCollapsed ? 'h-7 w-7' : 'h-5 w-5'} transition-transform ${isSidebarCollapsed ? 'rotate-180' : ''}`}
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M11 19l-7-7 7-7m8 14l-7-7 7-7"
-                />
-              </svg>
-              {!isSidebarCollapsed && <span>Collapse Sidebar</span>}
+              <div className="flex-shrink-0">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className={`${isSidebarCollapsed ? 'h-7 w-7' : 'h-5 w-5'} transition-all duration-500 ${isSidebarCollapsed ? 'rotate-180' : ''
+                    }`}
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M11 19l-7-7 7-7m8 14l-7-7 7-7"
+                  />
+                </svg>
+              </div>
+              <div className={`whitespace-nowrap transition-all duration-500 ${isSidebarCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'
+                } overflow-hidden`}>
+                Collapse Sidebar
+              </div>
             </button>
           </div>
         </div>
 
-        {/* 主内容区 - 调整左边距以适应侧边栏 */}
-        <div className={`flex-1 overflow-y-auto p-4 transition-all duration-300 ${isSidebarCollapsed ? 'ml-20' : 'ml-64'
+        {/* 主内容区 */}
+        <div className={`flex-1 overflow-y-auto p-4 transition-all duration-500 ${isSidebarCollapsed ? 'ml-20' : 'ml-64'
           }`}>
           <Outlet />
         </div>
