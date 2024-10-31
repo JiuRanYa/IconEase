@@ -5,6 +5,7 @@ import { CategoryStoreSubscriber } from "../stores/categoryStore";
 import { useImageStore } from "../stores/imageStore";
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 import { PlusIcon, HeartIcon, SearchIcon, ListIcon, ChevronLeftIcon } from '../components/icons';
+import { cn } from '../utils/cn';
 
 export default () => {
   const { categories, activeCategory, setActiveCategory, getCategoryCount, getFavoritesCount, addCategory } = useCategoryStore();
@@ -49,7 +50,7 @@ export default () => {
     <div className="h-screen w-full bg-base-100">
       <CategoryStoreSubscriber />
 
-      {/* Header - 固定在顶部 */}
+      {/* Header */}
       <div className="fixed top-0 left-0 right-0 z-10 flex h-16 items-center border-b border-base-300 bg-base-100 px-10 justify-between">
         {/* Logo */}
         <div className="flex items-center">
@@ -57,7 +58,7 @@ export default () => {
           <span className="ml-2 rounded bg-primary px-2 py-0.5 text-xs text-white">Pro</span>
         </div>
 
-        {/* 搜索框 */}
+        {/* Search */}
         <div className="relative max-w-xl flex-1 px-8">
           <input
             type="text"
@@ -80,73 +81,92 @@ export default () => {
             <li className="text-error"><a onClick={() => {
               const isFavoritePage = location.pathname === '/favorites';
               useImageStore.getState().deleteAllImages(isFavoritePage);
-            }}>
-              Delete All Images
-            </a></li>
+            }}>Delete All Images</a></li>
             <li><a>Logout</a></li>
           </ul>
         </div>
       </div>
 
       <div className="flex h-full pt-16">
-        <div className={`fixed left-0 top-16 bottom-0 flex flex-col bg-base-100 border-r border-base-200 transition-all duration-500 ease-in-out ${isSidebarCollapsed ? 'w-16' : 'w-64'
-          }`}>
+        {/* Sidebar */}
+        <div className={cn(
+          "fixed left-0 top-16 bottom-0 flex flex-col bg-base-100 border-r border-base-200 transition-all duration-500 ease-in-out",
+          isSidebarCollapsed ? 'w-16' : 'w-64'
+        )}>
           <div className="space-y-2 p-4 text-sm">
-            <div className={`flex items-center rounded-lg px-3 py-2 transition cursor-pointer hover:bg-base-200 relative ${isSidebarCollapsed ? 'justify-center' : 'gap-2'
-              }`}>
+            {/* New Icons button */}
+            <div className={cn(
+              "flex items-center rounded-lg px-3 py-2 transition cursor-pointer hover:bg-base-200 relative",
+              isSidebarCollapsed ? 'justify-center' : 'gap-2'
+            )}>
               <div className="flex-shrink-0">
-                <PlusIcon className={'size-5 transition-all duration-500'} />
+                <PlusIcon className="size-5 transition-all duration-500" />
               </div>
-              <div className={`flex-1 whitespace-nowrap transition-all duration-500 ${isSidebarCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'
-                } flex items-center justify-between overflow-hidden`}>
+              <div className={cn(
+                "flex-1 whitespace-nowrap transition-all duration-500 flex items-center justify-between overflow-hidden",
+                isSidebarCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'
+              )}>
                 <span>New Icons</span>
                 <span className="text-xs text-base-content/50">{getCategoryCount('all')}</span>
               </div>
             </div>
 
+            {/* Favorites link */}
             <Link
               to="/favorites"
-              className={`flex items-center rounded-lg px-3 py-2 transition relative ${location.pathname === '/favorites' ? 'text-primary bg-base-200' : 'hover:bg-base-200'
-                } ${isSidebarCollapsed ? 'justify-center' : 'gap-2'}`}
+              className={cn(
+                "flex items-center rounded-lg px-3 py-2 transition relative",
+                location.pathname === '/favorites' ? 'text-primary bg-base-200' : 'hover:bg-base-200',
+                isSidebarCollapsed ? 'justify-center' : 'gap-2'
+              )}
             >
               <div className="flex-shrink-0">
-                <HeartIcon className={'size-5 transition-all duration-500'} />
+                <HeartIcon className="size-5 transition-all duration-500" />
               </div>
-              <div className={`flex-1 whitespace-nowrap transition-all duration-500 ${isSidebarCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'
-                } flex items-center justify-between overflow-hidden`}>
+              <div className={cn(
+                "flex-1 whitespace-nowrap transition-all duration-500 flex items-center justify-between overflow-hidden",
+                isSidebarCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'
+              )}>
                 <span>Favorites</span>
                 <span className="text-xs text-base-content/50">{getFavoritesCount()}</span>
               </div>
             </Link>
           </div>
 
-          {/* 分类标题 */}
-          <div className={`mt-4 mb-4 px-7 transition-all duration-500 ${isSidebarCollapsed ? 'opacity-0 h-0 overflow-hidden' : 'opacity-100 h-auto'
-            }`}>
+          {/* Category title */}
+          <div className={cn(
+            "mt-4 mb-4 px-7 transition-all duration-500",
+            isSidebarCollapsed ? 'opacity-0 h-0 overflow-hidden' : 'opacity-100 h-auto'
+          )}>
             <h2 className="text-sm font-semibold text-base-content/70">Category</h2>
           </div>
 
-          {/* 分类列表 */}
+          {/* Categories list */}
           <div className="flex-1 space-y-1 overflow-y-auto p-4 text-sm">
             {categories.map((category) => (
               <a
                 key={category.id}
-                className={`flex items-center rounded-lg px-3 py-2 transition relative ${activeCategory === category.id ? 'bg-base-200' : 'hover:bg-base-200'
-                  } ${isSidebarCollapsed ? 'justify-center' : 'gap-2'}`}
+                className={cn(
+                  "flex items-center rounded-lg px-3 py-2 transition relative",
+                  activeCategory === category.id ? 'bg-base-200' : 'hover:bg-base-200',
+                  isSidebarCollapsed ? 'justify-center' : 'gap-2'
+                )}
                 onClick={() => handleCategoryClick(category.id)}
                 title={isSidebarCollapsed ? category.name : undefined}
               >
                 <div className="flex-shrink-0">
                   {category.icon === 'list' ? (
-                    <ListIcon className={`size-5 transition-all duration-500`} />
+                    <ListIcon className="size-5 transition-all duration-500" />
                   ) : (
-                    <span className={`text-base transition-all duration-500`}>
+                    <span className="text-base transition-all duration-500">
                       {category.icon}
                     </span>
                   )}
                 </div>
-                <div className={`flex-1 whitespace-nowrap transition-all duration-500 ${isSidebarCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'
-                  } flex items-center justify-between overflow-hidden`}>
+                <div className={cn(
+                  "flex-1 whitespace-nowrap transition-all duration-500 flex items-center justify-between overflow-hidden",
+                  isSidebarCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'
+                )}>
                   <span>{category.name}</span>
                   <span className="text-xs text-base-content/50">
                     {getCategoryCount(category.id)}
@@ -155,61 +175,71 @@ export default () => {
               </a>
             ))}
 
-            {/* 新增分类按钮 */}
+            {/* Add category button */}
             <button
               onClick={() => setIsModalOpen(true)}
-              className={`flex w-full items-center rounded-lg px-3 py-2 text-base-content/70 hover:bg-base-200 relative ${isSidebarCollapsed ? 'justify-center' : 'gap-2'
-                }`}
+              className={cn(
+                "flex w-full items-center rounded-lg px-3 py-2 text-base-content/70 hover:bg-base-200 relative",
+                isSidebarCollapsed ? 'justify-center' : 'gap-2'
+              )}
               title={isSidebarCollapsed ? "Add Category" : undefined}
             >
               <div className="flex-shrink-0">
-                <PlusIcon className={`size-5 transition-all duration-500`} />
+                <PlusIcon className="size-5 transition-all duration-500" />
               </div>
-              <div className={`whitespace-nowrap transition-all duration-500 ${isSidebarCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'
-                } overflow-hidden`}>
+              <div className={cn(
+                "whitespace-nowrap transition-all duration-500 overflow-hidden",
+                isSidebarCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'
+              )}>
                 Add Category
               </div>
             </button>
           </div>
 
-          {/* 收缩按钮 */}
+          {/* Collapse button */}
           <div className="p-4 border-t border-base-200">
             <button
               onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
-              className={`flex w-full items-center rounded-lg px-3 py-2 hover:bg-base-200 relative ${isSidebarCollapsed ? 'justify-center' : 'gap-2'
-                }`}
+              className={cn(
+                "flex w-full items-center rounded-lg px-3 py-2 hover:bg-base-200 relative",
+                isSidebarCollapsed ? 'justify-center' : 'gap-2'
+              )}
               title={isSidebarCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
             >
               <div className="flex-shrink-0">
                 <ChevronLeftIcon
-                  className={`${isSidebarCollapsed ? 'h-7 w-7' : 'h-5 w-5'} transition-all duration-500 ${isSidebarCollapsed ? 'rotate-180' : ''
-                    }`}
+                  className={cn(
+                    "transition-all duration-500",
+                    isSidebarCollapsed ? 'h-7 w-7 rotate-180' : 'h-5 w-5'
+                  )}
                 />
               </div>
-              <div className={`whitespace-nowrap transition-all duration-500 ${isSidebarCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'
-                } overflow-hidden`}>
+              <div className={cn(
+                "whitespace-nowrap transition-all duration-500 overflow-hidden",
+                isSidebarCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'
+              )}>
                 Collapse Sidebar
               </div>
             </button>
           </div>
         </div>
 
-        {/* 主内容区 */}
-        <div className={`flex-1 overflow-y-auto p-4 transition-all duration-500 ${isSidebarCollapsed ? 'ml-20' : 'ml-64'
-          }`}>
+        {/* Main content */}
+        <div className={cn(
+          "flex-1 overflow-y-auto p-4 transition-all duration-500",
+          isSidebarCollapsed ? 'ml-20' : 'ml-64'
+        )}>
           <Outlet />
         </div>
       </div>
 
-      {/* 新增分类模态框 */}
-      <dialog className={`modal ${isModalOpen ? 'modal-open' : ''}`}>
+      {/* Modal */}
+      <dialog className={cn('modal', isModalOpen && 'modal-open')}>
         <div className="modal-box">
           <h3 className="text-lg font-bold">Add New Category</h3>
 
           <div className="py-4">
-            {/* Emoji 和输入框在同一行 */}
             <div className="relative flex items-center gap-2">
-              {/* Emoji 选择器 */}
               <div className="relative">
                 <button
                   className="btn btn-square btn-outline"
@@ -229,7 +259,6 @@ export default () => {
                 )}
               </div>
 
-              {/* 分类名称输入框 */}
               <div className="flex-1">
                 <input
                   type="text"
@@ -243,7 +272,6 @@ export default () => {
             </div>
           </div>
 
-          {/* 操作按钮 */}
           <div className="modal-action">
             <button
               className="btn btn-ghost"
@@ -255,16 +283,17 @@ export default () => {
               Cancel
             </button>
             <button
-              className="btn btn-primary"
+              className={cn(
+                "btn btn-primary",
+                !newCategoryName.trim() && "btn-disabled"
+              )}
               onClick={handleAddCategory}
-              disabled={!newCategoryName.trim()}
             >
               Add
             </button>
           </div>
         </div>
 
-        {/* 背景遮罩 */}
         <form
           method="dialog"
           className="modal-backdrop"
