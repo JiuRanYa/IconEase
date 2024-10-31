@@ -103,7 +103,8 @@ export default () => {
           {/* 快捷菜单 */}
           <div className="space-y-2 p-4 text-sm">
             {/* New Icons 按钮 */}
-            <div className={`flex items-center gap-2 rounded-lg px-3 py-2 transition cursor-pointer hover:bg-base-200 relative`}>
+            <div className={`flex items-center rounded-lg px-3 py-2 transition cursor-pointer hover:bg-base-200 relative ${isSidebarCollapsed ? 'justify-center' : 'gap-2'
+              }`}>
               <div className="flex-shrink-0">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -125,8 +126,8 @@ export default () => {
             {/* Favorites 按钮 */}
             <Link
               to="/favorites"
-              className={`flex items-center gap-2 rounded-lg px-3 py-2 transition relative overflow-hidden ${location.pathname === '/favorites' ? 'text-primary bg-base-200' : 'hover:bg-base-200'
-                }`}
+              className={`flex items-center rounded-lg px-3 py-2 transition relative ${location.pathname === '/favorites' ? 'text-primary bg-base-200' : 'hover:bg-base-200'
+                } ${isSidebarCollapsed ? 'justify-center' : 'gap-2'}`}
             >
               <div className="flex-shrink-0">
                 <svg
@@ -139,8 +140,8 @@ export default () => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                 </svg>
               </div>
-              <div className={`flex-1 flex items-center justify-between transition-all duration-500 ${isSidebarCollapsed ? 'opacity-0 -translate-x-full' : 'opacity-100 translate-x-0'
-                }`}>
+              <div className={`flex-1 whitespace-nowrap transition-all duration-500 ${isSidebarCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'
+                } flex items-center justify-between overflow-hidden`}>
                 <span>Favorites</span>
                 <span className="text-xs text-base-content/50">{getFavoritesCount()}</span>
               </div>
@@ -158,8 +159,8 @@ export default () => {
             {categories.map((category) => (
               <a
                 key={category.id}
-                className={`flex items-center gap-2 rounded-lg px-3 py-2 transition relative overflow-hidden ${activeCategory === category.id ? 'bg-base-200' : 'hover:bg-base-200'
-                  }`}
+                className={`flex items-center rounded-lg px-3 py-2 transition relative ${activeCategory === category.id ? 'bg-base-200' : 'hover:bg-base-200'
+                  } ${isSidebarCollapsed ? 'justify-center' : 'gap-2'}`}
                 onClick={() => handleCategoryClick(category.id)}
                 title={isSidebarCollapsed ? category.name : undefined}
               >
@@ -193,7 +194,8 @@ export default () => {
             {/* 新增分类按钮 */}
             <button
               onClick={() => setIsModalOpen(true)}
-              className="flex items-center gap-2 rounded-lg px-2 py-2 text-base-content/70 hover:bg-base-200 relative overflow-hidden"
+              className={`flex w-full items-center rounded-lg px-3 py-2 text-base-content/70 hover:bg-base-200 relative ${isSidebarCollapsed ? 'justify-center' : 'gap-2'
+                }`}
               title={isSidebarCollapsed ? "Add Category" : undefined}
             >
               <div className="flex-shrink-0">
@@ -218,7 +220,8 @@ export default () => {
           <div className="p-4 border-t border-base-200">
             <button
               onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
-              className="flex w-full items-center gap-2 rounded-lg px-3 py-2 hover:bg-base-200 relative overflow-hidden"
+              className={`flex w-full items-center rounded-lg px-3 py-2 hover:bg-base-200 relative ${isSidebarCollapsed ? 'justify-center' : 'gap-2'
+                }`}
               title={isSidebarCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
             >
               <div className="flex-shrink-0">
