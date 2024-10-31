@@ -19,6 +19,7 @@ export default () => {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { searchQuery, setSearchQuery } = useImageStore();
 
   // 处理分类点击
   const handleCategoryClick = (categoryId: string) => {
@@ -77,7 +78,9 @@ export default () => {
         <div className="relative max-w-xl flex-1 px-8">
           <input
             type="text"
-            placeholder="Search 3432 icons"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search icons by name"
             className="input input-bordered w-full pl-10 input-sm"
           />
           <SearchIcon className="absolute left-11 top-1/2 h-5 w-5 -translate-y-1/2 text-base-content/50" />
@@ -86,7 +89,7 @@ export default () => {
         {/* Menu Button */}
         <div className="dropdown dropdown-end">
           <div role="button" tabIndex={0}>
-              <HamburgerIcon className="h-5 w-5 swap-off fill-current" />
+            <HamburgerIcon className="h-5 w-5 swap-off fill-current" />
           </div>
           <ul className={cn(
             "menu dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52",
