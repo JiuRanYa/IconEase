@@ -4,8 +4,9 @@ import { useCategoryStore } from "../stores/categoryStore";
 import { CategoryStoreSubscriber } from "../stores/categoryStore";
 import { useImageStore } from "../stores/imageStore";
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
-import { PlusIcon, HeartIcon, SearchIcon, ListIcon, ChevronLeftIcon } from '../components/icons';
+import { PlusIcon, HeartIcon, SearchIcon, ListIcon, ChevronLeftIcon, HamburgerIcon } from '../components/icons';
 import { cn } from '../utils/cn';
+import { CloseIcon } from "../components/icons/CloseIcon";
 
 export default () => {
   const { categories, activeCategory, setActiveCategory, getCategoryCount, getFavoritesCount, addCategory, clearCategories } = useCategoryStore();
@@ -17,6 +18,7 @@ export default () => {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // 处理分类点击
   const handleCategoryClick = (categoryId: string) => {
@@ -81,18 +83,23 @@ export default () => {
           <SearchIcon className="absolute left-11 top-1/2 h-5 w-5 -translate-y-1/2 text-base-content/50" />
         </div>
 
-        {/* Avatar */}
+        {/* Menu Button */}
         <div className="dropdown dropdown-end">
-          <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-            <div className="w-8 rounded-full">
-              <img alt="avatar" src="https://avatars.githubusercontent.com/u/58846658?v=4" />
-            </div>
+          <div role="button" tabIndex={0}>
+            <HamburgerIcon className="h-5 w-5 swap-off fill-current" />
           </div>
-          <ul tabIndex={0} className="menu dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+          <ul className={cn(
+            "menu dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52",
+          )} tabIndex={0}>
             <li><a>Profile</a></li>
             <li><a>Settings</a></li>
             <li className="text-error">
-              <a onClick={() => setIsConfirmModalOpen(true)}>Clear all</a>
+              <a onClick={() => {
+                setIsConfirmModalOpen(true);
+                setIsMenuOpen(false);
+              }}>
+                Clear all
+              </a>
             </li>
             <li><a>Logout</a></li>
           </ul>
