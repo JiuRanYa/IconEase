@@ -1,3 +1,7 @@
+<div align="right">
+  <a href="README.md">English</a> | <a href="README.CN.md">简体中文</a>
+</div>
+
 <p align="center">
   <img src="public/icon.png" alt="IconEase Logo" width="128" height="128" />
 </p>
