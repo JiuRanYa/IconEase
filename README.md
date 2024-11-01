@@ -4,17 +4,17 @@ IconEase is a powerful cross-platform desktop application for managing and organ
 
 ## Screenshots
 
-<div align="center">
-  <img src="public/demo-1.png" alt="Main Interface" width="600" />
+<div style="display: flex;" align="center">
+  <img src="public/demo1.jpg" alt="Main Interface" width="600" />
   <p><em>Main Interface - Light Theme</em></p>
   
-  <img src="public/demo-2.png" alt="Category Management" width="600" />
+  <img src="public/demo2.jpg" alt="Category Management" width="600" />
   <p><em>Category Management with Custom Emoji Icons</em></p>
   
-  <img src="public/demo-3.png" alt="Image Viewer" width="600" />
+  <img src="public/demo3.jpg" alt="Image Viewer" width="600" />
   <p><em>Advanced Image Viewer with Zoom Controls</em></p>
   
-  <img src="public/demo-4.png" alt="Dark Theme" width="600" />
+  <img src="public/demo4.jpg" alt="Dark Theme" width="600" />
   <p><em>Dark Theme Support</em></p>
 </div>
 
