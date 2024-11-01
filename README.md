@@ -66,7 +66,6 @@ I have no apple developer id, so when you download this app, skip the mac securi
 
 ```
 sudo xattr -rd com.apple.quarantine /Applications/IconEase.app
-
 ```
 
 ## Contributing
