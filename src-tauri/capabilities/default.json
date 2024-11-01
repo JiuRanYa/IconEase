@@ -9,6 +9,15 @@
     "core:default",
     "shell:allow-open",
     "dialog:default",
-    "dialog:allow-ask"
+    "dialog:allow-ask",
+    "fs:default",
+    {
+      "identifier": "fs:allow-app-write-recursive",
+      "allow": [
+        {
+          "path": "$HOME/**"
+        }
+      ]
+    }
   ]
 }
