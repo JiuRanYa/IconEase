@@ -22,6 +22,7 @@ interface ImageState {
     isLoading: boolean;
     setLoading: (loading: boolean) => void;
     isDuplicate: (newImage: ImageItem) => boolean;
+    deleteImages: (ids: string[]) => Promise<void>;
 }
 
 export const useImageStore = create<ImageState>((set, get) => ({
@@ -174,5 +175,22 @@ export const useImageStore = create<ImageState>((set, get) => ({
         }
 
         return false;
+    },
+
+    deleteImages: async (ids: string[]) => {
+        try {
+            // 批量删除数据库记录
+            await Promise.all(ids.map(id => db.delete('images', id)));
+
+            // 更新状态
+            set((state) => ({
+                images: state.images.filter((img) => !ids.includes(img.id))
+            }));
+
+            return Promise.resolve();
+        } catch (error) {
+            console.error('批量删除失败:', error);
+            return Promise.reject(error);
+        }
     },
 })); 
