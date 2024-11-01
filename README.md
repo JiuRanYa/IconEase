@@ -82,14 +82,11 @@ IconEase respects your privacy:
 
 ## License
 
-IconEase is released under the MIT License. See the [LICENSE](LICENSE) file for details.
+IconEase is released under the MIT License. See the [LICENSE](https://github.com/JiuRanYa/IconEase/edit/main/LICENSE) file for details.
 
 ## Contact
 
-- 🌐 Website: https://iconease.com
-- 🐦 Twitter: [@IconEase](https://twitter.com/iconease)
-- 📧 Email: contact@iconease.com
-- 💼 GitHub: https://github.com/yourusername/iconease
+- 💼 GitHub: https://github.com/JiuRanYa
 
 ---
 
