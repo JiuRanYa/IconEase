@@ -2,9 +2,6 @@ import { create } from 'zustand';
 import { ImageItem } from '../types';
 import { db } from '../utils/db';
 import { useCategoryStore } from './categoryStore';
-import SHA256 from 'crypto-js/sha256';
-import Hex from 'crypto-js/enc-hex';
-import WordArray from 'crypto-js/lib-typedarrays';
 import { message } from '../components/Message/MessageContainer';
 
 interface ImageState {
@@ -160,19 +157,19 @@ export const useImageStore = create<ImageState>((set, get) => ({
 
         if (hasSameFileName) return true;
 
-        // 2. 检查内容哈希
-        if (newImage.binaryData) {
-            // 使用 crypto-js 计算哈希
-            const newWordArray = WordArray.create(newImage.binaryData);
-            const newHash = SHA256(newWordArray).toString(Hex);
-
-            return images.some(img => {
-                if (!img.binaryData) return false;
-                const existingWordArray = WordArray.create(img.binaryData);
-                const existingHash = SHA256(existingWordArray).toString(Hex);
-                return newHash === existingHash;
-            });
-        }
+        // // 2. 检查内容哈希
+        // if (newImage.binaryData) {
+        //     // 使用 crypto-js 计算哈希
+        //     const newWordArray = WordArray.create(newImage.binaryData);
+        //     const newHash = SHA256(newWordArray).toString(Hex);
+        //
+        //     return images.some(img => {
+        //         if (!img.binaryData) return false;
+        //         const existingWordArray = WordArray.create(img.binaryData);
+        //         const existingHash = SHA256(existingWordArray).toString(Hex);
+        //         return newHash === existingHash;
+        //     });
+        // }
 
         return false;
     },
