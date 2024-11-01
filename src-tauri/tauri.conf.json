@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "icon-set",
+  "productName": "IconEase",
   "version": "0.1.0",
   "identifier": "com.icon-set.app",
   "build": {
@@ -12,9 +12,9 @@
   "app": {
     "windows": [
       {
-        "title": "icon-set",
-        "width": 800,
-        "height": 600
+        "title": "IconEase",
+        "width": 1000,
+        "height": 660
       }
     ],
     "security": {

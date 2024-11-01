@@ -2,7 +2,21 @@
 
 IconEase is a powerful cross-platform desktop application for managing and organizing your image collections. Built with Tauri, React, and TypeScript, it provides a fast, efficient, and user-friendly interface for handling large image libraries.
 
-![IconEase Screenshot](screenshot.png)
+## Screenshots
+
+<div align="center">
+  <img src="public/demo-1.png" alt="Main Interface" width="600" />
+  <p><em>Main Interface - Light Theme</em></p>
+  
+  <img src="public/demo-2.png" alt="Category Management" width="600" />
+  <p><em>Category Management with Custom Emoji Icons</em></p>
+  
+  <img src="public/demo-3.png" alt="Image Viewer" width="600" />
+  <p><em>Advanced Image Viewer with Zoom Controls</em></p>
+  
+  <img src="public/demo-4.png" alt="Dark Theme" width="600" />
+  <p><em>Dark Theme Support</em></p>
+</div>
 
 ## Features
 
@@ -13,6 +27,7 @@ IconEase is a powerful cross-platform desktop application for managing and organ
 - ⭐ **Favorites System**: Mark and filter your favorite images
 - 🎯 **Custom Categories**: Create and manage categories with custom emoji icons
 - 🖥️ **Cross-Platform**: Works on Windows, macOS, and Linux
+- 🌓 **Theme Support**: Light and dark theme options
 
 ## Technology Stack
 
@@ -54,4 +69,9 @@ npm run tauri dev
 To create a production build:
 
 ```bash
-npm run tauri buil
+npm run tauri build
+```
+
+## License
+
+MIT License - see the [LICENSE](LICENSE) file for details.
