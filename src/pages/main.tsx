@@ -7,7 +7,7 @@ import { VirtualGrid } from '../components/VirtualGrid';
 import { useCallback } from 'react';
 import { ImageItem } from "../types";
 import { save } from '@tauri-apps/plugin-dialog';
-import { BaseDirectory, writeFile } from '@tauri-apps/plugin-fs';
+import { writeFile } from '@tauri-apps/plugin-fs';
 import { ConfirmDialog } from '../components/ConfirmDialog';
 import { message } from "../components/Message/MessageContainer";
 
