@@ -58,9 +58,16 @@ A modern, efficient desktop application for organizing and managing your icon co
 ## Download
 
 Get the latest version for your platform:
-- [📥 Windows](https://github.com/yourusername/iconease/releases)
 - [📥 macOS](https://github.com/yourusername/iconease/releases)
 - [📥 Linux](https://github.com/yourusername/iconease/releases)
+- [📥 Windows](https://github.com/yourusername/iconease/releases)
+
+I have no apple developer id, so when you download this app, skip the mac security certificate:
+
+```
+sudo xattr -rd com.apple.quarantine /Applications/IconEase.app
+
+```
 
 ## Contributing
 

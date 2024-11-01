@@ -69,7 +69,7 @@ export default () => {
         {/* Logo */}
         <div className="flex items-center">
           <span className="text-xl font-bold">IconEase</span>
-          <span className="ml-2 rounded bg-primary px-2 py-0.5 text-xs text-white">Pro</span>
+          <span className="ml-2 rounded bg-primary px-2 py-0.5 text-xs text-white">Beta</span>
         </div>
 
         {/* Search */}
