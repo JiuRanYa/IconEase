@@ -96,7 +96,7 @@ export default ({ showUpload = true }: MainProps) => {
 
     // 计算列数
     const getColumnCount = () => {
-        // 获取当前窗口宽度
+        // 获取当前窗��宽度
         const width = window.innerWidth;
 
         // md 断点 (768px) 时显示 4 列
@@ -308,11 +308,11 @@ export default ({ showUpload = true }: MainProps) => {
             // 批量删除
             await deleteImages(imageIds);
 
-            message.success(`成功删除 ${imageIds.length} 个图片`);
+            message.success(`Successfully deleted ${imageIds.length} images`);
             setIsDeleteModalOpen(false);
         } catch (error) {
-            message.error('删除失败');
-            console.error('删除失败:', error);
+            message.error('Failed to delete images');
+            console.error('Delete failed:', error);
         }
     };
 
@@ -385,10 +385,12 @@ export default ({ showUpload = true }: MainProps) => {
             {/* 使用封装的确认对话框组件 */}
             <ConfirmDialog
                 isOpen={isDeleteModalOpen}
-                title="删除分类图片"
-                content={`确定要删除 "${currentCategory.name}" 分类下的 ${images.length} 个图片吗？此操作不可撤销。`}
+                title="Delete Category Images"
+                content={`Are you sure you want to delete ${images.length} images in "${currentCategory.name}"? This action cannot be undone.`}
                 onConfirm={handleDeleteCategoryImages}
                 onCancel={() => setIsDeleteModalOpen(false)}
+                confirmText="Delete"
+                cancelText="Cancel"
                 type="error"
             />
         </div>

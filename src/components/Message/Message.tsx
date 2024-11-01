@@ -56,7 +56,7 @@ export const Message = ({ id, type, content, duration = 3000, onClose }: Message
     return (
         <div
             className={cn(
-                "alert shadow-lg max-w-xs w-full transition-all duration-300 transform",
+                "alert shadow-lg max-w-2xs w-full transition-all duration-300 transform",
                 "translate-x-[120%] opacity-0",
                 isVisible && !isLeaving && "translate-x-0 opacity-100",
                 isLeaving && "translate-x-[120%] opacity-0",
