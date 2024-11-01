@@ -7,7 +7,7 @@ import { VirtualGrid } from '../components/VirtualGrid';
 import { useCallback } from 'react';
 import { ImageItem } from "../types";
 import { save } from '@tauri-apps/plugin-dialog';
-import { writeFile } from '@tauri-apps/plugin-fs';
+import { BaseDirectory, writeFile } from '@tauri-apps/plugin-fs';
 import { ConfirmDialog } from '../components/ConfirmDialog';
 import { message } from "../components/Message/MessageContainer";
 
@@ -138,7 +138,7 @@ export default ({ showUpload = true }: MainProps) => {
                 if (filePath) {
                     // 将二进制数据写入文件
                     await writeFile(filePath, buffer, {
-                        baseDir: filePath
+                        baseDir: filePath as any
                     });
                 }
             } catch (error) {

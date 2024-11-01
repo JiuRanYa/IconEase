@@ -11,7 +11,7 @@ interface MessageInstance {
 
 let messageInstance: {
   messages: MessageInstance[];
-  setMessages: (messages: MessageInstance[]) => void;
+  setMessages: any
 } | null = null;
 
 const MessageContainer = () => {
@@ -54,7 +54,7 @@ export const message = {
     const instance = { id, type, content, duration };
 
     if (messageInstance) {
-      messageInstance.setMessages(prev => [...prev, instance]);
+      messageInstance.setMessages((prev: MessageInstance[]) => [...prev, instance]);
     }
 
     return id;
