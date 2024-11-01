@@ -7,7 +7,7 @@ A modern, efficient desktop application for organizing and managing your icon co
 <table>
   <tr>
     <td width="50%">
-      <img src="public/demo1.jpg" alt="Main Interface" width="100%"/>
+      <img src="public/demo4.jpg" alt="Main Interface" width="100%"/>
       <p align="center"><em>Intuitive Main Interface</em></p>
     </td>
     <td width="50%">
@@ -17,12 +17,12 @@ A modern, efficient desktop application for organizing and managing your icon co
   </tr>
   <tr>
     <td width="50%">
-      <img src="public/demo3.jpg" alt="Image Viewer" width="100%"/>
+      <img src="public/demo1.jpg" alt="Image Viewer" width="100%"/>
       <p align="center"><em>Advanced Image Viewer</em></p>
     </td>
     <td width="50%">
-      <img src="public/demo4.jpg" alt="Dark Theme" width="100%"/>
-      <p align="center"><em>Dark Theme Support</em></p>
+      <img src="public/demo3.jpg" alt="Dark Theme" width="100%"/>
+      <p align="center"><em>Clear All Locale Data</em></p>
     </td>
   </tr>
 </table>
