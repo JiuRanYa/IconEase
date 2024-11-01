@@ -1,6 +1,12 @@
-# IconEase
+<p align="center">
+  <img src="public/icon.png" alt="IconEase Logo" width="128" height="128" />
+</p>
 
-A modern, efficient desktop application for organizing and managing your icon collections. Perfect for designers, developers, and digital artists who need quick access to their icon libraries.
+<h1 align="center">IconEase</h1>
+
+<p align="center">
+  A modern, efficient desktop application for organizing and managing your icon collections. Perfect for designers, developers, and digital artists who need quick access to their icon libraries.
+</p>
 
 ## Screenshots
 
