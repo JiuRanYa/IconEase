@@ -90,7 +90,7 @@ export default ({ showUpload = true }: MainProps) => {
 
             await addImages(newImages);
         } catch (error) {
-            console.error('上传图片失败:', error);
+            message.error(`上传图片失败:${error}`);
         }
     };
 
@@ -142,7 +142,7 @@ export default ({ showUpload = true }: MainProps) => {
                     });
                 }
             } catch (error) {
-                console.error('Download failed:', error);
+                message.error(`Download failed: ${error}`);
             }
         };
 
@@ -311,8 +311,7 @@ export default ({ showUpload = true }: MainProps) => {
             message.success(`Successfully deleted ${imageIds.length} images`);
             setIsDeleteModalOpen(false);
         } catch (error) {
-            message.error('Failed to delete images');
-            console.error('Delete failed:', error);
+            message.error(`Delete failed: ${error}`);
         }
     };
 

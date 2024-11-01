@@ -41,7 +41,7 @@ export const useImageStore = create<ImageState>((set, get) => ({
             set({ images });
             useCategoryStore.getState().updateCounts();
         } catch (error) {
-            console.error('初始化图片失败:', error);
+            message.error(`初始化图片失败: ${error}`);
         } finally {
             set({ isLoading: false });
         }
@@ -186,7 +186,7 @@ export const useImageStore = create<ImageState>((set, get) => ({
 
             return Promise.resolve();
         } catch (error) {
-            console.error('批量删除失败:', error);
+            message.error(`批量删除失败: ${error}`);
             return Promise.reject(error);
         }
     },
