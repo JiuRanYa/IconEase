@@ -234,7 +234,7 @@ export default ({ showUpload = true }: MainProps) => {
 
   // 渲染上传按钮
   const renderUploadButton = useCallback(() => (
-    <label key={0} className="aspect-square rounded-lg border-2 border-base-200 bg-gray-50 cursor-pointer hover:bg-gray-100 transition-colors">
+    <label key={0} className="aspect-square rounded-lg border relative overflow-hidden bg-gray-50 transition-colors border-gray-200 hover:bg-gray-100">
       <input
         type="file"
         className="hidden"
