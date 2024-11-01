@@ -11,15 +11,27 @@ importers:
       '@tauri-apps/api':
         specifier: ^2
         version: 2.0.3
+      '@tauri-apps/plugin-dialog':
+        specifier: ^2.0.1
+        version: 2.0.1
+      '@tauri-apps/plugin-fs':
+        specifier: ^2.0.1
+        version: 2.0.1
       '@tauri-apps/plugin-shell':
         specifier: ^2
         version: 2.0.1
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
+      dialog:
+        specifier: link:@tauri-apps/api/dialog
+        version: link:@tauri-apps/api/dialog
       emoji-picker-react:
         specifier: ^4.12.0
         version: 4.12.0(react@18.3.1)
+      fs:
+        specifier: link:@tauri-apps/api/fs
+        version: link:@tauri-apps/api/fs
       react:
         specifier: ^18.2.0
         version: 18.3.1
@@ -500,6 +512,12 @@ packages:
     resolution: {integrity: sha512-Hl9eFXz+O366+6su9PfaSzu2EJdFe1p8K8ghkWmi40dz8VmSE7vsMTaOStD0I71ckSOkh2ICDX7FQTBgjlpjWw==}
     engines: {node: '>= 10'}
     hasBin: true
+
+  '@tauri-apps/plugin-dialog@2.0.1':
+    resolution: {integrity: sha512-fnUrNr6EfvTqdls/ufusU7h6UbNFzLKvHk/zTuOiBq01R3dTODqwctZlzakdbfSp/7pNwTKvgKTAgl/NAP/Z0Q==}
+
+  '@tauri-apps/plugin-fs@2.0.1':
+    resolution: {integrity: sha512-PkeZG2WAob9Xpmr66aPvj+McDVgFjV2a7YBzYVZjiCvbGeMs6Yk09tlXhCe3EyZdT/pwWMSi8lXUace+hlsjsw==}
 
   '@tauri-apps/plugin-shell@2.0.1':
     resolution: {integrity: sha512-akU1b77sw3qHiynrK0s930y8zKmcdrSD60htjH+mFZqv5WaakZA/XxHR3/sF1nNv9Mgmt/Shls37HwnOr00aSw==}
@@ -1472,6 +1490,14 @@ snapshots:
       '@tauri-apps/cli-win32-arm64-msvc': 2.0.4
       '@tauri-apps/cli-win32-ia32-msvc': 2.0.4
       '@tauri-apps/cli-win32-x64-msvc': 2.0.4
+
+  '@tauri-apps/plugin-dialog@2.0.1':
+    dependencies:
+      '@tauri-apps/api': 2.0.3
+
+  '@tauri-apps/plugin-fs@2.0.1':
+    dependencies:
+      '@tauri-apps/api': 2.0.3
 
   '@tauri-apps/plugin-shell@2.0.1':
     dependencies:
