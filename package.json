@@ -17,6 +17,7 @@
     "@tauri-apps/plugin-fs": "^2.0.1",
     "@tauri-apps/plugin-shell": "^2",
     "clsx": "^2.1.1",
+    "crypto-js": "^4.2.0",
     "dialog": "link:@tauri-apps/api/dialog",
     "emoji-picker-react": "^4.12.0",
     "fs": "link:@tauri-apps/api/fs",
@@ -27,6 +28,7 @@
   },
   "devDependencies": {
     "@tauri-apps/cli": "^2",
+    "@types/crypto-js": "^4.2.2",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
     "@vitejs/plugin-react": "^4.2.1",
