@@ -4,18 +4,28 @@ IconEase is a powerful cross-platform desktop application for managing and organ
 
 ## Screenshots
 
-<div style="display: flex;" align="center">
-  <img src="public/demo1.jpg" alt="Main Interface" width="600" />
-  <p><em>Main Interface - Light Theme</em></p>
+<div align="center">
+  <div style="display: flex; gap: 20px; margin-bottom: 20px;">
+    <div style="flex: 1;">
+      <img src="public/demo1.jpg" alt="Main Interface" style="width: 100%; border-radius: 8px;" />
+      <p><em>Images preview</em></p>
+    </div>
+    <div style="flex: 1;">
+      <img src="public/demo2.jpg" alt="Category Management" style="width: 100%; border-radius: 8px;" />
+      <p><em>Category Management with Custom Emoji Icons</em></p>
+    </div>
+  </div>
   
-  <img src="public/demo2.jpg" alt="Category Management" width="600" />
-  <p><em>Category Management with Custom Emoji Icons</em></p>
-  
-  <img src="public/demo3.jpg" alt="Image Viewer" width="600" />
-  <p><em>Advanced Image Viewer with Zoom Controls</em></p>
-  
-  <img src="public/demo4.jpg" alt="Dark Theme" width="600" />
-  <p><em>Dark Theme Support</em></p>
+  <div style="display: flex; gap: 20px;">
+    <div style="flex: 1;">
+      <img src="public/demo3.jpg" alt="Image Viewer" style="width: 100%; border-radius: 8px;" />
+      <p><em>Clear all your images data</em></p>
+    </div>
+    <div style="flex: 1;">
+      <img src="public/demo4.jpg" alt="Dark Theme" style="width: 100%; border-radius: 8px;" />
+      <p><em>Clear layout design</em></p>
+    </div>
+  </div>
 </div>
 
 ## Features
