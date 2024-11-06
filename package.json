@@ -12,6 +12,7 @@
     "package": "cd ./src-tauri && tauri build"
   },
   "dependencies": {
+    "@headlessui/react": "^2.2.0",
     "@tauri-apps/api": "^2",
     "@tauri-apps/plugin-dialog": "^2.0.1",
     "@tauri-apps/plugin-fs": "^2.0.1",
@@ -23,6 +24,7 @@
     "fs": "link:@tauri-apps/api/fs",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-popper": "^2.3.0",
     "react-window": "^1.8.10",
     "tailwind-merge": "^2.5.4"
   },

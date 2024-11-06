@@ -13,6 +13,7 @@ interface CategoryState {
     getFavoritesCount: () => number;
     updateCounts: () => void;
     clearCategories: () => void;
+    deleteCategory: (categoryId: string) => void;
 }
 
 export const useCategoryStore = create(
@@ -42,9 +43,23 @@ export const useCategoryStore = create(
                 categories: [{ id: 'all', name: 'All', icon: '📋' }],
                 activeCategory: 'all'
             })),
+            deleteCategory: (categoryId: string) => {
+                if (categoryId === 'all') return;
+
+                set((state) => ({
+                    categories: state.categories.filter(c => c.id !== categoryId),
+                    activeCategory: state.activeCategory === categoryId ? 'all' : state.activeCategory
+                }));
+
+                const images = useImageStore.getState().images;
+                const imageIds = images
+                    .filter(img => img.categoryId === categoryId)
+                    .map(img => img.id);
+                useImageStore.getState().deleteImages(imageIds);
+            },
         }),
         {
-            name: 'category-storage', // 存储的键名
+            name: 'category-storage',
         }
     )
 );

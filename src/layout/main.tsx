@@ -1,14 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
 import { useCategoryStore } from "../stores/categoryStore";
 import { CategoryStoreSubscriber } from "../stores/categoryStore";
 import { useImageStore } from "../stores/imageStore";
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
-import { PlusIcon, HeartIcon, SearchIcon, ChevronLeftIcon, HamburgerIcon } from '../components/icons';
+import { PlusIcon, HeartIcon, SearchIcon, ChevronLeftIcon, HamburgerIcon, DeleteIcon } from '../components/icons';
 import { cn } from '../utils/cn';
 
 export default () => {
-  const { categories, activeCategory, setActiveCategory, getCategoryCount, getFavoritesCount, addCategory } = useCategoryStore();
+  const { categories, activeCategory, setActiveCategory, getCategoryCount, getFavoritesCount, addCategory, deleteCategory } = useCategoryStore();
   const location = useLocation();
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -18,6 +18,8 @@ export default () => {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const { searchQuery, setSearchQuery } = useImageStore();
+  const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 });
+  const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
 
   // 处理分类点击
   const handleCategoryClick = (categoryId: string) => {
@@ -59,6 +61,32 @@ export default () => {
     }
     setIsConfirmModalOpen(false);
   };
+
+  const handleContextMenu = (e: React.MouseEvent, categoryId: string) => {
+    e.preventDefault();
+    if (categoryId === 'all') return; // 禁止对 'all' 分类使用右键菜单
+
+    setContextMenuPosition({ x: e.clientX, y: e.clientY });
+    setSelectedCategoryId(categoryId);
+  };
+
+  const handleDeleteCategory = () => {
+    if (selectedCategoryId) {
+      deleteCategory(selectedCategoryId);
+      setSelectedCategoryId(null);
+    }
+  };
+
+  useEffect(() => {
+    const handleClickOutside = () => {
+      setSelectedCategoryId(null);
+    };
+
+    document.addEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, []);
 
   return (
     <div className="h-screen w-full bg-base-100">
@@ -165,31 +193,55 @@ export default () => {
           {/* Categories list */}
           <div className={cn("flex-1 space-y-1 overflow-y-auto p-4 text-sm")}>
             {categories.map((category) => (
-              <a
+              <div
                 key={category.id}
-                className={cn(
-                  "flex items-center rounded-lg px-3 py-2 transition relative cursor-pointer",
-                  activeCategory === category.id && location.pathname === '/home' ? 'bg-base-200' : 'hover:bg-base-200',
-                  isSidebarCollapsed ? 'justify-center' : 'gap-2',
-                )}
-                onClick={() => handleCategoryClick(category.id)}
-                title={isSidebarCollapsed ? category.name : undefined}
+                onContextMenu={(e) => handleContextMenu(e, category.id)}
+                className="relative"
               >
-                <div className="flex-shrink-0">
-                  <span className="text-xs transition-all duration-500">
-                    {category.icon}
-                  </span>
-                </div>
-                <div className={cn(
-                  "flex-1 whitespace-nowrap transition-all duration-500 flex items-center justify-between overflow-hidden",
-                  isSidebarCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'
-                )}>
-                  <span>{category.name}</span>
-                  <span className="text-xs text-base-content/50">
-                    {getCategoryCount(category.id)}
-                  </span>
-                </div>
-              </a>
+                <a
+                  className={cn(
+                    "flex items-center rounded-lg px-3 py-2 transition relative cursor-pointer",
+                    activeCategory === category.id && location.pathname === '/home' ? 'bg-base-200' : 'hover:bg-base-200',
+                    isSidebarCollapsed ? 'justify-center' : 'gap-2',
+                  )}
+                  onClick={() => handleCategoryClick(category.id)}
+                  title={isSidebarCollapsed ? category.name : undefined}
+                >
+                  <div className="flex-shrink-0">
+                    <span className="text-xs transition-all duration-500">
+                      {category.icon}
+                    </span>
+                  </div>
+                  <div className={cn(
+                    "flex-1 whitespace-nowrap transition-all duration-500 flex items-center justify-between overflow-hidden",
+                    isSidebarCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'
+                  )}>
+                    <span>{category.name}</span>
+                    <span className="text-xs text-base-content/50">
+                      {getCategoryCount(category.id)}
+                    </span>
+                  </div>
+                </a>
+
+                {/* Context Menu */}
+                {selectedCategoryId === category.id && (
+                  <div
+                    className="fixed z-50 min-w-[160px] bg-base-100 rounded-lg shadow-lg border border-base-300 py-1 overflow-hidden"
+                    style={{
+                      left: `${contextMenuPosition.x}px`,
+                      top: `${contextMenuPosition.y}px`
+                    }}
+                  >
+                    <button
+                      className="w-full px-4 py-2 text-sm text-error hover:bg-base-200 text-left flex items-center gap-2 transition-colors"
+                      onClick={handleDeleteCategory}
+                    >
+                      <DeleteIcon className="h-4 w-4" />
+                      <span>删除分类及图片</span>
+                    </button>
+                  </div>
+                )}
+              </div>
             ))}
 
             {/* Add category button */}
