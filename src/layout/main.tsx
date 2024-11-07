@@ -137,7 +137,7 @@ export default () => {
         <div className={cn(
           "fixed left-0 top-16 bottom-0 flex flex-col bg-base-100 border-r border-base-200 transition-all duration-500 ease-in-out",
           isSidebarCollapsed ? 'w-16' : 'w-64'
-        )}>
+        )} style={{ zIndex: 100 }}>
           <div className="space-y-2 p-4 text-sm">
             {/* New Icons button */}
             <div className={cn(
@@ -226,14 +226,14 @@ export default () => {
                 {/* Context Menu */}
                 {selectedCategoryId === category.id && (
                   <div
-                    className="fixed z-50 min-w-[160px] bg-base-100 rounded-lg shadow-lg border border-base-300 py-1 overflow-hidden"
+                    className="fixed z-[100] min-w-[160px] bg-base-100 rounded-lg shadow-lg border border-base-300 p-1.5 overflow-hidden"
                     style={{
                       left: `${contextMenuPosition.x}px`,
                       top: `${contextMenuPosition.y}px`
                     }}
                   >
                     <button
-                      className="w-full px-4 py-2 text-sm text-error hover:bg-base-200 text-left flex items-center gap-2 transition-colors"
+                      className="w-full px-4 py-2 text-sm hover:bg-base-200 text-left flex items-center gap-2.5 transition-colors rounded-md"
                       onClick={handleDeleteCategory}
                     >
                       <DeleteIcon className="h-4 w-4" />
