@@ -6,6 +6,7 @@ import { useImageStore } from "../stores/imageStore";
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 import { PlusIcon, HeartIcon, SearchIcon, ChevronLeftIcon, HamburgerIcon, DeleteIcon } from '../components/icons';
 import { cn } from '../utils/cn';
+import { ConfirmDialog } from '../components/ConfirmDialog';
 
 export default () => {
   const { categories, activeCategory, setActiveCategory, getCategoryCount, getFavoritesCount, addCategory, deleteCategory } = useCategoryStore();
@@ -20,6 +21,8 @@ export default () => {
   const { searchQuery, setSearchQuery } = useImageStore();
   const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 });
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
+  const [isDeleteCategoryModalOpen, setIsDeleteCategoryModalOpen] = useState(false);
+  const [categoryToDelete, setCategoryToDelete] = useState<string | null>(null);
 
   // 处理分类点击
   const handleCategoryClick = (categoryId: string) => {
@@ -72,8 +75,17 @@ export default () => {
 
   const handleDeleteCategory = () => {
     if (selectedCategoryId) {
-      deleteCategory(selectedCategoryId);
-      setSelectedCategoryId(null);
+      setCategoryToDelete(selectedCategoryId);
+      setIsDeleteCategoryModalOpen(true);
+      setSelectedCategoryId(null); // 关闭右键菜单
+    }
+  };
+
+  const handleConfirmDeleteCategory = () => {
+    if (categoryToDelete) {
+      deleteCategory(categoryToDelete);
+      setCategoryToDelete(null);
+      setIsDeleteCategoryModalOpen(false);
     }
   };
 
@@ -403,6 +415,20 @@ export default () => {
           <button>close</button>
         </form>
       </dialog>
+
+      <ConfirmDialog
+        isOpen={isDeleteCategoryModalOpen}
+        title="Delete Category"
+        content={`Are you sure you want to delete this category and all its images? This action cannot be undone.`}
+        onConfirm={handleConfirmDeleteCategory}
+        onCancel={() => {
+          setIsDeleteCategoryModalOpen(false);
+          setCategoryToDelete(null);
+        }}
+        confirmText="Delete"
+        cancelText="Cancel"
+        type="error"
+      />
     </div>
   );
 };
