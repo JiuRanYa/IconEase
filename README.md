@@ -68,7 +68,7 @@
 ## Download
 
 Get the latest version for your platform:
-- [📥 macOS](https://github.com/JiuRanYa/IconEase/releases/tag/v1.0.0)
+- [📥 macOS](https://github.com/JiuRanYa/IconEase/releases/tag/v1.0.1)
 - [📥 Linux Support later](https://github.com/yourusername/iconease/releases)
 - [📥 Windows Support later](https://github.com/yourusername/iconease/releases)
 
