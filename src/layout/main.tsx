@@ -175,7 +175,7 @@ export default () => {
             <HamburgerIcon className="h-4 w-4" />
           </div>
 
-          <ul tabIndex={0} className="dropdown-content menu mt-2 z-[1] p-2 shadow-lg bg-base-100 rounded-box w-64">
+          <ul tabIndex={0} className="dropdown-content menu mt-2 z-[1] p-2 shadow-lg bg-base-100 rounded-box w-64 border">
             {/* 工作区列表 */}
             <li className="menu-title">
               <span>工作区</span>
