@@ -177,9 +177,9 @@ export default () => {
 
           <ul tabIndex={0} className="dropdown-content menu mt-2 z-[1] p-2 shadow-lg bg-base-100 rounded-box w-64 border">
             {/* 工作区列表 */}
-            <li className="menu-title">
+            <div className="text-gray-400 font-bold px-4 py-2">
               <span>工作区</span>
-            </li>
+            </div>
             {workspaces.map(workspace => (
               <li key={workspace.id}>
                 <div className="flex items-center">

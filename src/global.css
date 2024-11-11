@@ -12,3 +12,36 @@ body {
 .modal-box {
   overflow: unset;
 }
+
+/* 修改菜单项的激活和悬停状态 */
+.menu li>*:not(ul):not(.menu-title):not(details):active,
+.menu li>*:not(ul):not(.menu-title):not(details).active,
+.menu li>details>summary:active {
+    @apply bg-transparent;
+    /* 移除激活时的背景色 */
+    color: hsl(var(--p));
+    /* 使用主题色 */
+}
+
+/* 修改菜单项的悬停状态 */
+.menu li>*:not(ul):not(.menu-title):not(details):hover,
+.menu li>details>summary:hover {
+    @apply bg-base-200;
+    /* 使用更柔和的背景色 */
+    color: hsl(var(--p));
+    /* 使用主题色 */
+}
+
+/* 当前选中项的样式 */
+.menu li>*:not(ul):not(.menu-title):not(details).active {
+    @apply bg-base-200;
+    /* 使用更柔和的背景色 */
+    color: hsl(var(--p));
+    /* 使用主题色 */
+}
+
+/* 确保焦点状态也使用相同的样式 */
+.menu li>*:not(ul):not(.menu-title):not(details):focus {
+    @apply bg-base-200;
+    color: hsl(var(--p));
+}
