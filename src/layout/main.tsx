@@ -4,7 +4,7 @@ import { useCategoryStore } from "../stores/categoryStore";
 import { CategoryStoreSubscriber } from "../stores/categoryStore";
 import { useImageStore } from "../stores/imageStore";
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
-import { PlusIcon, HeartIcon, SearchIcon, ChevronLeftIcon, HamburgerIcon, DeleteIcon } from '../components/icons';
+import { PlusIcon, HeartIcon, SearchIcon, ChevronLeftIcon, HamburgerIcon, DeleteIcon, PencilIcon } from '../components/icons';
 import { cn } from '../utils/cn';
 import { ConfirmDialog } from '../components/ConfirmDialog';
 import { useWorkspaceStore } from "../stores/workspaceStore";
@@ -29,6 +29,8 @@ export default () => {
   const [isDeleteCategoryModalOpen, setIsDeleteCategoryModalOpen] = useState(false);
   const [categoryToDelete, setCategoryToDelete] = useState<string | null>(null);
   const {
+    currentWorkspace,
+    workspaces,
     switchWorkspace,
     addWorkspace,
     deleteWorkspace,
@@ -139,9 +141,6 @@ export default () => {
         <div className="flex items-center gap-4">
           <span className="text-xl font-bold">IconEase</span>
 
-          {/* 工作区选择器 */}
-          <WorkspaceManager onSwitch={handleWorkspaceSwitch} />
-
           <span className="rounded bg-primary px-2 py-0.5 text-xs text-white">Beta</span>
         </div>
 
@@ -159,20 +158,101 @@ export default () => {
 
         {/* Menu Button */}
         <div className="dropdown dropdown-end">
-          <div role="button" tabIndex={0}>
-            <HamburgerIcon className="h-5 w-5 swap-off fill-current" />
+          <div role="button" tabIndex={0} className="btn btn-ghost btn-sm">
+            <span className="mr-2">{currentWorkspace.name}</span>
+            <HamburgerIcon className="h-4 w-4" />
           </div>
-          <ul className={cn(
-            "menu dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52",
-          )} tabIndex={0}>
+
+          <ul tabIndex={0} className="dropdown-content menu mt-2 z-[1] p-2 shadow-lg bg-base-100 rounded-box w-64">
+            {/* 工作区列表 */}
+            <li className="menu-title">
+              <span>工作区</span>
+            </li>
+            {workspaces.map(workspace => (
+              <li key={workspace.id}>
+                <button
+                  onClick={async (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    await handleWorkspaceSwitch(workspace.id);
+                    // 手动关闭下拉菜单
+                    const dropdown = e.currentTarget.closest('.dropdown') as HTMLElement;
+                    if (dropdown) {
+                      dropdown.removeAttribute('open');
+                    }
+                  }}
+                  className={cn(
+                    "w-full flex items-center gap-2 py-2",
+                    workspace.id === currentWorkspace.id && "active"
+                  )}
+                >
+                  <div className="flex-1 flex items-center gap-2">
+                    <div className={cn(
+                      "w-2 h-2 rounded-full",
+                      workspace.id === currentWorkspace.id ? "bg-primary" : "bg-base-300"
+                    )} />
+                    <span>{workspace.name}</span>
+                  </div>
+
+                  {workspace.id !== 'default' && (
+                    <div className="flex gap-1 opacity-50 hover:opacity-100">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setWorkspaceToEdit(workspace);
+                          setShowEditWorkspaceModal(true);
+                        }}
+                        className="btn btn-ghost btn-xs px-1"
+                      >
+                        <PencilIcon className="h-3.5 w-3.5" />
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setWorkspaceToDelete(workspace.id);
+                          setShowDeleteWorkspaceConfirm(true);
+                        }}
+                        className="btn btn-ghost btn-xs px-1"
+                      >
+                        <DeleteIcon className="h-3.5 w-3.5" />
+                      </button>
+                    </div>
+                  )}
+                </button>
+              </li>
+            ))}
+
+            {/* 新建工作区按钮 */}
+            <li className="mt-2">
+              <button
+                onClick={() => setShowWorkspaceModal(true)}
+                className="btn btn-ghost btn-sm justify-start text-base-content/70 hover:text-base-content"
+              >
+                <PlusIcon className="h-4 w-4" />
+                <span>新建工作区</span>
+              </button>
+            </li>
+
+            <div className="divider my-1"></div>
+
+            {/* 其他菜单项 */}
             <li>
-              <a onClick={() => {
-                setIsConfirmModalOpen(true);
-              }}>
-                Reset
+              <a
+                onClick={() => setIsConfirmModalOpen(true)}
+                className="flex items-center gap-2"
+              >
+                <DeleteIcon className="h-4 w-4" />
+                <span>Reset</span>
               </a>
             </li>
-            <li><a>Export Config</a></li>
+            <li>
+              <a className="flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                <span>Export Config</span>
+              </a>
+            </li>
           </ul>
         </div>
       </div>
