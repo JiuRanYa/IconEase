@@ -89,7 +89,7 @@ export default ({ showUpload = true }: MainProps) => {
         };
       }));
 
-      await addImages(newImages);
+      await addImages(newImages as any);
     } catch (error) {
       message.error(`上传图片失败:${error}`);
     }

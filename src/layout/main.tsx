@@ -12,6 +12,7 @@ import { NewWorkspaceModal } from '../components/workspace/NewWorkspaceModal';
 import { LoadingOverlay } from '../components/LoadingOverlay';
 import { EditWorkspaceModal } from "../components/workspace/EditWorkspaceModal";
 import { Welcome } from '../pages/Welcome';
+import { Workspace } from "../types";
 
 export default () => {
   const { currentWorkspace, workspaces, switchWorkspace, deleteWorkspace, updateWorkspace, addWorkspace } = useWorkspaceStore();
@@ -68,7 +69,7 @@ export default () => {
 
   // 处理添加分类
   const handleAddCategory = () => {
-    if (!newCategoryName.trim()) return;
+    if (!newCategoryName.trim() || !currentWorkspace) return;
 
     const newCategory = {
       id: `category-${Date.now()}`,
@@ -128,7 +129,7 @@ export default () => {
   const handleWorkspaceSwitch = async (workspaceId: string) => {
     setIsLoading(true);
     try {
-      await switchWorkspace(workspaceId);
+      switchWorkspace(workspaceId);
     } finally {
       setIsLoading(false);
     }

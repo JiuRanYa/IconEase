@@ -81,7 +81,9 @@ export const useImageStore = create<ImageState>((set, get) => ({
                         binaryData,
                         url: URL.createObjectURL(blob),
                         workspaceId: currentWorkspaceId,
-                    };
+                        isFavorite: false,
+                        createdAt: Date.now(),
+                    } as ImageItem;
                 })
             );
 
@@ -134,9 +136,11 @@ export const useImageStore = create<ImageState>((set, get) => ({
         set({ images: newImages });
     },
 
-    getImagesByCategory: (categoryId) => {
+    getImagesByCategory: (categoryId: string) => {
         const { images } = get();
-        const workspaceId = useWorkspaceStore.getState().currentWorkspace.id;
+        const workspaceId = useWorkspaceStore.getState().currentWorkspace?.id;
+        if (!workspaceId) return [];
+
         const workspaceImages = images.filter(img => img.workspaceId === workspaceId);
 
         return categoryId === 'all'
@@ -146,7 +150,9 @@ export const useImageStore = create<ImageState>((set, get) => ({
 
     getFavoriteImages: () => {
         const { images } = get();
-        const workspaceId = useWorkspaceStore.getState().currentWorkspace.id;
+        const workspaceId = useWorkspaceStore.getState().currentWorkspace?.id;
+        if (!workspaceId) return [];
+
         return images.filter(img =>
             img.workspaceId === workspaceId && img.isFavorite
         );
@@ -156,9 +162,10 @@ export const useImageStore = create<ImageState>((set, get) => ({
         set({ searchQuery: query });
     },
 
-    getFilteredImages: (categoryId) => {
+    getFilteredImages: (categoryId: string) => {
         const { images, searchQuery } = get();
-        const workspaceId = useWorkspaceStore.getState().currentWorkspace.id;
+        const workspaceId = useWorkspaceStore.getState().currentWorkspace?.id;
+        if (!workspaceId) return [];
 
         // 首先过滤当前工作区的图片
         let filteredImages = images.filter(img => img.workspaceId === workspaceId);

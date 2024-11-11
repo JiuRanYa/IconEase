@@ -51,7 +51,7 @@ export const useCategoryStore = create(
       },
       getCategoryCount: (categoryId) => {
         const images = useImageStore.getState().images;
-        const workspaceId = useWorkspaceStore.getState().currentWorkspace.id;
+        const workspaceId = useWorkspaceStore.getState().currentWorkspace?.id;
         const workspaceImages = images.filter(img => img.workspaceId === workspaceId);
 
         return categoryId === 'all'
@@ -66,7 +66,7 @@ export const useCategoryStore = create(
         set((state) => ({ ...state }));
       },
       clearCategories: () => {
-        const workspaceId = useWorkspaceStore.getState().currentWorkspace.id;
+        const workspaceId = useWorkspaceStore.getState().currentWorkspace?.id;
         set((state) => ({
           categories: state.categories.filter(c =>
             c.id === 'all' || c.workspaceId !== workspaceId
@@ -77,7 +77,7 @@ export const useCategoryStore = create(
       deleteCategory: (categoryId: string) => {
         if (categoryId === 'all') return;
 
-        const workspaceId = useWorkspaceStore.getState().currentWorkspace.id;
+        const workspaceId = useWorkspaceStore.getState().currentWorkspace?.id;
 
         set((state) => ({
           categories: state.categories.filter(c =>
