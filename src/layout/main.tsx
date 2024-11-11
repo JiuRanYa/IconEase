@@ -193,10 +193,7 @@ export default () => {
                         dropdownButton.blur(); // 移除焦点以关闭下拉菜单
                       }
                     }}
-                    className={cn(
-                      "flex-1 flex items-center gap-2 py-2",
-                      workspace.id === currentWorkspace.id && "active"
-                    )}
+                    className={cn("flex-1 flex items-center gap-2")}
                   >
                     <div className="flex-1 flex items-center gap-2">
                       <div className={cn(
@@ -207,42 +204,40 @@ export default () => {
                     </div>
                   </a>
 
-                  {workspace.id !== 'default' && (
-                    <div className="flex gap-1 opacity-50 hover:opacity-100 px-2">
-                      <a
-                        onClick={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          setWorkspaceToEdit(workspace);
-                          setShowEditWorkspaceModal(true);
-                          // 同样使用 blur() 关闭下拉菜单
-                          const dropdownButton = document.activeElement as HTMLElement;
-                          if (dropdownButton) {
-                            dropdownButton.blur();
-                          }
-                        }}
-                        className="btn btn-ghost btn-xs px-1"
-                      >
-                        <PencilIcon className="h-3.5 w-3.5" />
-                      </a>
-                      <a
-                        onClick={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          setWorkspaceToDelete(workspace.id);
-                          setShowDeleteWorkspaceConfirm(true);
-                          // 同样使用 blur() 关闭下拉菜单
-                          const dropdownButton = document.activeElement as HTMLElement;
-                          if (dropdownButton) {
-                            dropdownButton.blur();
-                          }
-                        }}
-                        className="btn btn-ghost btn-xs px-1"
-                      >
-                        <DeleteIcon className="h-3.5 w-3.5" />
-                      </a>
-                    </div>
-                  )}
+                  <div className="flex gap-1 opacity-50 hover:opacity-100 px-2">
+                    <a
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setWorkspaceToEdit(workspace);
+                        setShowEditWorkspaceModal(true);
+                        // 同样使用 blur() 关闭下拉菜单
+                        const dropdownButton = document.activeElement as HTMLElement;
+                        if (dropdownButton) {
+                          dropdownButton.blur();
+                        }
+                      }}
+                      className="btn btn-ghost btn-xs px-1"
+                    >
+                      <PencilIcon className="h-3.5 w-3.5" />
+                    </a>
+                    <a
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setWorkspaceToDelete(workspace.id);
+                        setShowDeleteWorkspaceConfirm(true);
+                        // 同样使用 blur() 关闭下拉菜单
+                        const dropdownButton = document.activeElement as HTMLElement;
+                        if (dropdownButton) {
+                          dropdownButton.blur();
+                        }
+                      }}
+                      className="btn btn-ghost btn-xs px-1"
+                    >
+                      <DeleteIcon className="h-3.5 w-3.5" />
+                    </a>
+                  </div>
                 </div>
               </li>
             ))}
