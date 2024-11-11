@@ -178,67 +178,81 @@ export default () => {
             </li>
             {workspaces.map(workspace => (
               <li key={workspace.id}>
-                <button
-                  onClick={async (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    await handleWorkspaceSwitch(workspace.id);
-                    // 手动关闭下拉菜单
-                    const dropdown = e.currentTarget.closest('.dropdown') as HTMLElement;
-                    if (dropdown) {
-                      dropdown.removeAttribute('open');
-                    }
-                  }}
-                  className={cn(
-                    "w-full flex items-center gap-2 py-2",
-                    workspace.id === currentWorkspace.id && "active"
-                  )}
-                >
-                  <div className="flex-1 flex items-center gap-2">
-                    <div className={cn(
-                      "w-2 h-2 rounded-full",
-                      workspace.id === currentWorkspace.id ? "bg-primary" : "bg-base-300"
-                    )} />
-                    <span>{workspace.name}</span>
-                  </div>
+                <div className="flex items-center">
+                  <a
+                    onClick={async (e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      await handleWorkspaceSwitch(workspace.id);
+                      // 使用更可靠的方式关闭下拉菜单
+                      const dropdownButton = document.activeElement as HTMLElement;
+                      if (dropdownButton) {
+                        dropdownButton.blur(); // 移除焦点以关闭下拉菜单
+                      }
+                    }}
+                    className={cn(
+                      "flex-1 flex items-center gap-2 py-2",
+                      workspace.id === currentWorkspace.id && "active"
+                    )}
+                  >
+                    <div className="flex-1 flex items-center gap-2">
+                      <div className={cn(
+                        "w-2 h-2 rounded-full",
+                        workspace.id === currentWorkspace.id ? "bg-primary" : "bg-base-300"
+                      )} />
+                      <span>{workspace.name}</span>
+                    </div>
+                  </a>
 
                   {workspace.id !== 'default' && (
-                    <div className="flex gap-1 opacity-50 hover:opacity-100">
-                      <button
+                    <div className="flex gap-1 opacity-50 hover:opacity-100 px-2">
+                      <a
                         onClick={(e) => {
+                          e.preventDefault();
                           e.stopPropagation();
                           setWorkspaceToEdit(workspace);
                           setShowEditWorkspaceModal(true);
+                          // 同样使用 blur() 关闭下拉菜单
+                          const dropdownButton = document.activeElement as HTMLElement;
+                          if (dropdownButton) {
+                            dropdownButton.blur();
+                          }
                         }}
                         className="btn btn-ghost btn-xs px-1"
                       >
                         <PencilIcon className="h-3.5 w-3.5" />
-                      </button>
-                      <button
+                      </a>
+                      <a
                         onClick={(e) => {
+                          e.preventDefault();
                           e.stopPropagation();
                           setWorkspaceToDelete(workspace.id);
                           setShowDeleteWorkspaceConfirm(true);
+                          // 同样使用 blur() 关闭下拉菜单
+                          const dropdownButton = document.activeElement as HTMLElement;
+                          if (dropdownButton) {
+                            dropdownButton.blur();
+                          }
                         }}
                         className="btn btn-ghost btn-xs px-1"
                       >
                         <DeleteIcon className="h-3.5 w-3.5" />
-                      </button>
+                      </a>
                     </div>
                   )}
-                </button>
+                </div>
               </li>
             ))}
 
             {/* 新建工作区按钮 */}
             <li className="mt-2">
-              <button
+              <a
                 onClick={() => setShowWorkspaceModal(true)}
-                className="btn btn-ghost btn-sm justify-start text-base-content/70 hover:text-base-content"
+                className="flex items-center gap-2 py-2 text-base-content/70 hover:text-base-content"
               >
                 <PlusIcon className="h-4 w-4" />
                 <span>新建工作区</span>
-              </button>
+              </a>
             </li>
 
             <div className="divider my-1"></div>
