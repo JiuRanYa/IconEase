@@ -10,12 +10,10 @@ import { ConfirmDialog } from '../components/ConfirmDialog';
 import { useWorkspaceStore } from "../stores/workspaceStore";
 import { NewWorkspaceModal } from '../components/workspace/NewWorkspaceModal';
 import { LoadingOverlay } from '../components/LoadingOverlay';
-import { WorkspaceManager } from "../components/workspace/WorkspaceManager";
 import { EditWorkspaceModal } from "../components/workspace/EditWorkspaceModal";
 import { Welcome } from '../pages/Welcome';
 
 export default () => {
-  // 将所有 hooks 移到条件判断之前
   const { currentWorkspace, workspaces, switchWorkspace, deleteWorkspace, updateWorkspace, addWorkspace } = useWorkspaceStore();
   const { categories, activeCategory, setActiveCategory, getCategoryCount, getFavoritesCount, addCategory, deleteCategory } = useCategoryStore();
   const { searchQuery, setSearchQuery } = useImageStore();

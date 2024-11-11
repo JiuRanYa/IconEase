@@ -3,7 +3,6 @@ import { persist } from 'zustand/middleware';
 import { Workspace } from '../types';
 import { useImageStore } from './imageStore';
 import { useCategoryStore } from './categoryStore';
-import { message } from '../components/Message/MessageContainer';
 
 interface WorkspaceState {
     workspaces: Workspace[];
