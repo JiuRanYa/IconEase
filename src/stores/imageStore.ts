@@ -52,13 +52,20 @@ export const useImageStore = create<ImageState>((set, get) => ({
     addImages: async (newImages) => {
         try {
             set({ isLoading: true });
+            const currentWorkspaceId = useWorkspaceStore.getState().currentWorkspace?.id;
+            if (!currentWorkspaceId) {
+                message.error('No workspace selected');
+                return;
+            }
 
+            let skippedCount = 0;
             const uniqueImages = [];
+
             for (const img of newImages) {
                 if (!get().isDuplicate(img)) {
                     uniqueImages.push(img);
                 } else {
-                    message.warning('Skip the duplicated image');
+                    skippedCount++;
                 }
             }
 
@@ -73,7 +80,7 @@ export const useImageStore = create<ImageState>((set, get) => ({
                         type: blob.type,
                         binaryData,
                         url: URL.createObjectURL(blob),
-                        workspaceId: useWorkspaceStore.getState().currentWorkspace.id,
+                        workspaceId: currentWorkspaceId,
                     };
                 })
             );
@@ -83,7 +90,18 @@ export const useImageStore = create<ImageState>((set, get) => ({
                 set((state) => ({
                     images: [...state.images, ...processedImages]
                 }));
+
+                // 显示添加成功信息
+                if (skippedCount > 0) {
+                    message.success(`成功添加 ${processedImages.length} 张图片，跳过 ${skippedCount} 张重复图片`);
+                } else {
+                    message.success(`成功添加 ${processedImages.length} 张图片`);
+                }
+            } else if (skippedCount > 0) {
+                message.warning(`所有图片(${skippedCount}张)都已存在于当前工作区`);
             }
+        } catch (error) {
+            message.error(`添加图片失败: ${error}`);
         } finally {
             set({ isLoading: false });
         }
@@ -165,29 +183,19 @@ export const useImageStore = create<ImageState>((set, get) => ({
 
     isDuplicate: (newImage: ImageItem) => {
         const { images } = get();
+        const currentWorkspaceId = useWorkspaceStore.getState().currentWorkspace?.id;
 
-        // 1. 检查文件名
-        const hasSameFileName = images.some(img =>
+        // 只检查当前工作区的图片
+        const workspaceImages = images.filter(img =>
+            img.workspaceId === currentWorkspaceId
+        );
+
+        // 检查文件名是否在当前工作区重复
+        const hasSameFileName = workspaceImages.some(img =>
             img.fileName === newImage.fileName
         );
 
-        if (hasSameFileName) return true;
-
-        // // 2. 检查内容哈希
-        // if (newImage.binaryData) {
-        //     // 使用 crypto-js 计算哈希
-        //     const newWordArray = WordArray.create(newImage.binaryData);
-        //     const newHash = SHA256(newWordArray).toString(Hex);
-        //
-        //     return images.some(img => {
-        //         if (!img.binaryData) return false;
-        //         const existingWordArray = WordArray.create(img.binaryData);
-        //         const existingHash = SHA256(existingWordArray).toString(Hex);
-        //         return newHash === existingHash;
-        //     });
-        // }
-
-        return false;
+        return hasSameFileName;
     },
 
     deleteImages: async (ids: string[]) => {
