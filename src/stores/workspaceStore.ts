@@ -30,8 +30,21 @@ export const useWorkspaceStore = create<WorkspaceState>()(
                     workspaces: [...state.workspaces, newWorkspace],
                     currentWorkspace: newWorkspace,
                 }));
-                // 为新工作区设置默认分类
-                useCategoryStore.setState({ activeCategory: 'all' });
+
+                // 为新工作区创建默认的 'all' 分类
+                const defaultCategory = {
+                    id: 'all',
+                    name: 'All',
+                    icon: '📋',
+                    workspaceId: newWorkspace.id,
+                    createdAt: Date.now(),
+                };
+
+                // 直接添加分类
+                useCategoryStore.setState(state => ({
+                    categories: [...state.categories, defaultCategory],
+                    activeCategory: 'all'
+                }));
             },
 
             switchWorkspace: async (id) => {
@@ -44,11 +57,7 @@ export const useWorkspaceStore = create<WorkspaceState>()(
             },
 
             deleteWorkspace: (id) => {
-                const { workspaces, currentWorkspace } = get();
-                if (workspaces.length <= 1) {
-                    message.error('至少保留一个工作区');
-                    return;
-                }
+                const { currentWorkspace } = get();
 
                 // 删除该工作区的所有图片和分类
                 const imageStore = useImageStore.getState();

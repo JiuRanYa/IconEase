@@ -56,7 +56,7 @@ export default () => {
   const workspaceCategories = useMemo(() => {
     if (!currentWorkspace) return [];
     return categories.filter(category =>
-      category.id === 'all' || category.workspaceId === currentWorkspace.id
+      category.workspaceId === currentWorkspace.id
     );
   }, [categories, currentWorkspace]);
 

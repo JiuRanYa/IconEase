@@ -26,6 +26,24 @@ export const useCategoryStore = create(
             activeCategory: 'all',
             setActiveCategory: (id) => set({ activeCategory: id }),
             addCategory: (category) => {
+                const existingCategories = get().categories.filter(c =>
+                    c.workspaceId === category.workspaceId
+                );
+
+                if (category.id === 'all') {
+                    const hasAll = existingCategories.some(c => c.id === 'all');
+                    if (hasAll) return;
+                } else {
+                    const isDuplicate = existingCategories.some(c =>
+                        c.name.toLowerCase() === category.name.toLowerCase() &&
+                        c.id !== 'all'
+                    );
+                    if (isDuplicate) {
+                        message.error(`分类 "${category.name}" 已存在`);
+                        return;
+                    }
+                }
+
                 set((state) => ({
                     categories: [...state.categories, category]
                 }));
@@ -88,15 +106,25 @@ export const useCategoryStore = create(
                 const workspaceId = useWorkspaceStore.getState().currentWorkspace?.id;
                 if (!workspaceId) return [];
 
-                const workspaceCategories = categories.filter(c => c.workspaceId === workspaceId);
+                const workspaceCategories = categories.filter(c =>
+                    c.workspaceId === workspaceId
+                );
 
-                // 确保 'all' 分类存在
                 const hasAll = workspaceCategories.some(c => c.id === 'all');
                 if (!hasAll) {
-                    return [
-                        { id: 'all', name: 'All', icon: '📋', workspaceId },
-                        ...workspaceCategories
-                    ];
+                    const defaultCategory = {
+                        id: 'all',
+                        name: 'All',
+                        icon: '📋',
+                        workspaceId,
+                        createdAt: Date.now(),
+                    };
+
+                    set(state => ({
+                        categories: [...state.categories, defaultCategory]
+                    }));
+
+                    return [defaultCategory, ...workspaceCategories];
                 }
 
                 return workspaceCategories;
