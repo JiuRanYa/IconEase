@@ -3,6 +3,7 @@ import { ImageItem } from '../types';
 import { db } from '../utils/db';
 import { useCategoryStore } from './categoryStore';
 import { message } from '../components/Message/MessageContainer';
+import { useWorkspaceStore } from './workspaceStore';
 
 interface ImageState {
     images: ImageItem[];
@@ -20,6 +21,7 @@ interface ImageState {
     setLoading: (loading: boolean) => void;
     isDuplicate: (newImage: ImageItem) => boolean;
     deleteImages: (ids: string[]) => Promise<void>;
+    deleteWorkspaceImages: (workspaceId: string) => void;
 }
 
 export const useImageStore = create<ImageState>((set, get) => ({
@@ -70,7 +72,8 @@ export const useImageStore = create<ImageState>((set, get) => ({
                         ...img,
                         type: blob.type,
                         binaryData,
-                        url: URL.createObjectURL(blob)
+                        url: URL.createObjectURL(blob),
+                        workspaceId: useWorkspaceStore.getState().currentWorkspace.id,
                     };
                 })
             );
@@ -115,14 +118,20 @@ export const useImageStore = create<ImageState>((set, get) => ({
 
     getImagesByCategory: (categoryId) => {
         const { images } = get();
+        const workspaceId = useWorkspaceStore.getState().currentWorkspace.id;
+        const workspaceImages = images.filter(img => img.workspaceId === workspaceId);
+
         return categoryId === 'all'
-            ? images
-            : images.filter((img) => img.categoryId === categoryId);
+            ? workspaceImages
+            : workspaceImages.filter((img) => img.categoryId === categoryId);
     },
 
     getFavoriteImages: () => {
         const { images } = get();
-        return images.filter((img) => img.isFavorite);
+        const workspaceId = useWorkspaceStore.getState().currentWorkspace.id;
+        return images.filter(img =>
+            img.workspaceId === workspaceId && img.isFavorite
+        );
     },
 
     setSearchQuery: (query) => {
@@ -131,10 +140,17 @@ export const useImageStore = create<ImageState>((set, get) => ({
 
     getFilteredImages: (categoryId) => {
         const { images, searchQuery } = get();
-        let filteredImages = categoryId === 'all'
-            ? images
-            : images.filter((img) => img.categoryId === categoryId);
+        const workspaceId = useWorkspaceStore.getState().currentWorkspace.id;
 
+        // 首先过滤当前工作区的图片
+        let filteredImages = images.filter(img => img.workspaceId === workspaceId);
+
+        // 再按分类过滤
+        if (categoryId !== 'all') {
+            filteredImages = filteredImages.filter(img => img.categoryId === categoryId);
+        }
+
+        // 最后按搜索关键词过滤
         if (searchQuery.trim()) {
             const query = searchQuery.toLowerCase();
             filteredImages = filteredImages.filter(img =>
@@ -189,5 +205,11 @@ export const useImageStore = create<ImageState>((set, get) => ({
             message.error(`批量删除失败: ${error}`);
             return Promise.reject(error);
         }
+    },
+
+    deleteWorkspaceImages: (workspaceId: string) => {
+        set(state => ({
+            images: state.images.filter(img => img.workspaceId !== workspaceId)
+        }));
     },
 })); 

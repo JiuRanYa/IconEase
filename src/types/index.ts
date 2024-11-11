@@ -5,7 +5,8 @@ export interface ImageItem {
   binaryData?: ArrayBuffer;
   categoryId: string;
   isFavorite: boolean;
-  fileName: string
+  fileName: string;
+  workspaceId: string;
 }
 
 export interface Category {
@@ -13,4 +14,11 @@ export interface Category {
   name: string;
   icon: string;
   count?: number;
-} 
+  workspaceId: string;
+}
+
+export interface Workspace {
+  id: string;
+  name: string;
+  createdAt: number;
+}

@@ -7,6 +7,11 @@ import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 import { PlusIcon, HeartIcon, SearchIcon, ChevronLeftIcon, HamburgerIcon, DeleteIcon } from '../components/icons';
 import { cn } from '../utils/cn';
 import { ConfirmDialog } from '../components/ConfirmDialog';
+import { useWorkspaceStore } from "../stores/workspaceStore";
+import { NewWorkspaceModal } from '../components/workspace/NewWorkspaceModal';
+import { LoadingOverlay } from '../components/LoadingOverlay';
+import { WorkspaceManager } from "../components/workspace/WorkspaceManager";
+import { EditWorkspaceModal } from "../components/workspace/EditWorkspaceModal";
 
 export default () => {
   const { categories, activeCategory, setActiveCategory, getCategoryCount, getFavoritesCount, addCategory, deleteCategory } = useCategoryStore();
@@ -23,6 +28,18 @@ export default () => {
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
   const [isDeleteCategoryModalOpen, setIsDeleteCategoryModalOpen] = useState(false);
   const [categoryToDelete, setCategoryToDelete] = useState<string | null>(null);
+  const {
+    switchWorkspace,
+    addWorkspace,
+    deleteWorkspace,
+    updateWorkspace
+  } = useWorkspaceStore();
+  const [showWorkspaceModal, setShowWorkspaceModal] = useState(false);
+  const [showEditWorkspaceModal, setShowEditWorkspaceModal] = useState(false);
+  const [workspaceToEdit, setWorkspaceToEdit] = useState<Workspace | null>(null);
+  const [showDeleteWorkspaceConfirm, setShowDeleteWorkspaceConfirm] = useState(false);
+  const [workspaceToDelete, setWorkspaceToDelete] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   // 处理分类点击
   const handleCategoryClick = (categoryId: string) => {
@@ -100,16 +117,32 @@ export default () => {
     };
   }, []);
 
+  // 重写工作区切换方法以添加加载状态
+  const handleWorkspaceSwitch = async (workspaceId: string) => {
+    setIsLoading(true);
+    try {
+      await switchWorkspace(workspaceId);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="h-screen w-full bg-base-100">
+      <LoadingOverlay isLoading={isLoading} />
+
       <CategoryStoreSubscriber />
 
       {/* Header */}
       <div className="fixed top-0 left-0 right-0 z-10 flex h-16 items-center border-b border-base-300 bg-base-100 px-10 justify-between">
         {/* Logo */}
-        <div className="flex items-center">
+        <div className="flex items-center gap-4">
           <span className="text-xl font-bold">IconEase</span>
-          <span className="ml-2 rounded bg-primary px-2 py-0.5 text-xs text-white">Beta</span>
+
+          {/* 工作区选择器 */}
+          <WorkspaceManager onSwitch={handleWorkspaceSwitch} />
+
+          <span className="rounded bg-primary px-2 py-0.5 text-xs text-white">Beta</span>
         </div>
 
         {/* Search */}
@@ -428,6 +461,52 @@ export default () => {
         confirmText="Delete"
         cancelText="Cancel"
         type="error"
+      />
+
+      {/* 新建工作区 Modal */}
+      <NewWorkspaceModal
+        isOpen={showWorkspaceModal}
+        onClose={() => setShowWorkspaceModal(false)}
+        onConfirm={(name) => {
+          addWorkspace(name);
+          setShowWorkspaceModal(false);
+        }}
+      />
+
+      {/* 编辑工作区 Modal */}
+      <EditWorkspaceModal
+        isOpen={showEditWorkspaceModal}
+        workspace={workspaceToEdit}
+        onClose={() => {
+          setShowEditWorkspaceModal(false);
+          setWorkspaceToEdit(null);
+        }}
+        onConfirm={(name) => {
+          if (workspaceToEdit) {
+            updateWorkspace(workspaceToEdit.id, name);
+          }
+          setShowEditWorkspaceModal(false);
+          setWorkspaceToEdit(null);
+        }}
+      />
+
+      {/* 删除工作区确认 */}
+      <ConfirmDialog
+        isOpen={showDeleteWorkspaceConfirm}
+        title="删除工作区"
+        content="删除工作区将同时删除该工作区下的所有图片和分类，此操作不可恢复。确定要继续吗？"
+        type="error"
+        onConfirm={() => {
+          if (workspaceToDelete) {
+            deleteWorkspace(workspaceToDelete);
+          }
+          setShowDeleteWorkspaceConfirm(false);
+          setWorkspaceToDelete(null);
+        }}
+        onCancel={() => {
+          setShowDeleteWorkspaceConfirm(false);
+          setWorkspaceToDelete(null);
+        }}
       />
     </div>
   );
