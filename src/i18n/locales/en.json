@@ -1,0 +1,29 @@
+{
+    "search": {
+        "placeholder": "Search icons in current category"
+    },
+    "workspace": {
+        "title": "Workspaces",
+        "new": "New Workspace",
+        "delete": {
+            "title": "Delete Workspace",
+            "content": "Deleting a workspace will also delete all images and categories in it. This action cannot be undone. Are you sure to continue?"
+        }
+    },
+    "category": {
+        "delete": {
+            "title": "Delete Category",
+            "content": "Are you sure you want to delete this category and all its images? This action cannot be undone."
+        }
+    },
+    "reset": {
+        "title": "Clear All Data",
+        "content": "This will delete all images and categories. This action cannot be undone. Are you sure you want to proceed?",
+        "confirm": "Clear All"
+    },
+    "common": {
+        "reset": "Reset",
+        "delete": "Delete",
+        "cancel": "Cancel"
+    }
+}

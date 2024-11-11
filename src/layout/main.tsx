@@ -13,6 +13,7 @@ import { LoadingOverlay } from '../components/LoadingOverlay';
 import { EditWorkspaceModal } from "../components/workspace/EditWorkspaceModal";
 import { Welcome } from '../pages/Welcome';
 import { Workspace } from "../types";
+import { useTranslation } from "react-i18next";
 
 export default () => {
   const { currentWorkspace, workspaces, switchWorkspace, deleteWorkspace, updateWorkspace, addWorkspace } = useWorkspaceStore();
@@ -20,6 +21,7 @@ export default () => {
   const { searchQuery, setSearchQuery } = useImageStore();
   const location = useLocation();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   // 所有 useState hooks
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -162,7 +164,7 @@ export default () => {
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder={`Search icon in current category`}
+            placeholder={t('search.placeholder')}
             className="input input-bordered w-full pl-10 input-sm"
           />
           <SearchIcon className="absolute left-11 top-1/2 h-5 w-5 -translate-y-1/2 text-base-content/50" />
@@ -178,7 +180,7 @@ export default () => {
           <ul tabIndex={0} className="dropdown-content menu mt-2 z-[1] p-2 shadow-lg bg-base-100 rounded-box w-64 border">
             {/* 工作区列表 */}
             <div className="text-gray-400 font-bold px-4 py-2">
-              <span>工作区</span>
+              <span>{t('workspace.title')}</span>
             </div>
             {workspaces.map(workspace => (
               <li key={workspace.id}>
@@ -250,7 +252,7 @@ export default () => {
                 className="flex items-center gap-2 py-2 text-base-content/70 hover:text-base-content"
               >
                 <PlusIcon className="h-4 w-4" />
-                <span>新建工作区</span>
+                <span>{t('workspace.new')}</span>
               </a>
             </li>
 
@@ -263,7 +265,7 @@ export default () => {
                 className="flex items-center gap-2"
               >
                 <DeleteIcon className="h-4 w-4" />
-                <span>Reset</span>
+                <span>{t('common.reset')}</span>
               </a>
             </li>
             <li>
@@ -522,22 +524,20 @@ export default () => {
       {/* Confirm Clear Modal */}
       <dialog className={cn('modal', isConfirmModalOpen && 'modal-open')}>
         <div className="modal-box">
-          <h3 className="text-lg font-bold text-error">Clear All Data</h3>
-          <p className="py-4">
-            This will delete all images and categories. This action cannot be undone. Are you sure you want to proceed?
-          </p>
+          <h3 className="text-lg font-bold text-error">{t('reset.title')}</h3>
+          <p className="py-4">{t('reset.content')}</p>
           <div className="modal-action">
             <button
               className="btn btn-ghost btn-sm"
               onClick={() => setIsConfirmModalOpen(false)}
             >
-              Cancel
+              {t('common.cancel')}
             </button>
             <button
               className="btn btn-error btn-sm"
               onClick={handleClearAll}
             >
-              Clear All
+              {t('reset.confirm')}
             </button>
           </div>
         </div>
@@ -552,15 +552,15 @@ export default () => {
 
       <ConfirmDialog
         isOpen={isDeleteCategoryModalOpen}
-        title="Delete Category"
-        content={`Are you sure you want to delete this category and all its images? This action cannot be undone.`}
+        title={t('category.delete.title')}
+        content={t('category.delete.content')}
         onConfirm={handleConfirmDeleteCategory}
         onCancel={() => {
           setIsDeleteCategoryModalOpen(false);
           setCategoryToDelete(null);
         }}
-        confirmText="Delete"
-        cancelText="Cancel"
+        confirmText={t('common.delete')}
+        cancelText={t('common.cancel')}
         type="error"
       />
 
@@ -594,8 +594,8 @@ export default () => {
       {/* 删除工作区确认 */}
       <ConfirmDialog
         isOpen={showDeleteWorkspaceConfirm}
-        title="删除工作区"
-        content="删除工作区将同时删除该工作区下的所有图片和分类，此操作不可恢复。确定要继续吗？"
+        title={t('workspace.delete.title')}
+        content={t('workspace.delete.content')}
         type="error"
         onConfirm={() => {
           if (workspaceToDelete) {

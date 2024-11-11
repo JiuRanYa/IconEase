@@ -5,6 +5,7 @@ import { RouterProvider } from "react-router-dom";
 import { router } from "./router";
 import { useImageStore } from "./stores/imageStore";
 import { getContainer } from "./components/Message/MessageContainer";
+import './i18n';
 
 getContainer();
 useImageStore.getState().initImages().catch(console.error);

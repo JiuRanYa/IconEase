@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { cn } from '../utils/cn';
 
 interface ConfirmDialogProps {
@@ -17,10 +18,10 @@ export const ConfirmDialog = ({
     content,
     onConfirm,
     onCancel,
-    confirmText = '确认',
-    cancelText = '取消',
     type = 'error'
 }: ConfirmDialogProps) => {
+    const { t } = useTranslation();
+
     return (
         <dialog className={cn('modal', isOpen && 'modal-open')}>
             <div className="modal-box">
@@ -38,7 +39,7 @@ export const ConfirmDialog = ({
                         className="btn btn-ghost btn-sm"
                         onClick={onCancel}
                     >
-                        {cancelText}
+                        {t('common.cancel')}
                     </button>
                     <button
                         className={cn(
@@ -49,7 +50,7 @@ export const ConfirmDialog = ({
                         )}
                         onClick={onConfirm}
                     >
-                        {confirmText}
+                        {t('common.confirm')}
                     </button>
                 </div>
             </div>

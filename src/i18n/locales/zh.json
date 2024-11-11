@@ -1,0 +1,100 @@
+{
+    "welcome": {
+        "title": "IconEase",
+        "subtitle": "简单、高效的图标管理工具",
+        "features": {
+            "workspace": {
+                "title": "工作区管理",
+                "desc": "为不同项目创建独立工作区"
+            },
+            "category": {
+                "title": "分类标签",
+                "desc": "灵活组织和管理您的图标"
+            },
+            "search": {
+                "title": "快速搜索",
+                "desc": "轻松找到需要的图标"
+            }
+        },
+        "createButton": "创建第一个工作区",
+        "createHint": "创建工作区后即可开始使用所有功能"
+    },
+    "main": {
+        "deleteConfirm": {
+            "title": "删除分类图片",
+            "content": "确定要删除 {{count}} 张图片吗？此操作不可恢复。",
+            "confirm": "删除",
+            "cancel": "取消"
+        },
+        "upload": {
+            "success": "成功添加 {{count}} 张图片",
+            "duplicate": "跳过 {{skipCount}} 张重复��片",
+            "allDuplicate": "所有图片({{count}}张)都已存在于当前工作区"
+        }
+    },
+    "workspace": {
+        "new": "新建工作区",
+        "edit": "编辑工作区",
+        "delete": {
+            "title": "删除工作区",
+            "content": "删除工作区将同时删除该工作区下的所有图片和分类，此操作不可恢复。确定要继续吗？",
+            "confirm": "删除",
+            "cancel": "取消"
+        }
+    },
+    "category": {
+        "all": "全部",
+        "favorites": "收藏",
+        "duplicate": "分类 \"{{name}}\" 已存在",
+        "delete": {
+            "title": "删除分类",
+            "content": "确定要删除此分类及其所有图片吗？此操作不可恢复。"
+        }
+    },
+    "common": {
+        "error": {
+            "init": "初始化图片失败: {{error}}",
+            "add": "添加图片失败: {{error}}",
+            "delete": "批量删除失败: {{error}}",
+            "noWorkspace": "未选择工作区"
+        },
+        "cancel": "取消",
+        "confirm": "确认",
+        "create": "创建",
+        "save": "保存",
+        "delete": "删除",
+        "edit": "编辑",
+        "search": "搜索",
+        "upload": "上传",
+        "noData": "暂无数据",
+        "loading": "加载中...",
+        "reset": "重置"
+    },
+    "image": {
+        "upload": {
+            "success": "成功上传 {{count}} 张图片",
+            "duplicate": "已跳过 {{count}} 张重复图片",
+            "error": "上传失败"
+        },
+        "delete": {
+            "title": "删除图片",
+            "content": "确定要删除选中的图片吗？此操作不可恢复。",
+            "success": "删除成功",
+            "error": "删除失败"
+        },
+        "noData": "暂无图片",
+        "dragTip": "拖拽图片到此处，或点击上传"
+    },
+    "settings": {
+        "title": "设置",
+        "language": "语言",
+        "theme": "主题",
+        "about": "关于",
+        "version": "版本",
+        "reset": {
+            "title": "清除所有数据",
+            "content": "这将删除所有图片和分类。此操作不可恢复。确定要继续吗？",
+            "confirm": "清除全部"
+        }
+    }
+}

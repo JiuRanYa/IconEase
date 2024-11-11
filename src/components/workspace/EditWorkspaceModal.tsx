@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { cn } from '../../utils/cn';
 import { Workspace } from '../../types';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
     isOpen: boolean;
@@ -11,6 +12,7 @@ interface Props {
 
 export const EditWorkspaceModal = ({ isOpen, workspace, onClose, onConfirm }: Props) => {
     const [name, setName] = useState("");
+    const { t } = useTranslation();
 
     useEffect(() => {
         if (workspace) {
@@ -28,12 +30,12 @@ export const EditWorkspaceModal = ({ isOpen, workspace, onClose, onConfirm }: Pr
     return (
         <dialog className={cn('modal', isOpen && 'modal-open')}>
             <div className="modal-box">
-                <h3 className="text-lg font-bold">编辑工作区</h3>
+                <h3 className="text-lg font-bold">{t('workspace.edit')}</h3>
 
                 <div className="form-control mt-4">
                     <input
                         type="text"
-                        placeholder="请输入工作区名称"
+                        placeholder={t('workspace.namePlaceholder')}
                         className="input input-bordered w-full"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
@@ -49,14 +51,14 @@ export const EditWorkspaceModal = ({ isOpen, workspace, onClose, onConfirm }: Pr
                             onClose();
                         }}
                     >
-                        取消
+                        {t('common.cancel')}
                     </button>
                     <button
                         className="btn btn-primary"
                         onClick={handleConfirm}
                         disabled={!name.trim()}
                     >
-                        保存
+                        {t('common.save')}
                     </button>
                 </div>
             </div>
