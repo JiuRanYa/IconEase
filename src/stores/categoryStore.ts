@@ -23,14 +23,13 @@ export const useCategoryStore = create(
     persist<CategoryState>(
         (set, get) => ({
             categories: [
-                { id: 'all', name: 'All', icon: '📋' },
+                { id: 'all', name: 'All', icon: '📋', workspaceId: 'default' }
             ],
             activeCategory: 'all',
             setActiveCategory: (id) => set({ activeCategory: id }),
             addCategory: (category) => {
-                const workspaceId = useWorkspaceStore.getState().currentWorkspace.id;
                 set((state) => ({
-                    categories: [...state.categories, { ...category, workspaceId }]
+                    categories: [...state.categories, category]
                 }));
             },
             getCategoryCount: (categoryId) => {
@@ -49,36 +48,58 @@ export const useCategoryStore = create(
             updateCounts: () => {
                 set((state) => ({ ...state }));
             },
-            clearCategories: () => set(() => ({
-                categories: [{ id: 'all', name: 'All', icon: '📋' }],
-                activeCategory: 'all'
-            })),
+            clearCategories: () => {
+                const workspaceId = useWorkspaceStore.getState().currentWorkspace.id;
+                set((state) => ({
+                    categories: state.categories.filter(c =>
+                        c.id === 'all' || c.workspaceId !== workspaceId
+                    ),
+                    activeCategory: 'all'
+                }));
+            },
             deleteCategory: (categoryId: string) => {
                 if (categoryId === 'all') return;
 
+                const workspaceId = useWorkspaceStore.getState().currentWorkspace.id;
+
                 set((state) => ({
-                    categories: state.categories.filter(c => c.id !== categoryId),
+                    categories: state.categories.filter(c =>
+                        c.id !== categoryId &&
+                        (c.id === 'all' || c.workspaceId === workspaceId)
+                    ),
                     activeCategory: state.activeCategory === categoryId ? 'all' : state.activeCategory
                 }));
 
                 const images = useImageStore.getState().images;
                 const imageIds = images
-                    .filter(img => img.categoryId === categoryId)
+                    .filter(img =>
+                        img.categoryId === categoryId &&
+                        img.workspaceId === workspaceId
+                    )
                     .map(img => img.id);
                 useImageStore.getState().deleteImages(imageIds);
             },
             deleteWorkspaceCategories: (workspaceId: string) => {
                 set(state => ({
-                    categories: state.categories.filter(c => c.workspaceId !== workspaceId)
+                    categories: state.categories.filter(c => c.workspaceId !== workspaceId),
+                    activeCategory: 'all'
                 }));
             },
             getWorkspaceCategories: () => {
                 const { categories } = get();
                 const workspaceId = useWorkspaceStore.getState().currentWorkspace.id;
-                return [
-                    { id: 'all', name: 'All', icon: '📋', workspaceId },
-                    ...categories.filter(c => c.workspaceId === workspaceId)
-                ];
+                const workspaceCategories = categories.filter(c => c.workspaceId === workspaceId);
+
+                // 确保 'all' 分类始终存在
+                const hasAll = workspaceCategories.some(c => c.id === 'all');
+                if (!hasAll) {
+                    return [
+                        { id: 'all', name: 'All', icon: '📋', workspaceId },
+                        ...workspaceCategories
+                    ];
+                }
+
+                return workspaceCategories;
             },
         }),
         {

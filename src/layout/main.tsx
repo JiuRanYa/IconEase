@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
 import { useCategoryStore } from "../stores/categoryStore";
 import { CategoryStoreSubscriber } from "../stores/categoryStore";
@@ -43,6 +43,13 @@ export default () => {
   const [workspaceToDelete, setWorkspaceToDelete] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
+  // 获取当前工作区的分类
+  const workspaceCategories = useMemo(() => {
+    return categories.filter(category =>
+      category.id === 'all' || category.workspaceId === currentWorkspace.id
+    );
+  }, [categories, currentWorkspace.id]);
+
   // 处理分类点击
   const handleCategoryClick = (categoryId: string) => {
     setActiveCategory(categoryId);
@@ -58,7 +65,8 @@ export default () => {
     const newCategory = {
       id: `category-${Date.now()}`,
       name: newCategoryName,
-      icon: selectedEmoji
+      icon: selectedEmoji,
+      workspaceId: currentWorkspace.id
     };
     addCategory(newCategory);
     setNewCategoryName('');
@@ -317,7 +325,7 @@ export default () => {
 
           {/* Categories list */}
           <div className={cn("flex-1 space-y-1 overflow-y-auto p-4 text-sm")}>
-            {categories.map((category) => (
+            {workspaceCategories.map((category) => (
               <div
                 key={category.id}
                 onContextMenu={(e) => handleContextMenu(e, category.id)}

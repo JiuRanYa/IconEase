@@ -32,14 +32,16 @@ export const useWorkspaceStore = create<WorkspaceState>()(
                     workspaces: [...state.workspaces, newWorkspace],
                     currentWorkspace: newWorkspace,
                 }));
+                // 为新工作区设置默认分类
+                useCategoryStore.setState({ activeCategory: 'all' });
             },
 
-            switchWorkspace: (id) => {
+            switchWorkspace: async (id) => {
                 const workspace = get().workspaces.find(w => w.id === id);
-                if (workspace) {
+                if (workspace && workspace.id !== get().currentWorkspace.id) {
                     set({ currentWorkspace: workspace });
-                    // 切换工作区时重置分类选择
-                    useCategoryStore.getState().setActiveCategory('all');
+                    // 切换工作区时重置分类选择，但不触发额外的更新
+                    useCategoryStore.setState({ activeCategory: 'all' });
                 }
             },
 
