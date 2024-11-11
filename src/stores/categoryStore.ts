@@ -22,9 +22,7 @@ interface CategoryState {
 export const useCategoryStore = create(
     persist<CategoryState>(
         (set, get) => ({
-            categories: [
-                { id: 'all', name: 'All', icon: '📋', workspaceId: 'default' }
-            ],
+            categories: [],
             activeCategory: 'all',
             setActiveCategory: (id) => set({ activeCategory: id }),
             addCategory: (category) => {
@@ -87,10 +85,12 @@ export const useCategoryStore = create(
             },
             getWorkspaceCategories: () => {
                 const { categories } = get();
-                const workspaceId = useWorkspaceStore.getState().currentWorkspace.id;
+                const workspaceId = useWorkspaceStore.getState().currentWorkspace?.id;
+                if (!workspaceId) return [];
+
                 const workspaceCategories = categories.filter(c => c.workspaceId === workspaceId);
 
-                // 确保 'all' 分类始终存在
+                // 确保 'all' 分类存在
                 const hasAll = workspaceCategories.some(c => c.id === 'all');
                 if (!hasAll) {
                     return [

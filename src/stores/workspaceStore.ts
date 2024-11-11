@@ -7,7 +7,7 @@ import { message } from '../components/Message/MessageContainer';
 
 interface WorkspaceState {
     workspaces: Workspace[];
-    currentWorkspace: Workspace;
+    currentWorkspace: Workspace | null;
     addWorkspace: (name: string) => void;
     switchWorkspace: (id: string) => void;
     deleteWorkspace: (id: string) => void;
@@ -17,10 +17,8 @@ interface WorkspaceState {
 export const useWorkspaceStore = create<WorkspaceState>()(
     persist(
         (set, get) => ({
-            workspaces: [
-                { id: 'default', name: '默认工作区', createdAt: Date.now() }
-            ],
-            currentWorkspace: { id: 'default', name: '默认工作区', createdAt: Date.now() },
+            workspaces: [],
+            currentWorkspace: null,
 
             addWorkspace: (name) => {
                 const newWorkspace = {
@@ -38,7 +36,7 @@ export const useWorkspaceStore = create<WorkspaceState>()(
 
             switchWorkspace: async (id) => {
                 const workspace = get().workspaces.find(w => w.id === id);
-                if (workspace && workspace.id !== get().currentWorkspace.id) {
+                if (workspace && workspace.id !== get().currentWorkspace?.id) {
                     set({ currentWorkspace: workspace });
                     // 切换工作区时重置分类选择，但不触发额外的更新
                     useCategoryStore.setState({ activeCategory: 'all' });
@@ -65,7 +63,7 @@ export const useWorkspaceStore = create<WorkspaceState>()(
 
                 set(state => ({
                     workspaces: state.workspaces.filter(w => w.id !== id),
-                    currentWorkspace: id === currentWorkspace.id
+                    currentWorkspace: id === currentWorkspace?.id
                         ? state.workspaces.find(w => w.id !== id)!
                         : currentWorkspace,
                 }));
@@ -76,7 +74,7 @@ export const useWorkspaceStore = create<WorkspaceState>()(
                     workspaces: state.workspaces.map(w =>
                         w.id === id ? { ...w, name } : w
                     ),
-                    currentWorkspace: state.currentWorkspace.id === id
+                    currentWorkspace: state.currentWorkspace?.id === id
                         ? { ...state.currentWorkspace, name }
                         : state.currentWorkspace,
                 }));

@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
 import { useCategoryStore } from "../stores/categoryStore";
 import { CategoryStoreSubscriber } from "../stores/categoryStore";
@@ -12,30 +12,27 @@ import { NewWorkspaceModal } from '../components/workspace/NewWorkspaceModal';
 import { LoadingOverlay } from '../components/LoadingOverlay';
 import { WorkspaceManager } from "../components/workspace/WorkspaceManager";
 import { EditWorkspaceModal } from "../components/workspace/EditWorkspaceModal";
+import { Welcome } from '../pages/Welcome';
 
 export default () => {
+  // 将所有 hooks 移到条件判断之前
+  const { currentWorkspace, workspaces, switchWorkspace, deleteWorkspace, updateWorkspace, addWorkspace } = useWorkspaceStore();
   const { categories, activeCategory, setActiveCategory, getCategoryCount, getFavoritesCount, addCategory, deleteCategory } = useCategoryStore();
+  const { searchQuery, setSearchQuery } = useImageStore();
   const location = useLocation();
   const navigate = useNavigate();
+
+  // 所有 useState hooks
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newCategoryName, setNewCategoryName] = useState('');
   const [selectedEmoji, setSelectedEmoji] = useState('💡');
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
-  const { searchQuery, setSearchQuery } = useImageStore();
   const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 });
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
   const [isDeleteCategoryModalOpen, setIsDeleteCategoryModalOpen] = useState(false);
   const [categoryToDelete, setCategoryToDelete] = useState<string | null>(null);
-  const {
-    currentWorkspace,
-    workspaces,
-    switchWorkspace,
-    addWorkspace,
-    deleteWorkspace,
-    updateWorkspace
-  } = useWorkspaceStore();
   const [showWorkspaceModal, setShowWorkspaceModal] = useState(false);
   const [showEditWorkspaceModal, setShowEditWorkspaceModal] = useState(false);
   const [workspaceToEdit, setWorkspaceToEdit] = useState<Workspace | null>(null);
@@ -43,20 +40,33 @@ export default () => {
   const [workspaceToDelete, setWorkspaceToDelete] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  // 获取当前工作区的分类
+  // useEffect hooks
+  useEffect(() => {
+    const handleClickOutside = () => {
+      setSelectedCategoryId(null);
+    };
+
+    document.addEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, []);
+
+  // useMemo hooks
   const workspaceCategories = useMemo(() => {
+    if (!currentWorkspace) return [];
     return categories.filter(category =>
       category.id === 'all' || category.workspaceId === currentWorkspace.id
     );
-  }, [categories, currentWorkspace.id]);
+  }, [categories, currentWorkspace]);
 
-  // 处理分类点击
-  const handleCategoryClick = (categoryId: string) => {
+  // 所有事件处理函数
+  const handleCategoryClick = useCallback((categoryId: string) => {
     setActiveCategory(categoryId);
     if (location.pathname !== '/home') {
       navigate('/home');
     }
-  };
+  }, [location.pathname, navigate, setActiveCategory]);
 
   // 处理添加分类
   const handleAddCategory = () => {
@@ -116,17 +126,6 @@ export default () => {
     }
   };
 
-  useEffect(() => {
-    const handleClickOutside = () => {
-      setSelectedCategoryId(null);
-    };
-
-    document.addEventListener('click', handleClickOutside);
-    return () => {
-      document.removeEventListener('click', handleClickOutside);
-    };
-  }, []);
-
   // 重写工作区切换方法以添加加载状态
   const handleWorkspaceSwitch = async (workspaceId: string) => {
     setIsLoading(true);
@@ -137,6 +136,12 @@ export default () => {
     }
   };
 
+  // 如果没有工作区，显示欢迎页面
+  if (workspaces.length === 0 || !currentWorkspace) {
+    return <Welcome />;
+  }
+
+  // 渲染主界面
   return (
     <div className="h-screen w-full bg-base-100">
       <LoadingOverlay isLoading={isLoading} />
