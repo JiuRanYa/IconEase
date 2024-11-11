@@ -193,7 +193,7 @@ export default () => {
                         dropdownButton.blur(); // 移除焦点以关闭下拉菜单
                       }
                     }}
-                    className={cn("flex-1 flex items-center gap-2")}
+                    className="flex-1 flex items-center gap-2"
                   >
                     <div className="flex-1 flex items-center gap-2">
                       <div className={cn(
