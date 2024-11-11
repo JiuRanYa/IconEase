@@ -5,3 +5,4 @@ export * from './ListIcon';
 export * from './ChevronLeftIcon';
 export * from './HamburgerIcon';
 export * from './DeleteIcon';
+export * from './PencilIcon';
