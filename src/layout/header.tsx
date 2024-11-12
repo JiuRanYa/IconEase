@@ -111,8 +111,7 @@ export default () => {
 
                     <div className="flex gap-1">
                       <button
-                        onClick={(e) => {
-                          e.stopPropagation();
+                        onClick={() => {
                           setWorkspaceToEdit(workspace);
                           setShowEditWorkspaceModal(true);
                         }}
@@ -121,8 +120,7 @@ export default () => {
                         <PencilIcon className="h-3.5 w-3.5" />
                       </button>
                       <button
-                        onClick={(e) => {
-                          e.stopPropagation();
+                        onClick={() => {
                           setWorkspaceToDelete(workspace.id);
                           setShowDeleteWorkspaceConfirm(true);
                         }}
