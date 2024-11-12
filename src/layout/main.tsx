@@ -199,11 +199,11 @@ export default () => {
                       onClick={() => {
                         handleWorkspaceSwitch(workspace.id);
                       }}
-                      className="flex w-full items-center gap-2 px-2 py-2 text-gray-600 hover:text-gray-900 rounded-md cursor-pointer"
+                      className="flex w-full items-center gap-2 px-2 text-sm py-2 text-gray-600 hover:text-gray-900 rounded-md cursor-pointer"
                     >
                       <div className="flex-1 flex items-center gap-2">
                         <div className={cn(
-                          "w-2 h-2 rounded-full",
+                          "w-2 h-2 rounded-full me-2",
                           workspace.id === currentWorkspace.id ? "bg-blue-500" : "bg-gray-300"
                         )} />
                         <span>{workspace.name}</span>
@@ -241,7 +241,7 @@ export default () => {
                 <div className="px-2 transition hover:bg-gray-100 rounded-lg">
                   <button
                     onClick={() => setShowWorkspaceModal(true)}
-                    className="flex w-full items-center gap-2 px-2 py-2 text-gray-600 hover:text-gray-900 rounded-md cursor-pointer"
+                    className="flex w-full items-center gap-2 px-2 py-2 text-sm text-gray-600 hover:text-gray-900 rounded-md cursor-pointer"
                   >
                     <PlusIcon className="h-4 w-4" />
                     <span>{t('workspace.new')}</span>
