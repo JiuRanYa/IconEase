@@ -6,3 +6,4 @@ export * from './ChevronLeftIcon';
 export * from './HamburgerIcon';
 export * from './DeleteIcon';
 export * from './PencilIcon';
+export * from './ChevronRightIcon';

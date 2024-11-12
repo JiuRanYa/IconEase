@@ -9,11 +9,14 @@ import { cn } from '../utils/cn';
 import { ConfirmDialog } from '../components/ConfirmDialog';
 import { useWorkspaceStore } from "../stores/workspaceStore";
 import { NewWorkspaceModal } from '../components/workspace/NewWorkspaceModal';
-import { LoadingOverlay } from '../components/LoadingOverlay';
 import { EditWorkspaceModal } from "../components/workspace/EditWorkspaceModal";
 import { Welcome } from '../pages/Welcome';
 import { Workspace } from "../types";
 import { useTranslation } from "react-i18next";
+import { useLanguage } from '../hooks/useLanguage';
+import { Menu, MenuButton, MenuItem, MenuItems, Transition, Disclosure } from '@headlessui/react';
+import { Fragment } from 'react';
+import { ChevronRightIcon } from '../components/icons';
 
 export default () => {
   const { currentWorkspace, workspaces, switchWorkspace, deleteWorkspace, updateWorkspace, addWorkspace } = useWorkspaceStore();
@@ -22,6 +25,7 @@ export default () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const { currentLanguage, changeLanguage } = useLanguage();
 
   // 所有 useState hooks
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -39,7 +43,6 @@ export default () => {
   const [workspaceToEdit, setWorkspaceToEdit] = useState<Workspace | null>(null);
   const [showDeleteWorkspaceConfirm, setShowDeleteWorkspaceConfirm] = useState(false);
   const [workspaceToDelete, setWorkspaceToDelete] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
 
   // useEffect hooks
   useEffect(() => {
@@ -129,11 +132,9 @@ export default () => {
 
   // 重写工作区切换方法以添加加载状态
   const handleWorkspaceSwitch = async (workspaceId: string) => {
-    setIsLoading(true);
     try {
       switchWorkspace(workspaceId);
     } finally {
-      setIsLoading(false);
     }
   };
 
@@ -145,7 +146,6 @@ export default () => {
   // 渲染主界面
   return (
     <div className="h-screen w-full bg-base-100">
-      <LoadingOverlay isLoading={isLoading} />
 
       <CategoryStoreSubscriber />
 
@@ -171,113 +171,178 @@ export default () => {
         </div>
 
         {/* Menu Button */}
-        <div className="dropdown dropdown-end">
-          <div role="button" tabIndex={0} className="btn btn-ghost btn-sm">
+        <Menu as="div" className="relative">
+          <Menu.Button className="inline-flex items-center gap-2 px-3 py-1.5 text-sm hover:bg-black/5 rounded-md">
             <span className="mr-2">{currentWorkspace.name}</span>
             <HamburgerIcon className="h-4 w-4" />
-          </div>
+          </Menu.Button>
 
-          <ul tabIndex={0} className="dropdown-content menu mt-2 z-[1] p-2 shadow-lg bg-base-100 rounded-box w-64 border">
-            {/* 工作区列表 */}
-            <div className="text-gray-400 font-bold px-4 py-2">
-              <span>{t('workspace.title')}</span>
-            </div>
-            {workspaces.map(workspace => (
-              <li key={workspace.id}>
-                <div className="flex items-center">
-                  <a
-                    onClick={async (e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      await handleWorkspaceSwitch(workspace.id);
-                      // 使用更可靠的方式关闭下拉菜单
-                      const dropdownButton = document.activeElement as HTMLElement;
-                      if (dropdownButton) {
-                        dropdownButton.blur(); // 移除焦点以关闭下拉菜单
-                      }
-                    }}
-                    className="flex-1 flex items-center gap-2"
-                  >
-                    <div className="flex-1 flex items-center gap-2">
-                      <div className={cn(
-                        "w-2 h-2 rounded-full",
-                        workspace.id === currentWorkspace.id ? "bg-primary" : "bg-base-300"
-                      )} />
-                      <span>{workspace.name}</span>
-                    </div>
-                  </a>
+          <Transition
+            as={Fragment}
+            enter="transition ease-out duration-100"
+            enterFrom="transform opacity-0 scale-95"
+            enterTo="transform opacity-100 scale-100"
+            leave="transition ease-in duration-75"
+            leaveFrom="transform opacity-100 scale-100"
+            leaveTo="transform opacity-0 scale-95"
+          >
+            <MenuItems className="absolute right-0 mt-2 w-64 p-2 origin-top-right rounded-lg bg-white shadow-lg ring-1 ring-black/5 focus:outline-none ">
+              {/* 工作区列表 */}
+              <div className="text-gray-400 text-sm font-medium px-4 py-2">
+                <span>{t('workspace.title')}</span>
+              </div>
 
-                  <div className="flex gap-1 opacity-50 hover:opacity-100 px-2">
-                    <a
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        setWorkspaceToEdit(workspace);
-                        setShowEditWorkspaceModal(true);
-                        // 同样使用 blur() 关闭下拉菜单
-                        const dropdownButton = document.activeElement as HTMLElement;
-                        if (dropdownButton) {
-                          dropdownButton.blur();
-                        }
+              {workspaces.map(workspace => (
+                <MenuItem key={workspace.id}>
+                  <div className="px-2 hover:bg-gray-100 transition rounded-lg">
+                    <button
+                      onClick={() => {
+                        handleWorkspaceSwitch(workspace.id);
                       }}
-                      className="btn btn-ghost btn-xs px-1"
+                      className="flex w-full items-center gap-2 px-2 py-2 text-gray-600 hover:text-gray-900 rounded-md cursor-pointer"
                     >
-                      <PencilIcon className="h-3.5 w-3.5" />
-                    </a>
-                    <a
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        setWorkspaceToDelete(workspace.id);
-                        setShowDeleteWorkspaceConfirm(true);
-                        // 同样使用 blur() 关闭下拉菜单
-                        const dropdownButton = document.activeElement as HTMLElement;
-                        if (dropdownButton) {
-                          dropdownButton.blur();
-                        }
-                      }}
-                      className="btn btn-ghost btn-xs px-1"
-                    >
-                      <DeleteIcon className="h-3.5 w-3.5" />
-                    </a>
+                      <div className="flex-1 flex items-center gap-2">
+                        <div className={cn(
+                          "w-2 h-2 rounded-full",
+                          workspace.id === currentWorkspace.id ? "bg-blue-500" : "bg-gray-300"
+                        )} />
+                        <span>{workspace.name}</span>
+                      </div>
+
+                      <div className="flex gap-1">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setWorkspaceToEdit(workspace);
+                            setShowEditWorkspaceModal(true);
+                          }}
+                          className="p-1 hover:bg-black/5 rounded-md"
+                        >
+                          <PencilIcon className="h-3.5 w-3.5" />
+                        </button>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setWorkspaceToDelete(workspace.id);
+                            setShowDeleteWorkspaceConfirm(true);
+                          }}
+                          className="p-1 hover:bg-black/5 rounded-md"
+                        >
+                          <DeleteIcon className="h-3.5 w-3.5" />
+                        </button>
+                      </div>
+                    </button>
                   </div>
+                </MenuItem>
+              ))}
+
+              {/* 新建工作区按钮 */}
+              <MenuItem>
+                <div className="px-2 transition hover:bg-gray-100 rounded-lg">
+                  <button
+                    onClick={() => setShowWorkspaceModal(true)}
+                    className="flex w-full items-center gap-2 px-2 py-2 text-gray-600 hover:text-gray-900 rounded-md cursor-pointer"
+                  >
+                    <PlusIcon className="h-4 w-4" />
+                    <span>{t('workspace.new')}</span>
+                  </button>
                 </div>
-              </li>
-            ))}
+              </MenuItem>
 
-            {/* 新建工作区按钮 */}
-            <li className="mt-2">
-              <a
-                onClick={() => setShowWorkspaceModal(true)}
-                className="flex items-center gap-2 py-2 text-base-content/70 hover:text-base-content"
-              >
-                <PlusIcon className="h-4 w-4" />
-                <span>{t('workspace.new')}</span>
-              </a>
-            </li>
+              <div className="my-3 h-px bg-gray-200" />
 
-            <div className="divider my-1"></div>
+              {/* 设置菜单组 */}
+              <div className="text-gray-400 text-sm font-medium px-4 py-2">
+                <span>{t('settings.title')}</span>
+              </div>
 
-            {/* 其他菜单项 */}
-            <li>
-              <a
-                onClick={() => setIsConfirmModalOpen(true)}
-                className="flex items-center gap-2"
-              >
-                <DeleteIcon className="h-4 w-4" />
-                <span>{t('common.reset')}</span>
-              </a>
-            </li>
-            <li>
-              <a className="flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                </svg>
-                <span>Export Config</span>
-              </a>
-            </li>
-          </ul>
-        </div>
+              {/* 语言切换 */}
+              <Menu as="div" className="relative w-full">
+                {({ open }) => (
+                  <>
+                    <Menu.Button className="flex w-full items-center gap-2 px-4 py-2 hover:bg-gray-100 transition rounded-lg">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
+                      </svg>
+                      <span>{t('settings.language')}</span>
+                      <span className="ml-auto text-gray-400">
+                        {currentLanguage === 'zh' ? '中文' : 'English'}
+                      </span>
+                      <ChevronRightIcon
+                        className={cn(
+                          "h-4 w-4 transition-transform duration-200",
+                          open && "rotate-90"
+                        )}
+                      />
+                    </Menu.Button>
+
+                    <Transition
+                      as={Fragment}
+                      enter="transition ease-out duration-100"
+                      enterFrom="transform opacity-0 scale-95"
+                      enterTo="transform opacity-100 scale-100"
+                      leave="transition ease-in duration-75"
+                      leaveFrom="transform opacity-100 scale-100"
+                      leaveTo="transform opacity-0 scale-95"
+                    >
+                      <MenuItems className="absolute right-full top-0 mr-1 w-40 p-2 origin-top-right rounded-lg bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
+                        <MenuItem>
+                          <button
+                            onClick={() => changeLanguage('en')}
+                            className={cn(
+                              "flex w-full items-center px-4 py-2 text-sm rounded-md",
+                              currentLanguage === 'en' && 'text-blue-500'
+                            )}
+                          >
+                            English
+                          </button>
+                        </MenuItem>
+                        <MenuItem>
+                          <button
+                            onClick={() => changeLanguage('zh')}
+                            className={cn(
+                              "flex w-full items-center px-4 py-2 text-sm rounded-md",
+                              currentLanguage === 'zh' && 'text-blue-500'
+                            )}
+                          >
+                            中文
+                          </button>
+                        </MenuItem>
+                      </MenuItems>
+                    </Transition>
+                  </>
+                )}
+              </Menu>
+
+              {/* Reset 按钮 */}
+              <MenuItem>
+                <div className="px-2 hover:bg-gray-100 transition rounded-md">
+                  <button
+                    onClick={() => setIsConfirmModalOpen(true)}
+                    className="flex w-full items-center gap-2 px-2 py-2 rounded-md cursor-pointer"
+                  >
+                    <DeleteIcon className="h-4 w-4" />
+                    <span>{t('common.reset')}</span>
+                  </button>
+                </div>
+              </MenuItem>
+
+              {/* Export Config */}
+              <MenuItem>
+                <div className="px-2 hover:bg-gray-100 transition rounded-md">
+                  <button
+                    className="flex w-full items-center gap-2 px-2 py-2 rounded-md cursor-pointer"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                    </svg>
+                    <span>Export Config</span>
+                  </button>
+                </div>
+              </MenuItem>
+            </MenuItems>
+          </Transition>
+        </Menu>
       </div>
 
       <div className="flex h-full pt-16">
