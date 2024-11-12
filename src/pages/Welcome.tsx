@@ -3,6 +3,21 @@ import { useTranslation } from 'react-i18next';
 import { NewWorkspaceModal } from '../components/workspace/NewWorkspaceModal';
 import { useWorkspaceStore } from '../stores/workspaceStore';
 
+interface FeatureCardProps {
+    icon: 'workspace' | 'category' | 'search';
+    title: string;
+    description: string;
+}
+
+const FeatureCard = ({ icon, title, description }: FeatureCardProps) => (
+    <div className="card bg-base-200">
+        <div className="card-body">
+            <h2 className="card-title">{title}</h2>
+            <p>{description}</p>
+        </div>
+    </div>
+);
+
 export const Welcome = () => {
     const [showWorkspaceModal, setShowWorkspaceModal] = useState(false);
     const { addWorkspace } = useWorkspaceStore();

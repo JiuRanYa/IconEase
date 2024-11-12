@@ -18,7 +18,8 @@ export const ConfirmDialog = ({
     content,
     onConfirm,
     onCancel,
-    type = 'error'
+    type = 'error',
+    confirmText
 }: ConfirmDialogProps) => {
     const { t } = useTranslation();
 
@@ -50,7 +51,7 @@ export const ConfirmDialog = ({
                         )}
                         onClick={onConfirm}
                     >
-                        {t('common.confirm')}
+                        {confirmText || t('common.confirm')}
                     </button>
                 </div>
             </div>

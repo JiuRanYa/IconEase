@@ -8,13 +8,16 @@
         "delete": {
             "title": "Delete Workspace",
             "content": "Deleting a workspace will also delete all images and categories in it. This action cannot be undone. Are you sure to continue?"
-        }
+        },
+        "namePlaceholder": "Enter workspace name",
+        "edit": "Edit Workspace"
     },
     "category": {
         "delete": {
             "title": "Delete Category",
             "content": "Are you sure you want to delete this category and all its images? This action cannot be undone."
-        }
+        },
+        "all": "All"
     },
     "reset": {
         "title": "Clear All Data",
@@ -24,6 +27,49 @@
     "common": {
         "reset": "Reset",
         "delete": "Delete",
-        "cancel": "Cancel"
+        "cancel": "Cancel",
+        "confirm": "Confirm",
+        "export": "Export",
+        "import": "Import"
+    },
+    "message": {
+        "upload": {
+            "error": "Failed to upload image: {{error}}"
+        },
+        "delete": {
+            "success": "Successfully deleted {{count}} images",
+            "error": "Failed to delete: {{error}}"
+        },
+        "download": {
+            "error": "Failed to download: {{error}}"
+        }
+    },
+    "settings": {
+        "export": {
+            "title": "Export Configuration",
+            "success": "Configuration exported successfully",
+            "error": "Failed to export configuration: {{error}}"
+        },
+        "import": {
+            "title": "Import Configuration",
+            "success": "Configuration imported successfully",
+            "error": "Failed to import configuration: {{error}}"
+        }
+    },
+    "welcome": {
+        "features": {
+            "workspace": {
+                "title": "Workspace Management",
+                "desc": "Create separate workspaces for different projects"
+            },
+            "category": {
+                "title": "Category Tags",
+                "desc": "Organize and manage your icons flexibly"
+            },
+            "search": {
+                "title": "Quick Search",
+                "desc": "Find the icons you need easily"
+            }
+        }
     }
 }

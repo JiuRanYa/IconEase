@@ -329,16 +329,21 @@ export default () => {
 
               {/* Export Config */}
               <MenuItem>
-                <div className="px-2 hover:bg-gray-100 transition rounded-md">
-                  <button
-                    className="flex w-full items-center gap-2 px-2 py-2 rounded-md cursor-pointer"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                    </svg>
-                    <span>Export Config</span>
-                  </button>
-                </div>
+                {({ active }) => (
+                  <div className="px-2">
+                    <button
+                      className={cn(
+                        "flex w-full items-center gap-2 px-2 py-2 rounded-md cursor-pointer",
+                        active && "bg-black/5"
+                      )}
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                      </svg>
+                      <span>{t('settings.export.title')}</span>
+                    </button>
+                  </div>
+                )}
               </MenuItem>
             </MenuItems>
           </Transition>

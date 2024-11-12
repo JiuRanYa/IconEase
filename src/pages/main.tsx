@@ -93,7 +93,7 @@ export default ({ showUpload = true }: MainProps) => {
 
             await addImages(newImages as any);
         } catch (error) {
-            message.error(`上传图片失败:${error}`);
+            message.error(t('message.upload.error', { error }));
         }
     };
 
@@ -145,7 +145,7 @@ export default ({ showUpload = true }: MainProps) => {
                     });
                 }
             } catch (error) {
-                message.error(`Download failed: ${error}`);
+                message.error(t('message.download.error', { error }));
             }
         };
 
@@ -298,10 +298,10 @@ export default ({ showUpload = true }: MainProps) => {
             // 批量删除
             await deleteImages(imageIds);
 
-            message.success(`Successfully deleted ${imageIds.length} images`);
+            message.success(t('message.delete.success', { count: imageIds.length }));
             setIsDeleteModalOpen(false);
         } catch (error) {
-            message.error(`Delete failed: ${error}`);
+            message.error(t('message.delete.error', { error }));
         }
     };
 
