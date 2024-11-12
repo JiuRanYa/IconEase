@@ -5,6 +5,7 @@ import { useImageStore } from './imageStore';
 import { useEffect } from 'react';
 import { useWorkspaceStore } from './workspaceStore';
 import { message } from '../components/Message/MessageContainer';
+import i18next from 'i18next';
 
 interface CategoryState {
   categories: Category[];
@@ -40,7 +41,7 @@ export const useCategoryStore = create(
             c.id !== 'all'
           );
           if (isDuplicate) {
-            message.error(`分类 "${category.name}" 已存在`);
+            message.error(i18next.t('category.duplicate', { name: category.name }));
             return;
           }
         }
@@ -115,7 +116,7 @@ export const useCategoryStore = create(
         if (!hasAll) {
           const defaultCategory = {
             id: 'all',
-            name: 'All',
+            name: i18next.t('category.all'),
             icon: '📋',
             workspaceId,
             createdAt: Date.now(),

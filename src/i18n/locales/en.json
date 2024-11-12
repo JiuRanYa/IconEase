@@ -2,61 +2,9 @@
     "search": {
         "placeholder": "Search icons in current category"
     },
-    "workspace": {
-        "title": "Workspaces",
-        "new": "New Workspace",
-        "delete": {
-            "title": "Delete Workspace",
-            "content": "Deleting a workspace will also delete all images and categories in it. This action cannot be undone. Are you sure to continue?"
-        },
-        "namePlaceholder": "Enter workspace name",
-        "edit": "Edit Workspace"
-    },
-    "category": {
-        "delete": {
-            "title": "Delete Category",
-            "content": "Are you sure you want to delete this category and all its images? This action cannot be undone."
-        },
-        "all": "All"
-    },
-    "reset": {
-        "title": "Clear All Data",
-        "content": "This will delete all images and categories. This action cannot be undone. Are you sure you want to proceed?",
-        "confirm": "Clear All"
-    },
-    "common": {
-        "reset": "Reset",
-        "delete": "Delete",
-        "cancel": "Cancel",
-        "confirm": "Confirm",
-        "export": "Export",
-        "import": "Import"
-    },
-    "message": {
-        "upload": {
-            "error": "Failed to upload image: {{error}}"
-        },
-        "delete": {
-            "success": "Successfully deleted {{count}} images",
-            "error": "Failed to delete: {{error}}"
-        },
-        "download": {
-            "error": "Failed to download: {{error}}"
-        }
-    },
-    "settings": {
-        "export": {
-            "title": "Export Configuration",
-            "success": "Configuration exported successfully",
-            "error": "Failed to export configuration: {{error}}"
-        },
-        "import": {
-            "title": "Import Configuration",
-            "success": "Configuration imported successfully",
-            "error": "Failed to import configuration: {{error}}"
-        }
-    },
     "welcome": {
+        "title": "IconEase",
+        "subtitle": "Simple and efficient icon management tool",
         "features": {
             "workspace": {
                 "title": "Workspace Management",
@@ -70,6 +18,124 @@
                 "title": "Quick Search",
                 "desc": "Find the icons you need easily"
             }
+        },
+        "createButton": "Create Your First Workspace",
+        "createHint": "Start using all features after creating a workspace"
+    },
+    "main": {
+        "deleteConfirm": {
+            "title": "Delete Category Images",
+            "content": "Are you sure you want to delete {{count}} images? This action cannot be undone.",
+            "confirm": "Delete",
+            "cancel": "Cancel"
+        },
+        "upload": {
+            "success": "Successfully added {{count}} images",
+            "duplicate": "Skipped {{skipCount}} duplicate images",
+            "allDuplicate": "All images ({{count}}) already exist in current workspace"
+        }
+    },
+    "category": {
+        "all": "All",
+        "favorites": "Favorites",
+        "duplicate": "Category \"{{name}}\" already exists"
+    },
+    "common": {
+        "error": {
+            "init": "Failed to initialize images: {{error}}",
+            "add": "Failed to add image: {{error}}",
+            "delete": "Batch delete failed: {{error}}",
+            "noWorkspace": "No workspace selected"
+        },
+        "cancel": "Cancel",
+        "confirm": "Confirm",
+        "create": "Create",
+        "save": "Save",
+        "delete": "Delete",
+        "edit": "Edit",
+        "search": "Search",
+        "upload": "Upload",
+        "noData": "No data",
+        "loading": "Loading...",
+        "reset": "Reset",
+        "export": "Export",
+        "import": "Import"
+    },
+    "image": {
+        "upload": {
+            "success": "Successfully uploaded {{count}} images",
+            "duplicate": "Skipped {{count}} duplicate images",
+            "error": "Upload failed"
+        },
+        "delete": {
+            "title": "Delete Image",
+            "content": "Are you sure you want to delete the selected images? This action cannot be undone.",
+            "success": "Successfully deleted",
+            "error": "Delete failed"
+        },
+        "noData": "No images",
+        "dragTip": "Drag images here, or click to upload"
+    },
+    "settings": {
+        "title": "Settings",
+        "language": "Language",
+        "theme": "Theme",
+        "about": "About",
+        "version": "Version",
+        "reset": {
+            "title": "Clear All Data",
+            "content": "This will delete all images and categories. This action cannot be undone. Are you sure you want to proceed?",
+            "confirm": "Clear All"
+        },
+        "export": {
+            "title": "Export Configuration",
+            "success": "Configuration exported successfully",
+            "error": "Failed to export configuration: {{error}}"
+        },
+        "import": {
+            "title": "Import Configuration",
+            "success": "Configuration imported successfully",
+            "error": "Failed to import configuration: {{error}}"
+        }
+    },
+    "message": {
+        "upload": {
+            "error": "Failed to upload image: {{error}}"
+        },
+        "delete": {
+            "success": "Successfully deleted {{count}} images",
+            "error": "Failed to delete: {{error}}"
+        },
+        "download": {
+            "error": "Failed to download: {{error}}"
+        }
+    },
+    "workspace": {
+        "title": "Workspaces",
+        "new": "New Workspace",
+        "edit": "Edit Workspace",
+        "delete": {
+            "title": "Delete Workspace",
+            "content": "Deleting a workspace will also delete all images and categories in it. This action cannot be undone. Are you sure you want to continue?",
+            "confirm": "Delete",
+            "cancel": "Cancel"
+        },
+        "namePlaceholder": "Enter workspace name"
+    },
+    "error": {
+        "category": {
+            "exists": "Category already exists",
+            "notFound": "Category not found"
+        },
+        "image": {
+            "notFound": "Image not found",
+            "initFailed": "Failed to initialize images",
+            "addFailed": "Failed to add image"
+        },
+        "workspace": {
+            "notFound": "Workspace not found",
+            "deleteLast": "Cannot delete the last workspace",
+            "emptyName": "Workspace name cannot be empty"
         }
     }
 }
