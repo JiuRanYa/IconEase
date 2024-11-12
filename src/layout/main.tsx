@@ -171,11 +171,11 @@ export default () => {
         </div>
 
         {/* Menu Button */}
-        <Menu as="div" className="relative">
-          <Menu.Button className="inline-flex items-center gap-2 px-3 py-1.5 text-sm hover:bg-black/5 rounded-md">
+        <Menu as="div" className="relative focus:outline-none outline-none">
+          <MenuButton className="inline-flex items-center gap-2 px-3 py-1.5 text-sm hover:bg-black/5 rounded-md outline-none">
             <span className="mr-2">{currentWorkspace.name}</span>
             <HamburgerIcon className="h-4 w-4" />
-          </Menu.Button>
+          </MenuButton>
 
           <Transition
             as={Fragment}
