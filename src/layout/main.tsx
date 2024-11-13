@@ -135,7 +135,7 @@ export default () => {
                 "flex-1 whitespace-nowrap transition-all duration-500 flex items-center justify-between overflow-hidden",
                 isSidebarCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'
               )}>
-                <span>New Icons</span>
+                <span>{t('sidebar.newIcons')}</span>
                 <span className="text-xs text-base-content/50">{getCategoryCount('all')}</span>
               </div>
             </div>
@@ -156,7 +156,7 @@ export default () => {
                 "flex-1 whitespace-nowrap transition-all duration-500 flex items-center justify-between overflow-hidden",
                 isSidebarCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'
               )}>
-                <span>Favorites</span>
+                <span>{t('sidebar.favorites')}</span>
                 <span className="text-xs text-base-content/50">{getFavoritesCount()}</span>
               </div>
             </Link>
@@ -170,7 +170,7 @@ export default () => {
                 "mt-4 mb-4 px-7 transition-all duration-500",
                 isSidebarCollapsed ? 'opacity-0 h-0 overflow-hidden' : 'opacity-100 h-auto'
               )}>
-                <h2 className="text-sm font-semibold text-base-content/70">Category</h2>
+                <h2 className="text-sm font-semibold text-base-content/70">{t('sidebar.category')}</h2>
               </div>
           }
 
@@ -221,7 +221,7 @@ export default () => {
                       onClick={handleDeleteCategory}
                     >
                       <DeleteIcon className="h-4 w-4" />
-                      <span>删除分类及图片</span>
+                      <span>{t('category.delete.button')}</span>
                     </button>
                   </div>
                 )}
@@ -235,7 +235,7 @@ export default () => {
                 "flex w-full items-center rounded-lg px-3 py-2 text-base-content/70 hover:bg-base-200 relative",
                 isSidebarCollapsed ? 'justify-center' : 'gap-2'
               )}
-              title={isSidebarCollapsed ? "Add Category" : undefined}
+              title={isSidebarCollapsed ? t('category.add') : undefined}
             >
               <div className="flex-shrink-0">
                 <PlusIcon className="size-5 transition-all duration-500" />
@@ -244,7 +244,7 @@ export default () => {
                 "whitespace-nowrap transition-all duration-500 overflow-hidden",
                 isSidebarCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'
               )}>
-                Add Category
+                {t('category.add')}
               </div>
             </button>
           </div>
@@ -257,7 +257,7 @@ export default () => {
                 "flex w-full items-center rounded-lg px-3 py-2 hover:bg-base-200 relative",
                 isSidebarCollapsed ? 'justify-center' : 'gap-2'
               )}
-              title={isSidebarCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
+              title={isSidebarCollapsed ? t('sidebar.expand') : t('sidebar.collapse')}
             >
               <div className="flex-shrink-0">
                 <ChevronLeftIcon
@@ -271,7 +271,7 @@ export default () => {
                 "whitespace-nowrap transition-all duration-500 overflow-hidden text-sm",
                 isSidebarCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'
               )}>
-                Collapse Sidebar
+                {t('sidebar.collapse')}
               </div>
             </button>
           </div>

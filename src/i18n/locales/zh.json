@@ -49,8 +49,10 @@
         "duplicate": "分类 \"{{name}}\" 已存在",
         "delete": {
             "title": "删除分类",
-            "content": "确定要删除此分类及其所有图片吗？此操作不可恢复。"
-        }
+            "content": "确定要删除此分类及其所有图片吗？此操作不可恢复。",
+            "button": "删除分类及图片"
+        },
+        "add": "添加分类"
     },
     "common": {
         "error": {
@@ -137,5 +139,12 @@
             "deleteLast": "无法删除最后一个工作区",
             "emptyName": "工作区名称不能为空"
         }
+    },
+    "sidebar": {
+        "newIcons": "新图标",
+        "favorites": "收藏夹",
+        "category": "分类",
+        "expand": "展开侧边栏",
+        "collapse": "收起侧边栏"
     }
 }

@@ -38,7 +38,15 @@
     "category": {
         "all": "All",
         "favorites": "Favorites",
-        "duplicate": "Category \"{{name}}\" already exists"
+        "duplicate": "Category \"{{name}}\" already exists",
+        "add": "Add Category",
+        "delete": {
+            "title": "Delete Category",
+            "content": "Are you sure you want to delete the selected category and all its images? This action cannot be undone. Are you sure you want to continue?",
+            "confirm": "Delete",
+            "cancel": "Cancel",
+            "button": "Delete Category and Images"
+        }
     },
     "common": {
         "error": {
@@ -137,5 +145,12 @@
             "deleteLast": "Cannot delete the last workspace",
             "emptyName": "Workspace name cannot be empty"
         }
+    },
+    "sidebar": {
+        "newIcons": "New Icons",
+        "favorites": "Favorites",
+        "category": "Category",
+        "expand": "Expand Sidebar",
+        "collapse": "Collapse Sidebar"
     }
 }
