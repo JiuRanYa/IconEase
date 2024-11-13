@@ -61,7 +61,9 @@ export const useCategoryStore = create(
       },
       getFavoritesCount: () => {
         const images = useImageStore.getState().images;
-        return images.filter(img => img.isFavorite).length;
+        const workspaceId = useWorkspaceStore.getState().currentWorkspace?.id;
+
+        return images.filter(img => img.workspaceId === workspaceId && img.isFavorite).length;
       },
       updateCounts: () => {
         set((state) => ({ ...state }));
