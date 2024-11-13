@@ -1,4 +1,7 @@
 {
+    "search": {
+        "placeholder": "在当前分类中搜索图标"
+    },
     "welcome": {
         "title": "IconEase",
         "subtitle": "简单、高效的图标管理工具",

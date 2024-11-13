@@ -63,10 +63,6 @@ export const useWorkspaceStore = create<WorkspaceState>()(
       },
 
       deleteWorkspace: (id) => {
-        const { workspaces } = get();
-        if (workspaces.length <= 1) {
-          throw new Error(i18next.t('error.workspace.deleteLast'));
-        }
         const { currentWorkspace } = get();
 
         // 删除该工作区的所有图片和分类

@@ -9,7 +9,7 @@ interface FeatureCardProps {
     description: string;
 }
 
-const FeatureCard = ({ icon, title, description }: FeatureCardProps) => (
+const FeatureCard = ({ title, description }: FeatureCardProps) => (
     <div className="card bg-base-200">
         <div className="card-body">
             <h2 className="card-title">{title}</h2>
@@ -29,7 +29,7 @@ export const Welcome = () => {
                 {/* Logo 和标题区域 */}
                 <div className="text-center space-y-4 mb-12">
                     <div className="inline-block">
-                        <img src="/logo.png" alt="IconEase Logo" className="w-24 h-24 mx-auto" />
+                        <img src="/icon.png" alt="IconEase Logo" className="w-24 h-24 mx-auto" />
                     </div>
                     <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
                         {t('welcome.title')}
