@@ -1,7 +1,6 @@
 import { save } from '@tauri-apps/plugin-dialog';
 import { writeFile } from '@tauri-apps/plugin-fs';
-import { useState, useEffect } from 'react';
-import { useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 
@@ -25,7 +24,7 @@ export default ({ showUpload = true }: MainProps) => {
   const location = useLocation();
   const isFavoritePage = location.pathname === '/favorites';
   const { activeCategory } = useCategoryStore();
-  const { 
+  const {
     addImages, getFilteredImages, getFavoriteImages,
     toggleFavorite, deleteImage, deleteImages,
   } = useImageStore();
@@ -43,7 +42,7 @@ export default ({ showUpload = true }: MainProps) => {
   };
 
   // 处理文件上传
-  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleUpload = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
     try {
       const files = e.target.files;
       if (!files?.length) return;
@@ -100,7 +99,7 @@ export default ({ showUpload = true }: MainProps) => {
     } catch (error) {
       message.error(t('message.upload.error', { error }));
     }
-  };
+  }, [activeCategory, addImages, t]);
 
   // 计算列数
   const getColumnCount = () => {
@@ -169,8 +168,9 @@ export default ({ showUpload = true }: MainProps) => {
 
           {/* 悬浮操作按钮 */}
           <div className="absolute size-full inset-0 flex items-center justify-center gap-2 
-                        opacity-0 group-hover/image:bg-gray-100/70 group-hover/image:opacity-100 transition"
-            onClick={() => setSelectedImage(image.url)}
+            opacity-0 group-hover/image:bg-gray-100/70 group-hover/image:opacity-100 transition"
+            onClick={() => setSelectedImage(image.url)
+          }
           >
             {/* 下载按钮 */}
             <button

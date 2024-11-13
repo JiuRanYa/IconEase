@@ -32,7 +32,7 @@ export const ImageViewer = ({ url, onClose }: ImageViewerProps) => {
     setIsDragging(true);
     setDragStart({
       x: e.clientX - position.x,
-      y: e.clientY - position.y
+      y: e.clientY - position.y,
     });
   };
 
@@ -40,7 +40,7 @@ export const ImageViewer = ({ url, onClose }: ImageViewerProps) => {
     if (!isDragging) return;
     setPosition({
       x: e.clientX - dragStart.x,
-      y: e.clientY - dragStart.y
+      y: e.clientY - dragStart.y,
     });
   };
 
@@ -105,7 +105,7 @@ export const ImageViewer = ({ url, onClose }: ImageViewerProps) => {
         onWheel={handleWheel}
         onClick={(e) => e.stopPropagation()}
         style={{
-          transform: `translate(${position.x}px, ${position.y}px) scale(${scale})`
+          transform: `translate(${position.x}px, ${position.y}px) scale(${scale})`,
         }}
       >
         <img
