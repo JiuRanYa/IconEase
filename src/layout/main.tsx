@@ -1,15 +1,18 @@
-import { useState, useEffect, useMemo, useCallback } from "react";
-import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
-import { useCategoryStore } from "../stores/categoryStore";
-import { CategoryStoreSubscriber } from "../stores/categoryStore";
-import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
-import { PlusIcon, HeartIcon, ChevronLeftIcon, DeleteIcon } from '../components/icons';
-import { cn } from '../utils/cn';
+import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
+
 import { ConfirmDialog } from '../components/ConfirmDialog';
-import { useWorkspaceStore } from "../stores/workspaceStore";
+import { PlusIcon, HeartIcon, ChevronLeftIcon, DeleteIcon } from '../components/icons';
 import { Welcome } from '../pages/Welcome';
-import { useTranslation } from "react-i18next";
-import Header from "./header";
+import { useCategoryStore } from '../stores/categoryStore';
+import { CategoryStoreSubscriber } from '../stores/categoryStore';
+import { useWorkspaceStore } from '../stores/workspaceStore';
+import { cn } from '../utils/cn';
+
+
+import Header from './header';
 
 export default () => {
   const { currentWorkspace, workspaces } = useWorkspaceStore();
@@ -45,7 +48,7 @@ export default () => {
   const workspaceCategories = useMemo(() => {
     if (!currentWorkspace) return [];
     return categories.filter(category =>
-      category.workspaceId === currentWorkspace.id
+      category.workspaceId === currentWorkspace.id,
     );
   }, [categories, currentWorkspace]);
 
@@ -65,7 +68,7 @@ export default () => {
       id: `category-${Date.now()}`,
       name: newCategoryName,
       icon: selectedEmoji,
-      workspaceId: currentWorkspace.id
+      workspaceId: currentWorkspace.id,
     };
     addCategory(newCategory);
     setNewCategoryName('');
@@ -119,21 +122,21 @@ export default () => {
       <div className="flex h-full pt-16">
         {/* Sidebar */}
         <div className={cn(
-          "fixed left-0 top-16 bottom-0 flex flex-col bg-base-100 border-r border-base-200 transition-all duration-500 ease-in-out",
-          isSidebarCollapsed ? 'w-16' : 'w-64'
+          'fixed left-0 top-16 bottom-0 flex flex-col bg-base-100 border-r border-base-200 transition-all duration-500 ease-in-out',
+          isSidebarCollapsed ? 'w-16' : 'w-64',
         )} style={{ zIndex: 100 }}>
           <div className="space-y-2 p-4 text-sm">
             {/* New Icons button */}
             <div className={cn(
-              "flex items-center rounded-lg px-3 py-2 transition cursor-pointer hover:bg-base-200 relative",
-              isSidebarCollapsed ? 'justify-center' : 'gap-2'
+              'flex items-center rounded-lg px-3 py-2 transition cursor-pointer hover:bg-base-200 relative',
+              isSidebarCollapsed ? 'justify-center' : 'gap-2',
             )}>
               <div className="flex-shrink-0">
                 <PlusIcon className="size-5 transition-all duration-500" />
               </div>
               <div className={cn(
-                "flex-1 whitespace-nowrap transition-all duration-500 flex items-center justify-between overflow-hidden",
-                isSidebarCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'
+                'flex-1 whitespace-nowrap transition-all duration-500 flex items-center justify-between overflow-hidden',
+                isSidebarCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100',
               )}>
                 <span>{t('sidebar.newIcons')}</span>
                 <span className="text-xs text-base-content/50">{getCategoryCount('all')}</span>
@@ -144,17 +147,17 @@ export default () => {
             <Link
               to="/favorites"
               className={cn(
-                "flex items-center rounded-lg px-3 py-2 transition relative",
+                'flex items-center rounded-lg px-3 py-2 transition relative',
                 location.pathname === '/favorites' ? 'bg-base-200' : 'hover:bg-base-200',
-                isSidebarCollapsed ? 'justify-center' : 'gap-2'
+                isSidebarCollapsed ? 'justify-center' : 'gap-2',
               )}
             >
               <div className="flex-shrink-0">
                 <HeartIcon className="size-5 transition-all duration-500" />
               </div>
               <div className={cn(
-                "flex-1 whitespace-nowrap transition-all duration-500 flex items-center justify-between overflow-hidden",
-                isSidebarCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'
+                'flex-1 whitespace-nowrap transition-all duration-500 flex items-center justify-between overflow-hidden',
+                isSidebarCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100',
               )}>
                 <span>{t('sidebar.favorites')}</span>
                 <span className="text-xs text-base-content/50">{getFavoritesCount()}</span>
@@ -167,15 +170,15 @@ export default () => {
               <div className="border-separate border border-gray-50 transition-all"></div>
               :
               <div className={cn(
-                "mt-4 mb-4 px-7 transition-all duration-500",
-                isSidebarCollapsed ? 'opacity-0 h-0 overflow-hidden' : 'opacity-100 h-auto'
+                'mt-4 mb-4 px-7 transition-all duration-500',
+                isSidebarCollapsed ? 'opacity-0 h-0 overflow-hidden' : 'opacity-100 h-auto',
               )}>
                 <h2 className="text-sm font-semibold text-base-content/70">{t('sidebar.category')}</h2>
               </div>
           }
 
           {/* Categories list */}
-          <div className={cn("flex-1 space-y-1 overflow-y-auto p-4 text-sm")}>
+          <div className={cn('flex-1 space-y-1 overflow-y-auto p-4 text-sm')}>
             {workspaceCategories.map((category) => (
               <div
                 key={category.id}
@@ -184,7 +187,7 @@ export default () => {
               >
                 <a
                   className={cn(
-                    "flex items-center rounded-lg px-3 py-2 transition relative cursor-pointer",
+                    'flex items-center rounded-lg px-3 py-2 transition relative cursor-pointer',
                     activeCategory === category.id && location.pathname === '/home' ? 'bg-base-200' : 'hover:bg-base-200',
                     isSidebarCollapsed ? 'justify-center' : 'gap-2',
                   )}
@@ -197,8 +200,8 @@ export default () => {
                     </span>
                   </div>
                   <div className={cn(
-                    "flex-1 whitespace-nowrap transition-all duration-500 flex items-center justify-between overflow-hidden",
-                    isSidebarCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'
+                    'flex-1 whitespace-nowrap transition-all duration-500 flex items-center justify-between overflow-hidden',
+                    isSidebarCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100',
                   )}>
                     <span>{category.name}</span>
                     <span className="text-xs text-base-content/50">
@@ -213,7 +216,7 @@ export default () => {
                     className="fixed z-[100] min-w-[160px] bg-base-100 rounded-lg shadow-lg border border-base-300 p-1.5 overflow-hidden"
                     style={{
                       left: `${contextMenuPosition.x}px`,
-                      top: `${contextMenuPosition.y}px`
+                      top: `${contextMenuPosition.y}px`,
                     }}
                   >
                     <button
@@ -232,8 +235,8 @@ export default () => {
             <button
               onClick={() => setIsModalOpen(true)}
               className={cn(
-                "flex w-full items-center rounded-lg px-3 py-2 text-base-content/70 hover:bg-base-200 relative",
-                isSidebarCollapsed ? 'justify-center' : 'gap-2'
+                'flex w-full items-center rounded-lg px-3 py-2 text-base-content/70 hover:bg-base-200 relative',
+                isSidebarCollapsed ? 'justify-center' : 'gap-2',
               )}
               title={isSidebarCollapsed ? t('category.add') : undefined}
             >
@@ -241,8 +244,8 @@ export default () => {
                 <PlusIcon className="size-5 transition-all duration-500" />
               </div>
               <div className={cn(
-                "whitespace-nowrap transition-all duration-500 overflow-hidden",
-                isSidebarCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'
+                'whitespace-nowrap transition-all duration-500 overflow-hidden',
+                isSidebarCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100',
               )}>
                 {t('category.add')}
               </div>
@@ -254,22 +257,22 @@ export default () => {
             <button
               onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
               className={cn(
-                "flex w-full items-center rounded-lg px-3 py-2 hover:bg-base-200 relative",
-                isSidebarCollapsed ? 'justify-center' : 'gap-2'
+                'flex w-full items-center rounded-lg px-3 py-2 hover:bg-base-200 relative',
+                isSidebarCollapsed ? 'justify-center' : 'gap-2',
               )}
               title={isSidebarCollapsed ? t('sidebar.expand') : t('sidebar.collapse')}
             >
               <div className="flex-shrink-0">
                 <ChevronLeftIcon
                   className={cn(
-                    "transition-all duration-500 size-4",
-                    isSidebarCollapsed ? 'rotate-180' : ''
+                    'transition-all duration-500 size-4',
+                    isSidebarCollapsed ? 'rotate-180' : '',
                   )}
                 />
               </div>
               <div className={cn(
-                "whitespace-nowrap transition-all duration-500 overflow-hidden text-sm",
-                isSidebarCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'
+                'whitespace-nowrap transition-all duration-500 overflow-hidden text-sm',
+                isSidebarCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100',
               )}>
                 {t('sidebar.collapse')}
               </div>
@@ -279,8 +282,8 @@ export default () => {
 
         {/* Main content */}
         <div className={cn(
-          "flex-1 overflow-y-auto p-4 transition-all duration-500",
-          isSidebarCollapsed ? 'ml-20' : 'ml-64'
+          'flex-1 overflow-y-auto p-4 transition-all duration-500',
+          isSidebarCollapsed ? 'ml-20' : 'ml-64',
         )}>
           <Outlet />
         </div>
@@ -300,7 +303,7 @@ export default () => {
                 >
                   <span className="text-sm">{selectedEmoji}</span>
                 </button>
-                <div className={cn("absolute left-0 top-full mt-2 z-50", showEmojiPicker ? 'visible' : 'hidden')}>
+                <div className={cn('absolute left-0 top-full mt-2 z-50', showEmojiPicker ? 'visible' : 'hidden')}>
                   <EmojiPicker
                     onEmojiClick={onEmojiClick}
                     autoFocusSearch={false}
@@ -335,8 +338,8 @@ export default () => {
             </button>
             <button
               className={cn(
-                "btn btn-primary btn-sm",
-                !newCategoryName.trim() && "btn-disabled"
+                'btn btn-primary btn-sm',
+                !newCategoryName.trim() && 'btn-disabled',
               )}
               onClick={handleAddCategory}
             >

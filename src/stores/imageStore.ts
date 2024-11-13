@@ -1,10 +1,12 @@
+import i18next from 'i18next';
 import { create } from 'zustand';
+
+import { message } from '../components/Message/MessageContainer';
 import { ImageItem } from '../types';
 import { db } from '../utils/db';
+
 import { useCategoryStore } from './categoryStore';
-import { message } from '../components/Message/MessageContainer';
 import { useWorkspaceStore } from './workspaceStore';
-import i18next from 'i18next';
 
 interface ImageState {
   images: ImageItem[];
@@ -38,7 +40,7 @@ export const useImageStore = create<ImageState>((set, get) => ({
 
       const images = storedImages.map(img => ({
         ...img,
-        url: URL.createObjectURL(new Blob([img.binaryData], { type: img.type }))
+        url: URL.createObjectURL(new Blob([img.binaryData], { type: img.type })),
       }));
 
       set({ images });
@@ -85,13 +87,13 @@ export const useImageStore = create<ImageState>((set, get) => ({
             isFavorite: false,
             createdAt: Date.now(),
           } as ImageItem;
-        })
+        }),
       );
 
       if (processedImages.length > 0) {
         await db.putAll('images', processedImages);
         set((state) => ({
-          images: [...state.images, ...processedImages]
+          images: [...state.images, ...processedImages],
         }));
 
         // 显示添加成功信息
@@ -131,7 +133,7 @@ export const useImageStore = create<ImageState>((set, get) => ({
 
   toggleFavorite: async (id) => {
     const newImages = get().images.map((img) =>
-      img.id === id ? { ...img, isFavorite: !img.isFavorite } : img
+      img.id === id ? { ...img, isFavorite: !img.isFavorite } : img,
     );
     await db.putAll('images', newImages);
     set({ images: newImages });
@@ -155,7 +157,7 @@ export const useImageStore = create<ImageState>((set, get) => ({
     if (!workspaceId) return [];
 
     return images.filter(img =>
-      img.workspaceId === workspaceId && img.isFavorite
+      img.workspaceId === workspaceId && img.isFavorite,
     );
   },
 
@@ -180,7 +182,7 @@ export const useImageStore = create<ImageState>((set, get) => ({
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase();
       filteredImages = filteredImages.filter(img =>
-        img.fileName.toLowerCase().includes(query)
+        img.fileName.toLowerCase().includes(query),
       );
     }
 
@@ -195,12 +197,12 @@ export const useImageStore = create<ImageState>((set, get) => ({
 
     // 只检查当前工作区的图片
     const workspaceImages = images.filter(img =>
-      img.workspaceId === currentWorkspaceId
+      img.workspaceId === currentWorkspaceId,
     );
 
     // 检查文件名是否在当前工作区重复
     const hasSameFileName = workspaceImages.some(img =>
-      img.fileName === newImage.fileName
+      img.fileName === newImage.fileName,
     );
 
     return hasSameFileName;
@@ -213,7 +215,7 @@ export const useImageStore = create<ImageState>((set, get) => ({
 
       // 更新状态
       set((state) => ({
-        images: state.images.filter((img) => !ids.includes(img.id))
+        images: state.images.filter((img) => !ids.includes(img.id)),
       }));
 
       return Promise.resolve();
@@ -225,7 +227,7 @@ export const useImageStore = create<ImageState>((set, get) => ({
 
   deleteWorkspaceImages: (workspaceId: string) => {
     set(state => ({
-      images: state.images.filter(img => img.workspaceId !== workspaceId)
+      images: state.images.filter(img => img.workspaceId !== workspaceId),
     }));
   },
 })); 

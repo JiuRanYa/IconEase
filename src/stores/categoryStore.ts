@@ -1,11 +1,13 @@
+import i18next from 'i18next';
+import { useEffect } from 'react';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { Category } from '../types';
-import { useImageStore } from './imageStore';
-import { useEffect } from 'react';
-import { useWorkspaceStore } from './workspaceStore';
+
 import { message } from '../components/Message/MessageContainer';
-import i18next from 'i18next';
+import { Category } from '../types';
+
+import { useImageStore } from './imageStore';
+import { useWorkspaceStore } from './workspaceStore';
 
 interface CategoryState {
   categories: Category[];
@@ -29,7 +31,7 @@ export const useCategoryStore = create(
       setActiveCategory: (id) => set({ activeCategory: id }),
       addCategory: (category) => {
         const existingCategories = get().categories.filter(c =>
-          c.workspaceId === category.workspaceId
+          c.workspaceId === category.workspaceId,
         );
 
         if (category.id === 'all') {
@@ -38,7 +40,7 @@ export const useCategoryStore = create(
         } else {
           const isDuplicate = existingCategories.some(c =>
             c.name.toLowerCase() === category.name.toLowerCase() &&
-            c.id !== 'all'
+            c.id !== 'all',
           );
           if (isDuplicate) {
             message.error(i18next.t('category.duplicate', { name: category.name }));
@@ -47,7 +49,7 @@ export const useCategoryStore = create(
         }
 
         set((state) => ({
-          categories: [...state.categories, category]
+          categories: [...state.categories, category],
         }));
       },
       getCategoryCount: (categoryId) => {
@@ -72,9 +74,9 @@ export const useCategoryStore = create(
         const workspaceId = useWorkspaceStore.getState().currentWorkspace?.id;
         set((state) => ({
           categories: state.categories.filter(c =>
-            c.id === 'all' || c.workspaceId !== workspaceId
+            c.id === 'all' || c.workspaceId !== workspaceId,
           ),
-          activeCategory: 'all'
+          activeCategory: 'all',
         }));
       },
       deleteCategory: (categoryId: string) => {
@@ -85,16 +87,16 @@ export const useCategoryStore = create(
         set((state) => ({
           categories: state.categories.filter(c =>
             c.id !== categoryId &&
-            (c.id === 'all' || c.workspaceId === workspaceId)
+            (c.id === 'all' || c.workspaceId === workspaceId),
           ),
-          activeCategory: state.activeCategory === categoryId ? 'all' : state.activeCategory
+          activeCategory: state.activeCategory === categoryId ? 'all' : state.activeCategory,
         }));
 
         const images = useImageStore.getState().images;
         const imageIds = images
           .filter(img =>
             img.categoryId === categoryId &&
-            img.workspaceId === workspaceId
+            img.workspaceId === workspaceId,
           )
           .map(img => img.id);
         useImageStore.getState().deleteImages(imageIds);
@@ -102,7 +104,7 @@ export const useCategoryStore = create(
       deleteWorkspaceCategories: (workspaceId: string) => {
         set(state => ({
           categories: state.categories.filter(c => c.workspaceId !== workspaceId),
-          activeCategory: 'all'
+          activeCategory: 'all',
         }));
       },
       getWorkspaceCategories: () => {
@@ -111,7 +113,7 @@ export const useCategoryStore = create(
         if (!workspaceId) return [];
 
         const workspaceCategories = categories.filter(c =>
-          c.workspaceId === workspaceId
+          c.workspaceId === workspaceId,
         );
 
         const hasAll = workspaceCategories.some(c => c.id === 'all');
@@ -125,7 +127,7 @@ export const useCategoryStore = create(
           };
 
           set(state => ({
-            categories: [...state.categories, defaultCategory]
+            categories: [...state.categories, defaultCategory],
           }));
 
           return [defaultCategory, ...workspaceCategories];
@@ -136,8 +138,8 @@ export const useCategoryStore = create(
     }),
     {
       name: 'category-storage',
-    }
-  )
+    },
+  ),
 );
 
 // CategoryStoreSubscriber 保持不变

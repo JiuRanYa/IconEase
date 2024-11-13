@@ -1,9 +1,11 @@
+import i18next from 'i18next';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+
 import { Workspace } from '../types';
-import { useImageStore } from './imageStore';
+
 import { useCategoryStore } from './categoryStore';
-import i18next from 'i18next';
+import { useImageStore } from './imageStore';
 
 interface WorkspaceState {
   workspaces: Workspace[];
@@ -46,7 +48,7 @@ export const useWorkspaceStore = create<WorkspaceState>()(
         // 直接添加分类
         useCategoryStore.setState(state => ({
           categories: [...state.categories, defaultCategory],
-          activeCategory: 'all'
+          activeCategory: 'all',
         }));
       },
 
@@ -87,7 +89,7 @@ export const useWorkspaceStore = create<WorkspaceState>()(
       updateWorkspace: (id, name) => {
         set(state => ({
           workspaces: state.workspaces.map(w =>
-            w.id === id ? { ...w, name } : w
+            w.id === id ? { ...w, name } : w,
           ),
           currentWorkspace: state.currentWorkspace?.id === id
             ? { ...state.currentWorkspace, name }
@@ -97,6 +99,6 @@ export const useWorkspaceStore = create<WorkspaceState>()(
     }),
     {
       name: 'workspace-storage',
-    }
-  )
+    },
+  ),
 ); 

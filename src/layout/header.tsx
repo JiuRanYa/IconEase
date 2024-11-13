@@ -1,22 +1,29 @@
 import { Menu, MenuButton, MenuItem, MenuItems, Transition } from '@headlessui/react';
+import { t } from 'i18next';
 import { Fragment, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import { ConfirmDialog } from '../components/ConfirmDialog';
 import { ChevronRightIcon, DeleteIcon, HamburgerIcon, PencilIcon, PlusIcon, SearchIcon } from '../components/icons';
+import { EditWorkspaceModal } from '../components/workspace/EditWorkspaceModal';
+import { NewWorkspaceModal } from '../components/workspace/NewWorkspaceModal';
 import { useLanguage } from '../hooks/useLanguage';
+import { useCategoryStore } from '../stores/categoryStore';
 import { useImageStore } from '../stores/imageStore';
 import { useWorkspaceStore } from '../stores/workspaceStore';
-import { t } from 'i18next';
-import { cn } from '../utils/cn';
 import { Workspace } from '../types';
-import { EditWorkspaceModal } from '../components/workspace/EditWorkspaceModal';
-import { ConfirmDialog } from '../components/ConfirmDialog';
-import { NewWorkspaceModal } from '../components/workspace/NewWorkspaceModal';
-import { useCategoryStore } from '../stores/categoryStore';
-import { useNavigate } from 'react-router-dom';
+import { cn } from '../utils/cn';
+
 
 export default () => {
   const { searchQuery, setSearchQuery } = useImageStore();
   const { currentLanguage, changeLanguage } = useLanguage();
-  const { currentWorkspace, updateWorkspace, addWorkspace, workspaces, switchWorkspace, deleteWorkspace } = useWorkspaceStore();
+  const { 
+    workspaces,
+    currentWorkspace,
+    updateWorkspace, addWorkspace, 
+    switchWorkspace, deleteWorkspace, 
+  } = useWorkspaceStore();
   const [workspaceToEdit, setWorkspaceToEdit] = useState<Workspace | null>(null);
 
   const [showEditWorkspaceModal, setShowEditWorkspaceModal] = useState(false);
@@ -26,7 +33,7 @@ export default () => {
   const [showWorkspaceModal, setShowWorkspaceModal] = useState(false);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   // 重写工作区切换方法以添加加载状态
   const handleWorkspaceSwitch = async (workspaceId: string) => {
@@ -103,8 +110,8 @@ export default () => {
                   >
                     <div className="flex-1 flex items-center gap-2">
                       <div className={cn(
-                        "w-2 h-2 rounded-full me-2",
-                        workspace.id === currentWorkspace?.id ? "bg-blue-500" : "bg-gray-300"
+                        'w-2 h-2 rounded-full me-2',
+                        workspace.id === currentWorkspace?.id ? 'bg-blue-500' : 'bg-gray-300',
                       )} />
                       <span>{workspace.name}</span>
                     </div>
@@ -168,8 +175,8 @@ export default () => {
                     </span>
                     <ChevronRightIcon
                       className={cn(
-                        "h-4 w-4 transition-transform duration-200",
-                        open && "rotate-90"
+                        'h-4 w-4 transition-transform duration-200',
+                        open && 'rotate-90',
                       )}
                     />
                   </MenuButton>
@@ -188,8 +195,8 @@ export default () => {
                         <button
                           onClick={() => changeLanguage('en')}
                           className={cn(
-                            "flex w-full items-center px-4 py-2 text-sm rounded-md",
-                            currentLanguage === 'en' && 'text-blue-500'
+                            'flex w-full items-center px-4 py-2 text-sm rounded-md',
+                            currentLanguage === 'en' && 'text-blue-500',
                           )}
                         >
                           English
@@ -199,8 +206,8 @@ export default () => {
                         <button
                           onClick={() => changeLanguage('zh')}
                           className={cn(
-                            "flex w-full items-center px-4 py-2 text-sm rounded-md",
-                            currentLanguage === 'zh' && 'text-blue-500'
+                            'flex w-full items-center px-4 py-2 text-sm rounded-md',
+                            currentLanguage === 'zh' && 'text-blue-500',
                           )}
                         >
                           中文
@@ -230,7 +237,7 @@ export default () => {
               <div className="px-2">
                 <button
                   className={cn(
-                    "flex w-full items-center gap-2 px-2 py-2 rounded-md cursor-pointer",
+                    'flex w-full items-center gap-2 px-2 py-2 rounded-md cursor-pointer',
                   )}
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -320,5 +327,5 @@ export default () => {
       />
 
     </div>
-  )
+  );
 };
