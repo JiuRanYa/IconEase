@@ -17,6 +17,16 @@
 <table>
   <tr>
     <td width="50%">
+      <img src="public/demo5.jpg" alt="Muti workspace" width="100%"/>
+      <p align="center"><em>Muti workspace</em></p>
+    </td>
+    <td width="50%">
+      <img src="public/demo6.jpg" alt="Clear workspace ui" width="100%"/>
+      <p align="center"><em>Clear workspace ui</em></p>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%">
       <img src="public/demo4.jpg" alt="Main Interface" width="100%"/>
       <p align="center"><em>Intuitive Main Interface</em></p>
     </td>
