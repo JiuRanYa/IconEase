@@ -55,11 +55,13 @@
 - Bulk import support
 - Quick search and filtering
 - Favorites system for quick access
+- Multiple workspace support for better organization
+- Workspace-based data isolation
 
 ### ⚡ Performance
 - Lightning-fast search
 - Smooth scrolling with large collections
-- Efficient memory usage
+- Efficient memory usage with virtual scrolling
 - Optimized for SSDs
 
 ### 🎨 User Experience
