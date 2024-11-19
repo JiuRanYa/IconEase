@@ -11,7 +11,8 @@
     "tauri": "tauri",
     "package": "cd ./src-tauri && tauri build",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "package:window": "cd ./src-tauri && tauri build --runner cargo-xwin --target x86_64-pc-windows-msvc "
   },
   "dependencies": {
     "@headlessui/react": "^2.2.0",
