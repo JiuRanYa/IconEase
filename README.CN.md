@@ -74,7 +74,7 @@
 - [📥 Linux 即将支持](https://github.com/yourusername/iconease/releases)
 - [📥 Windows 即将支持](https://github.com/yourusername/iconease/releases)
 
-由于没有苹果开发者ID，下载应用后需要跳过 Mac 安全证书检查：
+文件已损坏怎办？在终端执行下列命令：
 
 ```
 sudo xattr -rd com.apple.quarantine /Applications/IconEase.app
