@@ -17,6 +17,16 @@
 <table>
   <tr>
     <td width="50%">
+      <img src="public/demo5.jpg" alt="多工作区" width="100%"/>
+      <p align="center"><em>多工作区支持</em></p>
+    </td>
+    <td width="50%">
+      <img src="public/demo6.jpg" alt="清晰的工作区界面" width="100%"/>
+      <p align="center"><em>清晰的工作区界面</em></p>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%">
       <img src="public/demo4.jpg" alt="主界面" width="100%"/>
       <p align="center"><em>直观的主界面</em></p>
     </td>
