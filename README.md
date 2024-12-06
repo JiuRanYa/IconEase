@@ -90,6 +90,10 @@ I have no apple developer id, so when you download this app, skip the mac securi
 sudo xattr -rd com.apple.quarantine /Applications/IconEase.app
 ```
 
+## TODO
+
+- [ ] Export local config as file
+
 ## Contributing
 
 We welcome contributions! Whether it's:
