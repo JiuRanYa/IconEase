@@ -93,6 +93,7 @@ sudo xattr -rd com.apple.quarantine /Applications/IconEase.app
 ## TODO
 
 - [ ] Export local config as file
+- [ ] Dark Mode
 
 ## Contributing
 
