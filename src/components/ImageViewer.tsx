@@ -57,11 +57,11 @@ export const ImageViewer = ({ url, onClose }: ImageViewerProps) => {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-base-100/80 backdrop-blur-sm"
+      className="fixed inset-0 z-[9999] flex items-center justify-center bg-base-100/80 backdrop-blur-sm"
       onClick={onClose}
     >
       {/* 工具栏 */}
-      <div className="fixed top-4 left-1/2 -translate-x-1/2 z-[60] flex items-center gap-2 rounded-lg bg-base-200 p-2 shadow-lg">
+      <div className="fixed top-4 left-1/2 -translate-x-1/2 z-[10000] flex items-center gap-2 rounded-lg bg-base-200 p-2 shadow-lg">
         <button
           className="btn btn-circle btn-sm"
           onClick={(e) => {
@@ -118,7 +118,7 @@ export const ImageViewer = ({ url, onClose }: ImageViewerProps) => {
 
       {/* 关闭按钮 */}
       <button
-        className="btn btn-circle btn-sm absolute top-4 right-4"
+        className="btn btn-circle btn-sm absolute top-4 right-4 z-[10000]"
         onClick={onClose}
       >
         ✕

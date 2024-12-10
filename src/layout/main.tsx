@@ -167,10 +167,10 @@ export default () => {
 
           {
             isSidebarCollapsed ?
-              <div className="border-separate border border-gray-50 transition-all"></div>
+              <div className="border-separate border border-gray-50 dark:border-gray-800"></div>
               :
               <div className={cn(
-                'mt-4 mb-4 px-7 transition-all duration-500',
+                'mt-4 mb-4 px-7 transition-all duration-500 border-none',
                 isSidebarCollapsed ? 'opacity-0 h-0 overflow-hidden' : 'opacity-100 h-auto',
               )}>
                 <h2 className="text-sm font-semibold text-base-content/70">{t('sidebar.category')}</h2>
