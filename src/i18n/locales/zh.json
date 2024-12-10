@@ -97,6 +97,8 @@
     "title": "设置",
     "language": "语言",
     "theme": "主题",
+    "theme.light": "浅色",
+    "theme.dark": "深色",
     "about": "关于",
     "version": "版本",
     "reset": {

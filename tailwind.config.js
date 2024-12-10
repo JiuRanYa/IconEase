@@ -1,7 +1,12 @@
-export default {
+module.exports = {
+  darkMode: ['class', '[data-theme="dark"]'],
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        // 可以添加自定义的暗色模式颜色
+      }
+    }
   },
   daisyui: {
     themes: [

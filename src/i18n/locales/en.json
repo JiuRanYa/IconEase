@@ -88,6 +88,8 @@
     "title": "Settings",
     "language": "Language",
     "theme": "Theme",
+    "theme.light": "Light",
+    "theme.dark": "Dark",
     "about": "About",
     "version": "Version",
     "reset": {

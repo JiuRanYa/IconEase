@@ -168,7 +168,7 @@ export default ({ showUpload = true }: MainProps) => {
 
           {/* 悬浮操作按钮 */}
           <div className="absolute size-full inset-0 flex items-center justify-center gap-2 
-            opacity-0 group-hover/image:bg-gray-100/70 group-hover/image:opacity-100 transition"
+            opacity-0 group-hover/image:bg-gray-100/70 group-hover/image:opacity-100 transition dark:group-hover/image:bg-gray-700/70"
             onClick={() => setSelectedImage(image.url)
           }
           >
@@ -232,7 +232,7 @@ export default ({ showUpload = true }: MainProps) => {
 
   // 渲染上传按钮
   const renderUploadButton = useCallback(() => (
-    <label key={0} className="aspect-square rounded-lg border relative overflow-hidden bg-gray-50 transition-colors border-gray-200 hover:bg-gray-100 cursor-pointer">
+    <label key={0} className="aspect-square rounded-lg border relative overflow-hidden bg-gray-50 transition-colors border-gray-200 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 cursor-pointer">
       <input
         type="file"
         className="hidden"

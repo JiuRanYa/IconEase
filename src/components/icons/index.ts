@@ -7,3 +7,5 @@ export * from './HamburgerIcon';
 export * from './DeleteIcon';
 export * from './PencilIcon';
 export * from './ChevronRightIcon';
+export * from './SunIcon';
+export * from './MoonIcon';

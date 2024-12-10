@@ -4,7 +4,7 @@ import { Fragment, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { ConfirmDialog } from '../components/ConfirmDialog';
-import { ChevronRightIcon, DeleteIcon, HamburgerIcon, PencilIcon, PlusIcon, SearchIcon } from '../components/icons';
+import { ChevronRightIcon, DeleteIcon, HamburgerIcon, PencilIcon, PlusIcon, SearchIcon, SunIcon, MoonIcon } from '../components/icons';
 import { EditWorkspaceModal } from '../components/workspace/EditWorkspaceModal';
 import { NewWorkspaceModal } from '../components/workspace/NewWorkspaceModal';
 import { useLanguage } from '../hooks/useLanguage';
@@ -54,6 +54,18 @@ export default () => {
       navigate('/home');
     }
     setIsConfirmModalOpen(false);
+  };
+
+  const getCurrentTheme = () => {
+    return document.documentElement.getAttribute('data-theme') || 'light';
+  };
+
+  const [currentTheme, setCurrentTheme] = useState(getCurrentTheme());
+
+  const toggleTheme = (theme: 'light' | 'dark') => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+    setCurrentTheme(theme);
   };
 
   return (
@@ -211,6 +223,68 @@ export default () => {
                           )}
                         >
                           中文
+                        </button>
+                      </MenuItem>
+                    </MenuItems>
+                  </Transition>
+                </>
+              )}
+            </Menu>
+
+            {/* 主题切换 */}
+            <Menu as="div" className="relative w-full">
+              {({ open }) => (
+                <>
+                  <MenuButton className="flex w-full items-center gap-2 px-4 py-2 hover:bg-gray-100 transition rounded-lg">
+                    {currentTheme === 'dark' ? (
+                      <MoonIcon className="h-4 w-4" />
+                    ) : (
+                      <SunIcon className="h-4 w-4" />
+                    )}
+                    <span>{t('settings.theme')}</span>
+                    <span className="ml-auto text-gray-400">
+                      {currentTheme === 'dark' ? t('settings.theme.dark') : t('settings.theme.light')}
+                    </span>
+                    <ChevronRightIcon
+                      className={cn(
+                        'h-4 w-4 transition-transform duration-200',
+                        open && 'rotate-90',
+                      )}
+                    />
+                  </MenuButton>
+
+                  <Transition
+                    as={Fragment}
+                    enter="transition ease-out duration-100"
+                    enterFrom="transform opacity-0 scale-95"
+                    enterTo="transform opacity-100 scale-100"
+                    leave="transition ease-in duration-75"
+                    leaveFrom="transform opacity-100 scale-100"
+                    leaveTo="transform opacity-0 scale-95"
+                  >
+                    <MenuItems className="absolute right-full top-0 mr-1 w-40 p-2 origin-top-right rounded-lg bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
+                      <MenuItem>
+                        <button
+                          onClick={() => toggleTheme('light')}
+                          className={cn(
+                            'flex w-full items-center gap-2 px-4 py-2 text-sm rounded-md',
+                            currentTheme === 'light' && 'text-blue-500',
+                          )}
+                        >
+                          <SunIcon className="h-4 w-4" />
+                          {t('settings.theme.light')}
+                        </button>
+                      </MenuItem>
+                      <MenuItem>
+                        <button
+                          onClick={() => toggleTheme('dark')}
+                          className={cn(
+                            'flex w-full items-center gap-2 px-4 py-2 text-sm rounded-md',
+                            currentTheme === 'dark' && 'text-blue-500',
+                          )}
+                        >
+                          <MoonIcon className="h-4 w-4" />
+                          {t('settings.theme.dark')}
                         </button>
                       </MenuItem>
                     </MenuItems>
