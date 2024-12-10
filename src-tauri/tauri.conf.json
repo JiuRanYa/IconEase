@@ -1,7 +1,7 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
   "productName": "IconEase",
-  "version": "0.1.0",
+  "version": "1.2.0",
   "identifier": "com.icon-set.app",
   "build": {
     "beforeDevCommand": "pnpm dev:web",

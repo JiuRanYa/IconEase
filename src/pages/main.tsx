@@ -156,7 +156,7 @@ export default ({ showUpload = true }: MainProps) => {
     return (
       <div
         key={image.id}
-        className="aspect-square rounded-lg border border-gray-150 bg-base-100 relative overflow-hidden"
+        className="aspect-square rounded-lg border border-gray-150 bg-base-100 relative overflow-hidden dark:border-gray-600"
       >
         <div className="group/image h-full w-full p-1.5">
           <img
