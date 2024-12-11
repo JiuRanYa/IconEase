@@ -80,8 +80,8 @@
 ## Download
 
 Get the latest version for your platform:
-- [📥 macOS](https://github.com/JiuRanYa/IconEase/releases/tag/v1.1.0)
-- [📥 Windows](https://github.com/JiuRanYa/IconEase/releases/tag/v1.1.0)
+- [📥 macOS](https://github.com/JiuRanYa/IconEase/releases/tag/v1.2.0)
+- [📥 Windows](https://github.com/JiuRanYa/IconEase/releases/tag/v1.2.0)
 - [📥 Linux Support later](https://github.com/yourusername/iconease/releases)
 
 I have no apple developer id, so when you download this app, skip the mac security certificate:
