@@ -84,7 +84,7 @@ Get the latest version for your platform:
 - [📥 Windows](https://github.com/JiuRanYa/IconEase/releases/tag/v1.2.0)
 - [📥 Linux Support later](https://github.com/yourusername/iconease/releases)
 
-I have no apple developer id, so when you download this app, skip the mac security certificate:
+Application has been broken, type this in terminal:
 
 ```
 sudo xattr -rd com.apple.quarantine /Applications/IconEase.app
