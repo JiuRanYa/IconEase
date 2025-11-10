@@ -105,20 +105,20 @@ export default () => {
           leaveFrom="transform opacity-100 scale-100"
           leaveTo="transform opacity-0 scale-95"
         >
-          <MenuItems className="absolute right-0 mt-2 w-64 p-2 origin-top-right rounded-lg bg-white shadow-lg ring-1 ring-black/5 focus:outline-none ">
+          <MenuItems className="absolute right-0 mt-2 w-64 p-2 origin-top-right rounded-lg bg-base-100 shadow-lg ring-1 ring-base-content/5 focus:outline-none">
             {/* 工作区列表 */}
-            <div className="text-gray-400 text-sm font-medium px-4 py-2">
+            <div className="text-base-content/60 text-sm font-medium px-4 py-2">
               <span>{t('workspace.title')}</span>
             </div>
 
             {workspaces.map(workspace => (
               <MenuItem key={workspace.id}>
-                <div className="px-2 hover:bg-gray-100 transition rounded-lg">
+                <div className="px-2 hover:bg-base-200 transition rounded-lg">
                   <button
                     onClick={() => {
                       handleWorkspaceSwitch(workspace.id);
                     }}
-                    className="flex w-full items-center gap-2 px-2 text-sm py-2 text-gray-600 hover:text-gray-900 rounded-md cursor-pointer"
+                    className="flex w-full items-center gap-2 px-2 text-sm py-2 text-base-content/70 hover:text-base-content rounded-md cursor-pointer"
                   >
                     <div className="flex-1 flex items-center gap-2">
                       <div className={cn(
@@ -155,10 +155,10 @@ export default () => {
 
             {/* 新建工作区按钮 */}
             <MenuItem>
-              <div className="px-2 transition hover:bg-gray-100 rounded-lg">
+              <div className="px-2 transition hover:bg-base-200 rounded-lg">
                 <button
                   onClick={() => setShowWorkspaceModal(true)}
-                  className="flex w-full items-center gap-2 px-2 py-2 text-sm text-gray-600 hover:text-gray-900 rounded-md cursor-pointer"
+                  className="flex w-full items-center gap-2 px-2 py-2 text-sm text-base-content/70 hover:text-base-content rounded-md cursor-pointer"
                 >
                   <PlusIcon className="h-4 w-4" />
                   <span>{t('workspace.new')}</span>
@@ -166,10 +166,10 @@ export default () => {
               </div>
             </MenuItem>
 
-            <div className="my-3 h-px bg-gray-200" />
+            <div className="my-3 h-px bg-base-200" />
 
             {/* 设置菜单组 */}
-            <div className="text-gray-400 text-sm font-medium px-4 py-2">
+            <div className="text-base-content/60 text-sm font-medium px-4 py-2">
               <span>{t('settings.title')}</span>
             </div>
 
@@ -177,7 +177,7 @@ export default () => {
             <Menu as="div" className="relative w-full">
               {({ open }) => (
                 <>
-                  <MenuButton className="flex w-full items-center gap-2 px-4 py-2 hover:bg-gray-100 transition rounded-lg">
+                  <MenuButton className="flex w-full items-center gap-2 px-4 py-2 hover:bg-base-200 transition rounded-lg text-base-content/70 hover:text-base-content">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
                     </svg>
@@ -202,7 +202,7 @@ export default () => {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                   >
-                    <MenuItems className="absolute right-full top-0 mr-1 w-40 p-2 origin-top-right rounded-lg bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
+                    <MenuItems className="absolute right-full top-0 mr-1 w-40 p-2 origin-top-right rounded-lg bg-base-100 shadow-lg ring-1 ring-base-content/5 focus:outline-none">
                       <MenuItem>
                         <button
                           onClick={() => changeLanguage('en')}
@@ -235,7 +235,7 @@ export default () => {
             <Menu as="div" className="relative w-full">
               {({ open }) => (
                 <>
-                  <MenuButton className="flex w-full items-center gap-2 px-4 py-2 hover:bg-gray-100 transition rounded-lg">
+                  <MenuButton className="flex w-full items-center gap-2 px-4 py-2 hover:bg-base-200 transition rounded-lg text-base-content/70 hover:text-base-content">
                     {currentTheme === 'dark' ? (
                       <MoonIcon className="h-4 w-4" />
                     ) : (
@@ -262,7 +262,7 @@ export default () => {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                   >
-                    <MenuItems className="absolute right-full top-0 mr-1 w-40 p-2 origin-top-right rounded-lg bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
+                    <MenuItems className="absolute right-full top-0 mr-1 w-40 p-2 origin-top-right rounded-lg bg-base-100 shadow-lg ring-1 ring-base-content/5 focus:outline-none">
                       <MenuItem>
                         <button
                           onClick={() => toggleTheme('light')}
@@ -295,10 +295,10 @@ export default () => {
 
             {/* Reset 按钮 */}
             <MenuItem>
-              <div className="px-2 hover:bg-gray-100 transition rounded-md">
+              <div className="px-2 hover:bg-base-200 transition rounded-md">
                 <button
                   onClick={() => setIsConfirmModalOpen(true)}
-                  className="flex w-full items-center gap-2 px-2 py-2 rounded-md cursor-pointer"
+                  className="flex w-full items-center gap-2 px-2 py-2 text-base-content/70 hover:text-base-content rounded-md cursor-pointer"
                 >
                   <DeleteIcon className="h-4 w-4" />
                   <span>{t('common.reset')}</span>

@@ -28,7 +28,7 @@ export default ({ showUpload = true }: MainProps) => {
     addImages, getFilteredImages, getFavoriteImages,
     toggleFavorite, deleteImage, deleteImages,
   } = useImageStore();
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedImage, setSelectedImage] = useState<ImageItem | null>(null);
   const { categories } = useCategoryStore();
   const { isLoading } = useImageStore();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -36,10 +36,51 @@ export default ({ showUpload = true }: MainProps) => {
   // 根据当前页面和搜索条件获取图片
   const images = isFavoritePage ? getFavoriteImages() : getFilteredImages(activeCategory);
 
+  // 处理下载
+  const handleDownload = useCallback(async (image: ImageItem) => {
+    try {
+      // 打开系统保存对话框
+      const filePath = await save({
+        filters: [{
+          name: 'Image',
+          extensions: [image.fileName.split('.').pop() || 'png'],
+        }],
+        defaultPath: image.fileName,
+      });
+      if (!image.binaryData) return;
+
+      let buffer = new Uint8Array(image.binaryData);
+
+      if (filePath) {
+        // 将二进制数据写入文件
+        await writeFile(filePath, buffer);
+        message.success(t('viewer.downloadSuccess'));
+      }
+    } catch (error) {
+      message.error(t('message.download.error', { error }));
+    }
+  }, [t]);
+
   // 处理删除图片
-  const handleDelete = (id: string) => {
+  const handleDelete = useCallback((id: string) => {
     deleteImage(id);
-  };
+    // 如果当前正在预览这张图片，关闭预览
+    if (selectedImage?.id === id) {
+      setSelectedImage(null);
+    }
+  }, [deleteImage, selectedImage]);
+
+  // 处理收藏切换
+  const handleToggleFavorite = useCallback((id: string) => {
+    toggleFavorite(id);
+    // 如果当前正在预览这张图片，更新其收藏状态
+    if (selectedImage?.id === id) {
+      setSelectedImage({
+        ...selectedImage,
+        isFavorite: !selectedImage.isFavorite,
+      });
+    }
+  }, [toggleFavorite, selectedImage]);
 
   // 处理文件上传
   const handleUpload = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -125,34 +166,6 @@ export default ({ showUpload = true }: MainProps) => {
 
   // 渲染单个图片项
   const renderImageItem = useCallback((image: ImageItem) => {
-    // 处理下载
-    const handleDownload = async (e: React.MouseEvent, image: ImageItem) => {
-      e.stopPropagation();
-      try {
-        // 打开系统保存对话框
-        const filePath = await save({
-          filters: [{
-            name: 'Image',
-            extensions: [image.fileName.split('.').pop() || 'png'],
-          }],
-          defaultPath: image.fileName,
-        });
-        if (!image.binaryData) return;
-
-        let buffer = new Uint8Array(image.binaryData);
-
-
-        if (filePath) {
-          // 将二进制数据写入文件
-          await writeFile(filePath, buffer, {
-            baseDir: filePath as any,
-          });
-        }
-      } catch (error) {
-        message.error(t('message.download.error', { error }));
-      }
-    };
-
     return (
       <div
         key={image.id}
@@ -167,15 +180,18 @@ export default ({ showUpload = true }: MainProps) => {
           />
 
           {/* 悬浮操作按钮 */}
-          <div className="absolute size-full inset-0 flex items-center justify-center gap-2 
+          <div
+            className="absolute size-full inset-0 flex items-center justify-center gap-2 
             opacity-0 group-hover/image:bg-gray-100/70 group-hover/image:opacity-100 transition dark:group-hover/image:bg-gray-700/70"
-            onClick={() => setSelectedImage(image.url)
-          }
+            onClick={() => setSelectedImage(image)}
           >
             {/* 下载按钮 */}
             <button
               className="btn btn-circle btn-xs btn-ghost"
-              onClick={(e) => handleDownload(e, image)}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleDownload(image);
+              }}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -228,7 +244,7 @@ export default ({ showUpload = true }: MainProps) => {
         </div>
       </div>
     );
-  }, [setSelectedImage, toggleFavorite, handleDelete]);
+  }, [handleDownload, toggleFavorite, handleDelete]);
 
   // 渲染上传按钮
   const renderUploadButton = useCallback(() => (
@@ -361,8 +377,11 @@ export default ({ showUpload = true }: MainProps) => {
       {/* 图片查看器 */}
       {selectedImage && (
         <ImageViewer
-          url={selectedImage}
+          image={selectedImage}
           onClose={() => setSelectedImage(null)}
+          onDownload={handleDownload}
+          onToggleFavorite={handleToggleFavorite}
+          onDelete={handleDelete}
         />
       )}
 

@@ -1,11 +1,24 @@
 import { useEffect, useState } from 'react';
 
+import { ImageItem } from '../types';
+
+import { DeleteIcon } from './icons';
+
 interface ImageViewerProps {
-  url: string;
+  image: ImageItem;
   onClose: () => void;
+  onDownload: (image: ImageItem) => void;
+  onToggleFavorite: (id: string) => void;
+  onDelete: (id: string) => void;
 }
 
-export const ImageViewer = ({ url, onClose }: ImageViewerProps) => {
+export const ImageViewer = ({
+  image,
+  onClose,
+  onDownload,
+  onToggleFavorite,
+  onDelete,
+}: ImageViewerProps) => {
   const [scale, setScale] = useState(1);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
@@ -109,7 +122,7 @@ export const ImageViewer = ({ url, onClose }: ImageViewerProps) => {
         }}
       >
         <img
-          src={url}
+          src={image.url}
           alt="preview"
           className="max-h-[90vh] max-w-[90vw] object-contain size-full block"
           draggable={false}
@@ -123,6 +136,68 @@ export const ImageViewer = ({ url, onClose }: ImageViewerProps) => {
       >
         ✕
       </button>
+
+      {/* 底部操作栏 */}
+      <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[10000] flex items-center gap-2 rounded-full bg-base-200/90 backdrop-blur-sm px-3 py-2 shadow-lg">
+        {/* 下载按钮 */}
+        <button
+          className="btn btn-circle btn-sm btn-ghost hover:bg-base-300"
+          onClick={(e) => {
+            e.stopPropagation();
+            onDownload(image);
+          }}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-4 w-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+            />
+          </svg>
+        </button>
+
+        {/* 收藏按钮 */}
+        <button
+          className="btn btn-circle btn-sm btn-ghost hover:bg-base-300"
+          onClick={(e) => {
+            e.stopPropagation();
+            onToggleFavorite(image.id);
+          }}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className={`h-4 w-4 ${image.isFavorite ? 'fill-error' : ''}`}
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+            />
+          </svg>
+        </button>
+
+        {/* 删除按钮 */}
+        <button
+          className="btn btn-circle btn-sm btn-ghost hover:bg-base-300 text-error"
+          onClick={(e) => {
+            e.stopPropagation();
+            onDelete(image.id);
+          }}
+        >
+          <DeleteIcon className="h-4 w-4" />
+        </button>
+      </div>
     </div>
   );
 }; 

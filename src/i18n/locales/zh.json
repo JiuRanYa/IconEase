@@ -151,5 +151,12 @@
     "category": "分类",
     "expand": "展开侧边栏",
     "collapse": "收起侧边栏"
+  },
+  "viewer": {
+    "download": "下载",
+    "favorite": "收藏",
+    "unfavorite": "取消收藏",
+    "delete": "删除",
+    "downloadSuccess": "下载成功"
   }
 }

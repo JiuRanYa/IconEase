@@ -154,5 +154,12 @@
     "category": "Category",
     "expand": "Expand Sidebar",
     "collapse": "Collapse Sidebar"
+  },
+  "viewer": {
+    "download": "Download",
+    "favorite": "Favorite",
+    "unfavorite": "Unfavorite",
+    "delete": "Delete",
+    "downloadSuccess": "Download successful"
   }
 }
