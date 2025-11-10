@@ -1,7 +1,7 @@
 {
-  "name": "icon-set",
+  "name": "IconEase",
   "private": true,
-  "version": "1.2.0",
+  "version": "1.2.1",
   "type": "module",
   "scripts": {
     "dev": "cd ./src-tauri && cargo tauri dev",
