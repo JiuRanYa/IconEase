@@ -10,6 +10,7 @@ interface ImageViewerProps {
   onDownload: (image: ImageItem) => void;
   onToggleFavorite: (id: string) => void;
   onDelete: (id: string) => void;
+  onCopy?: (image: ImageItem) => void;
 }
 
 export const ImageViewer = ({
@@ -18,6 +19,7 @@ export const ImageViewer = ({
   onDownload,
   onToggleFavorite,
   onDelete,
+  onCopy,
 }: ImageViewerProps) => {
   const [scale, setScale] = useState(1);
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -162,6 +164,32 @@ export const ImageViewer = ({
             />
           </svg>
         </button>
+
+        {/* 复制按钮 - 仅SVG文件显示 */}
+        {image.type?.includes('svg') && onCopy && (
+          <button
+            className="btn btn-circle btn-sm btn-ghost hover:bg-base-300"
+            onClick={(e) => {
+              e.stopPropagation();
+              onCopy(image);
+            }}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+              />
+            </svg>
+          </button>
+        )}
 
         {/* 收藏按钮 */}
         <button

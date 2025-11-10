@@ -160,6 +160,9 @@
     "favorite": "Favorite",
     "unfavorite": "Unfavorite",
     "delete": "Delete",
-    "downloadSuccess": "Download successful"
+    "downloadSuccess": "Download successful",
+    "copy": "Copy Code",
+    "copySuccess": "SVG code copied",
+    "copyError": "Copy failed"
   }
 }

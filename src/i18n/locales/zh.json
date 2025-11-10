@@ -157,6 +157,9 @@
     "favorite": "收藏",
     "unfavorite": "取消收藏",
     "delete": "删除",
-    "downloadSuccess": "下载成功"
+    "downloadSuccess": "下载成功",
+    "copy": "复制代码",
+    "copySuccess": "SVG代码已复制",
+    "copyError": "复制失败"
   }
 }

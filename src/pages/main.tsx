@@ -82,6 +82,32 @@ export default ({ showUpload = true }: MainProps) => {
     }
   }, [toggleFavorite, selectedImage]);
 
+  // 处理复制SVG代码
+  const handleCopySvg = useCallback(async (image: ImageItem) => {
+    try {
+      // 检查是否为SVG类型
+      if (!image.type?.includes('svg')) {
+        message.warning(t('viewer.copyError'));
+        return;
+      }
+
+      if (!image.binaryData) {
+        message.error(t('viewer.copyError'));
+        return;
+      }
+
+      // 将ArrayBuffer转换为文本
+      const decoder = new TextDecoder('utf-8');
+      const svgCode = decoder.decode(image.binaryData);
+
+      // 复制到剪贴板
+      await navigator.clipboard.writeText(svgCode);
+      message.success(t('viewer.copySuccess'));
+    } catch (error) {
+      message.error(t('viewer.copyError'));
+    }
+  }, [t]);
+
   // 处理文件上传
   const handleUpload = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
     try {
@@ -382,6 +408,7 @@ export default ({ showUpload = true }: MainProps) => {
           onDownload={handleDownload}
           onToggleFavorite={handleToggleFavorite}
           onDelete={handleDelete}
+          onCopy={handleCopySvg}
         />
       )}
 
